@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"adfy.com/internal/kernel"
+	"github.com/gorilla/mux"
 
 	projectService "adfy.com/internal/projectservice"
 	userService "adfy.com/internal/userservice"
@@ -16,6 +17,34 @@ import (
 )
 
 func main() {
+	r := mux.NewRouter().StrictSlash(true)
+
+	userServiceHandler := userpb.NewUserServiceServer(&userService.UserService{})
+	projectServiceHandler := projectpb.NewProjectServiceServer(&projectService.ProjectService{})
+
+	r.PathPrefix(userServiceHandler.PathPrefix()).Handler(userServiceHandler)
+	r.PathPrefix(projectServiceHandler.PathPrefix()).Handler(projectServiceHandler)
+
+	addr := fmt.Sprintf("%s:%d", kernel.Cfg.Server.Host, kernel.Cfg.Server.Port)
+
+	r.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
+		fmt.Println(route.GetName())
+		return nil
+	})
+
+	srv := &http.Server{
+		Handler: r,
+		Addr:    addr,
+		// Good practice: enforce timeouts for servers you create!
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+
+	log.Fatal(srv.ListenAndServe())
+
+}
+
+func mainOld() {
 
 	userServiceHandler := userpb.NewUserServiceServer(&userService.UserService{})
 	projectServiceHandler := projectpb.NewProjectServiceServer(&projectService.ProjectService{})
