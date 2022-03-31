@@ -1,3 +1,6 @@
+server:
+  host: localhost
+  port: 8080
 database:
   host: localhost
   username: postgres
@@ -5,3 +8,7 @@ database:
   dbname: adfy_com
   port: 5432
   timezone: Europe/Kiev
+jwt:
+  secret: test
+  duration: 43200 
+  algo: HS256

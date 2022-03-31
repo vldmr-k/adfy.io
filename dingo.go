@@ -15,14 +15,14 @@ func NewContainer() *Container {
 }
 func (container *Container) GetDb() *kernel.Db {
 	if container.Db == nil {
-		service := db.NewDb()
+		service := kernel.NewDb()
 		container.Db = service
 	}
 	return container.Db
 }
 func (container *Container) GetOrm() *kernel.Orm {
 	if container.Orm == nil {
-		service := db.NewGorm(container.GetDb())
+		service := kernel.NewGorm(container.GetDb())
 		container.Orm = service
 	}
 	return container.Orm

@@ -8,6 +8,13 @@
             "name": "srv",
             "type": "go",
             "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/server/main.go"
+        },
+        {
+            "name": "srv debug",
+            "type": "go",
+            "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/cmd/server/main.go"
         }
