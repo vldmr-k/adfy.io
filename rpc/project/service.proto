@@ -1,0 +1,24 @@
+syntax = "proto3";
+package adfy.com.rpc.project;
+option go_package = "adfy.com/rpc/project";
+
+
+service ProjectService {
+
+    rpc CreateProject(ProjectRequest) returns (ProjectResponse);
+
+    rpc EditProject(ProjectRequest) returns (ProjectResponse);
+
+}
+
+message ProjectRequest {
+    string id = 1;
+    string name = 2; //required
+    string website = 3; //required
+}
+
+
+message ProjectResponse {
+    string id = 1; // required
+    bool result = 2;
+}

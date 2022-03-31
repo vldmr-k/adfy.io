@@ -1,0 +1,7 @@
+database:
+  host: localhost
+  username: postgres
+  password: 1
+  dbname: adfy_com
+  port: 5432
+  timezone: Europe/Kiev

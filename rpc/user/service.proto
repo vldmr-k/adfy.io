@@ -1,0 +1,33 @@
+syntax = "proto3";
+package adfy.com.rpc.user;
+option go_package = "adfy.com/rpc/user";
+
+
+service UserService {
+
+    rpc SignIn(SignInRequest) returns (SignInResponse);
+
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+
+}
+
+message RegisterRequest {
+    string name = 1; //required
+    string email = 2; //required
+    string password = 3; //required
+}
+
+message RegisterResponse {
+    bool result = 1; // required
+}
+
+
+message SignInRequest {
+    string email = 1; //required
+    string password = 2; //required
+    bool rememberMe = 3; //(dafault true)
+}
+
+message SignInResponse {
+    string token = 1; // required
+}
