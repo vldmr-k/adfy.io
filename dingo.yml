@@ -1,7 +1,0 @@
-services:
-  Db:
-    type: "*adfy.com/internal/kernel.Db"
-    returns: "kernel.NewDb()"
-  Orm:
-    type: "*adfy.com/internal/kernel.Orm"
-    returns: "kernel.NewGorm(@{Db})"

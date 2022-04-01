@@ -3,7 +3,7 @@ package projectservice
 import (
 	"context"
 
-	pb "adfy.com/rpc/project"
+	pb "adfy.io/rpc/project"
 )
 
 type ProjectService struct{}

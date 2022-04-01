@@ -1,0 +1,13 @@
+services:
+  Config:
+    type: "*adfy.io/pkg/config.Config"
+    returns: "config.NewConfig()"
+  Db:
+    type: "*adfy.io/pkg/db.Db"
+    returns: "db.NewDb(@{Config})"
+  Orm:
+    type: "*adfy.io/pkg/db.Orm"
+    returns: "db.NewGorm(@{Db})"
+  JWT:
+    type: "*adfy.io/pkg/jwt.JWT"
+    returns: "jwt.NewJWT(@{Config})"

@@ -1,6 +1,6 @@
 syntax = "proto3";
-package adfy.com.rpc.project;
-option go_package = "adfy.com/rpc/project";
+package adfy.io.rpc.project;
+option go_package = "adfy.io/rpc/project";
 
 
 service ProjectService {

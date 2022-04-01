@@ -11,7 +11,7 @@ info:
   version: version not set
 host: localhost
 paths:
-  /twirp/adfy.com.rpc.project.ProjectService/CreateProject:
+  /twirp/adfy.io.rpc.project.ProjectService/CreateProject:
     post:
       tags:
       - ProjectService
@@ -21,13 +21,13 @@ paths:
         in: body
         required: true
         schema:
-          $ref: '#/definitions/adfy.com.rpc.project_ProjectRequest'
+          $ref: '#/definitions/adfy.io.rpc.project_ProjectRequest'
       responses:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/adfy.com.rpc.project_ProjectResponse'
-  /twirp/adfy.com.rpc.project.ProjectService/EditProject:
+            $ref: '#/definitions/adfy.io.rpc.project_ProjectResponse'
+  /twirp/adfy.io.rpc.project.ProjectService/EditProject:
     post:
       tags:
       - ProjectService
@@ -37,13 +37,13 @@ paths:
         in: body
         required: true
         schema:
-          $ref: '#/definitions/adfy.com.rpc.project_ProjectRequest'
+          $ref: '#/definitions/adfy.io.rpc.project_ProjectRequest'
       responses:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/adfy.com.rpc.project_ProjectResponse'
-  /twirp/adfy.com.rpc.user.UserService/Register:
+            $ref: '#/definitions/adfy.io.rpc.project_ProjectResponse'
+  /twirp/adfy.io.rpc.user.UserService/Register:
     post:
       tags:
       - UserService
@@ -53,13 +53,13 @@ paths:
         in: body
         required: true
         schema:
-          $ref: '#/definitions/adfy.com.rpc.user_RegisterRequest'
+          $ref: '#/definitions/adfy.io.rpc.user_RegisterRequest'
       responses:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/adfy.com.rpc.user_RegisterResponse'
-  /twirp/adfy.com.rpc.user.UserService/SignIn:
+            $ref: '#/definitions/adfy.io.rpc.user_RegisterResponse'
+  /twirp/adfy.io.rpc.user.UserService/SignIn:
     post:
       tags:
       - UserService
@@ -69,22 +69,24 @@ paths:
         in: body
         required: true
         schema:
-          $ref: '#/definitions/adfy.com.rpc.user_SignInRequest'
+          $ref: '#/definitions/adfy.io.rpc.user_SignInRequest'
       responses:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/adfy.com.rpc.user_SignInResponse'
+            $ref: '#/definitions/adfy.io.rpc.user_SignInResponse'
 definitions:
-  adfy.com.rpc.project_ProjectRequest:
-    description: 'Fields: name, website'
+  adfy.io.rpc.project_ProjectRequest:
+    description: 'Fields: id, name, website'
     type: object
     properties:
+      id:
+        type: string
       name:
         type: string
       website:
         type: string
-  adfy.com.rpc.project_ProjectResponse:
+  adfy.io.rpc.project_ProjectResponse:
     description: 'Fields: id, result'
     type: object
     properties:
@@ -92,7 +94,7 @@ definitions:
         type: string
       result:
         type: boolean
-  adfy.com.rpc.user_RegisterRequest:
+  adfy.io.rpc.user_RegisterRequest:
     description: 'Fields: name, email, password'
     type: object
     properties:
@@ -102,13 +104,13 @@ definitions:
         type: string
       password:
         type: string
-  adfy.com.rpc.user_RegisterResponse:
+  adfy.io.rpc.user_RegisterResponse:
     description: 'Fields: result'
     type: object
     properties:
       result:
         type: boolean
-  adfy.com.rpc.user_SignInRequest:
+  adfy.io.rpc.user_SignInRequest:
     description: 'Fields: email, password, rememberMe'
     type: object
     properties:
@@ -118,7 +120,7 @@ definitions:
         type: string
       rememberMe:
         type: boolean
-  adfy.com.rpc.user_SignInResponse:
+  adfy.io.rpc.user_SignInResponse:
     description: 'Fields: token'
     type: object
     properties:

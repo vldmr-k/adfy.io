@@ -1,18 +1,18 @@
 package userservice
 
 import (
-	"adfy.com/internal/kernel"
+	"adfy.io/pkg/db"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 
-	projectservice "adfy.com/internal/projectservice"
+	projectservice "adfy.io/internal/projectservice"
 )
 
 const bcryptCost = 12
 
 type (
 	User struct {
-		kernel.BaseModel
+		db.BaseModel
 		Name              string `gorm:"type:varchar(128);not null;"`
 		Email             string `gorm:"type:varchar(128);not null;unique_index"`
 		EncryptedPassword string `gorm:"type:varchar(128);not null;index"`

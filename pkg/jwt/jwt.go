@@ -4,17 +4,18 @@ import (
 	"fmt"
 	"time"
 
-	"adfy.com/internal/kernel"
-	"adfy.com/internal/userservice"
+	"adfy.io/pkg/config"
+
+	"adfy.io/internal/userservice"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
 )
 
 // New instantiates new JWT service
-func NewJWT() *JWT {
-	secret := kernel.Cfg.Jwt.Secret
-	duration := kernel.Cfg.Jwt.Duration
-	algo := kernel.Cfg.Jwt.Algo
+func NewJWT(cfg *config.Config) *JWT {
+	secret := cfg.Jwt.Secret
+	duration := cfg.Jwt.Duration
+	algo := cfg.Jwt.Algo
 
 	signingMethod := jwt.GetSigningMethod(algo)
 	if signingMethod == nil {

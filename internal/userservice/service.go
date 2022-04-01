@@ -3,19 +3,19 @@ package userservice
 import (
 	"context"
 
-	pb "adfy.com/rpc/user"
+	pb "adfy.io/rpc/user"
 )
 
 type UserService struct{}
 
 func (s *UserService) SignIn(ctx context.Context, req *pb.SignInRequest) (resp *pb.SignInResponse, err error) {
 	return &pb.SignInResponse{
-		Token: "jwt-tokken",
+		Token: ctx.Value("user").(string),
 	}, nil
 }
 
-func (s *UserService) Register(ctx context.Context, req *pb.RegisterRequest) (resp *pb.RegisterResponse, err error) {
-	return &pb.RegisterResponse{
+func (s *UserService) SignUp(ctx context.Context, in *pb.SignUpRequest) (out *pb.SignUpResponse, err error) {
+	return &pb.SignUpResponse{
 		Result: true,
 	}, nil
 }

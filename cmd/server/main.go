@@ -1,23 +1,29 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
 
-	"adfy.com/internal/kernel"
+	"adfy.io/internal/kernel"
+
 	"github.com/gorilla/mux"
 
-	projectService "adfy.com/internal/projectservice"
-	userService "adfy.com/internal/userservice"
+	projectService "adfy.io/internal/projectservice"
+	userService "adfy.io/internal/userservice"
 
-	projectpb "adfy.com/rpc/project"
-	userpb "adfy.com/rpc/user"
+	projectpb "adfy.io/rpc/project"
+	userpb "adfy.io/rpc/user"
 )
 
 func main() {
 	r := mux.NewRouter().StrictSlash(true)
+
+	cfg := kernel.DefaultContainer.GetConfig()
+
+	r.Use(auth)
 
 	userServiceHandler := userpb.NewUserServiceServer(&userService.UserService{})
 	projectServiceHandler := projectpb.NewProjectServiceServer(&projectService.ProjectService{})
@@ -25,12 +31,7 @@ func main() {
 	r.PathPrefix(userServiceHandler.PathPrefix()).Handler(userServiceHandler)
 	r.PathPrefix(projectServiceHandler.PathPrefix()).Handler(projectServiceHandler)
 
-	addr := fmt.Sprintf("%s:%d", kernel.Cfg.Server.Host, kernel.Cfg.Server.Port)
-
-	r.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
-		fmt.Println(route.GetName())
-		return nil
-	})
+	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
 
 	srv := &http.Server{
 		Handler: r,
@@ -44,6 +45,16 @@ func main() {
 
 }
 
+func auth(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.WithValue(r.Context(), "user", "theuser")
+
+		// Call the next handler, which can be another middleware in the chain, or the final handler.
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+/*
 func mainOld() {
 
 	userServiceHandler := userpb.NewUserServiceServer(&userService.UserService{})
@@ -63,7 +74,7 @@ func mainOld() {
 	fmt.Println("Listening: http://" + adr)
 
 	http.ListenAndServe(adr, handler)
-}
+}*/
 
 func Logging(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {

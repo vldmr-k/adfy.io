@@ -1,9 +1,11 @@
 package projectservice
 
-import "adfy.com/internal/kernel"
+import (
+	"adfy.io/pkg/db"
+)
 
 type Project struct {
-	kernel.BaseModel
+	db.BaseModel
 	OwnerID string `gorm:"not null;"`
 	Name    string `gorm:"type:varchar(128);not null;"`
 	Website string `gorm:"type:varchar(128);not null;"`
