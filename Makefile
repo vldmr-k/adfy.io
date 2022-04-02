@@ -1,11 +1,5 @@
-gen:
-	protoc \
-	-I . \
-	--proto_path=${GOPATH}/pkg/mod/github.com/envoyproxy/protoc-gen-validate@v0.6.7/ \
-	--proto_path=${GOPATH}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.16.0/ \
-	--validate_out="lang=go:./.." \
-	--go_out=./..  --twirp_out=./.. \
-	rpc/user/service.proto
+proto:
+	bin/proto.sh
 
 swagger:
 	chmod -R +x bin/

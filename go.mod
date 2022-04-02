@@ -21,8 +21,12 @@ require (
 require (
 	github.com/elliotchance/dingo v1.4.1 // indirect
 	github.com/elliotchance/pie v1.39.0 // indirect
+	github.com/elliots/protoc-gen-twirp_swagger v0.0.0-20210801014231-a541d6eeae24 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
+	github.com/ghodss/yaml v1.0.0 // indirect
+	github.com/go-bridget/twirp-swagger-gen v0.0.0-20220217142614-1844ed3995ef // indirect
 	github.com/go-yaml/yaml v2.1.0+incompatible // indirect
+	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
@@ -49,6 +53,7 @@ require (
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/tools v0.1.10 // indirect
+	google.golang.org/genproto v0.0.0-20211208223120-3a66f561d7aa // indirect
 	gopkg.in/check.v1 v1.0.0-20200902074654-038fdea0a05b // indirect
 	gopkg.in/ini.v1 v1.66.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

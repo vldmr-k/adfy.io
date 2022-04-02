@@ -7,9 +7,8 @@ schemes:
 - https
 swagger: "2.0"
 info:
-  title: service.proto
+  title: project/service.proto
   version: version not set
-host: localhost
 paths:
   /twirp/adfy.io.rpc.project.ProjectService/CreateProject:
     post:
@@ -21,12 +20,12 @@ paths:
         in: body
         required: true
         schema:
-          $ref: '#/definitions/adfy.io.rpc.project_ProjectRequest'
+          $ref: '#/definitions/projectProjectRequest'
       responses:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/adfy.io.rpc.project_ProjectResponse'
+            $ref: '#/definitions/projectProjectResponse'
   /twirp/adfy.io.rpc.project.ProjectService/EditProject:
     post:
       tags:
@@ -37,28 +36,12 @@ paths:
         in: body
         required: true
         schema:
-          $ref: '#/definitions/adfy.io.rpc.project_ProjectRequest'
+          $ref: '#/definitions/projectProjectRequest'
       responses:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/adfy.io.rpc.project_ProjectResponse'
-  /twirp/adfy.io.rpc.user.UserService/Register:
-    post:
-      tags:
-      - UserService
-      operationId: Register
-      parameters:
-      - name: body
-        in: body
-        required: true
-        schema:
-          $ref: '#/definitions/adfy.io.rpc.user_RegisterRequest'
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/adfy.io.rpc.user_RegisterResponse'
+            $ref: '#/definitions/projectProjectResponse'
   /twirp/adfy.io.rpc.user.UserService/SignIn:
     post:
       tags:
@@ -69,15 +52,30 @@ paths:
         in: body
         required: true
         schema:
-          $ref: '#/definitions/adfy.io.rpc.user_SignInRequest'
+          $ref: '#/definitions/userSignInRequest'
       responses:
         "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/adfy.io.rpc.user_SignInResponse'
+            $ref: '#/definitions/userSignInResponse'
+  /twirp/adfy.io.rpc.user.UserService/SignUp:
+    post:
+      tags:
+      - UserService
+      operationId: SignUp
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/userSignUpRequest'
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/userSignUpResponse'
 definitions:
-  adfy.io.rpc.project_ProjectRequest:
-    description: 'Fields: id, name, website'
+  projectProjectRequest:
     type: object
     properties:
       id:
@@ -86,32 +84,15 @@ definitions:
         type: string
       website:
         type: string
-  adfy.io.rpc.project_ProjectResponse:
-    description: 'Fields: id, result'
+  projectProjectResponse:
     type: object
     properties:
       id:
         type: string
       result:
         type: boolean
-  adfy.io.rpc.user_RegisterRequest:
-    description: 'Fields: name, email, password'
-    type: object
-    properties:
-      email:
-        type: string
-      name:
-        type: string
-      password:
-        type: string
-  adfy.io.rpc.user_RegisterResponse:
-    description: 'Fields: result'
-    type: object
-    properties:
-      result:
-        type: boolean
-  adfy.io.rpc.user_SignInRequest:
-    description: 'Fields: email, password, rememberMe'
+        format: boolean
+  userSignInRequest:
     type: object
     properties:
       email:
@@ -120,9 +101,27 @@ definitions:
         type: string
       rememberMe:
         type: boolean
-  adfy.io.rpc.user_SignInResponse:
-    description: 'Fields: token'
+        format: boolean
+  userSignInResponse:
     type: object
     properties:
       token:
         type: string
+  userSignUpRequest:
+    type: object
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+  userSignUpResponse:
+    type: object
+    properties:
+      result:
+        type: boolean
+        format: boolean
+externalDocs:
+  description: Adfy.io github repository
+  url: https://github.com/vldmr-k/adfy.io
