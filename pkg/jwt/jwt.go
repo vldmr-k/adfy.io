@@ -6,7 +6,6 @@ import (
 
 	"adfy.io/pkg/config"
 
-	"adfy.io/internal/userservice"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
 )
@@ -42,7 +41,7 @@ type JWT struct {
 }
 
 // GenerateToken generates new jwt token
-func (j *JWT) GenerateToken(u *userservice.AuthUser) (string, error) {
+func (j *JWT) GenerateToken(u *AuthUser) (string, error) {
 	t := jwt.NewWithClaims(j.algo, jwt.MapClaims{
 		"id":  u.ID,
 		"e":   u.Email,
@@ -54,7 +53,7 @@ func (j *JWT) GenerateToken(u *userservice.AuthUser) (string, error) {
 }
 
 // ParseToken parses the bearer token
-func (j *JWT) ParseToken(token string) (*userservice.AuthUser, error) {
+func (j *JWT) ParseToken(token string) (*AuthUser, error) {
 	claims, err := j.verifyToken(token)
 	if err != nil {
 		return nil, err
@@ -80,7 +79,7 @@ func (j *JWT) ParseToken(token string) (*userservice.AuthUser, error) {
 		return nil, fmt.Errorf("unauthorized: no name claim present")
 	}
 
-	return &userservice.AuthUser{
+	return &AuthUser{
 		ID:    uuid,
 		Email: email.(string),
 		Name:  name.(string),

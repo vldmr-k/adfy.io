@@ -1,11 +1,9 @@
 package userservice
 
 import (
-	"adfy.io/pkg/db"
-	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
-
 	projectservice "adfy.io/internal/projectservice"
+	"adfy.io/pkg/db"
+	"adfy.io/pkg/jwt"
 )
 
 const bcryptCost = 12
@@ -19,30 +17,15 @@ type (
 
 		Projects []projectservice.Project `gorm:"foreignKey:OwnerID"`
 	}
-	AuthUser struct {
-		ID    uuid.UUID
-		Name  string
-		Email string
-	}
 )
 
 func (u *User) Sanitize() {
 	u.EncryptedPassword = "***"
 }
 
-func EncryptPassword(plainPassword string) string {
-	hash, err := bcrypt.GenerateFromPassword([]byte(plainPassword), bcryptCost)
-	if err != nil {
-		panic(err)
+func (u *User) GetAuthUser() *jwt.AuthUser {
+	return &jwt.AuthUser{
+		Email: u.Email,
+		Name:  u.Name,
 	}
-	return string(hash)
-}
-
-func (u *User) VerifyPassword(plainPassword string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(u.EncryptedPassword), []byte(plainPassword))
-	if err != nil {
-		return false
-	}
-
-	return true
 }

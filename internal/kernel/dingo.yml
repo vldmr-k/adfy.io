@@ -11,3 +11,9 @@ services:
   JWT:
     type: "*adfy.io/pkg/jwt.JWT"
     returns: "jwt.NewJWT(@{Config})"
+  Secure:
+    type: "*adfy.io/pkg/secure.Service"
+    returns: "secure.NewSecure(6)"
+  UserRepository:
+    type: "*adfy.io/internal/userservice.UserRepository"
+    returns: "userservice.NewUserRepository(@{Orm})"

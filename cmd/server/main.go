@@ -21,11 +21,13 @@ import (
 func main() {
 	r := mux.NewRouter().StrictSlash(true)
 
-	cfg := kernel.DefaultContainer.GetConfig()
+	di := kernel.DefaultContainer
+
+	cfg := di.GetConfig()
 
 	r.Use(auth)
 
-	userServiceHandler := userpb.NewUserServiceServer(&userService.UserService{})
+	userServiceHandler := userpb.NewUserServiceServer(userService.NewUserService(*di.GetJWT(), *di.GetSecure(), *di.GetUserRepository()))
 	projectServiceHandler := projectpb.NewProjectServiceServer(&projectService.ProjectService{})
 
 	r.PathPrefix(userServiceHandler.PathPrefix()).Handler(userServiceHandler)
@@ -53,28 +55,6 @@ func auth(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
-
-/*
-func mainOld() {
-
-	userServiceHandler := userpb.NewUserServiceServer(&userService.UserService{})
-	projectServiceHandler := projectpb.NewProjectServiceServer(&projectService.ProjectService{})
-
-	mux := http.NewServeMux()
-
-	mux.Handle(userServiceHandler.PathPrefix(), userServiceHandler)
-	mux.Handle(projectServiceHandler.PathPrefix(), projectServiceHandler)
-
-	fmt.Println(projectServiceHandler.PathPrefix())
-
-	handler := Logging(mux)
-
-	adr := fmt.Sprintf("%s:%d", kernel.Cfg.Server.Host, kernel.Cfg.Server.Port)
-
-	fmt.Println("Listening: http://" + adr)
-
-	http.ListenAndServe(adr, handler)
-}*/
 
 func Logging(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {

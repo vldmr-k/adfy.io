@@ -241,7 +241,7 @@ func (m *SignUpResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Result
+	// no validation rules for Token
 
 	if len(errors) > 0 {
 		return SignUpResponseMultiError(errors)

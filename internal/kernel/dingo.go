@@ -2,16 +2,20 @@
 package kernel
 
 import (
+	userservice "adfy.io/internal/userservice"
 	config "adfy.io/pkg/config"
 	db "adfy.io/pkg/db"
 	jwt "adfy.io/pkg/jwt"
+	secure "adfy.io/pkg/secure"
 )
 
 type Container struct {
-	Config	*config.Config
-	Db	*db.Db
-	JWT	*jwt.JWT
-	Orm	*db.Orm
+	Config		*config.Config
+	Db		*db.Db
+	JWT		*jwt.JWT
+	Orm		*db.Orm
+	Secure		*secure.Service
+	UserRepository	*userservice.UserRepository
 }
 
 var DefaultContainer = NewContainer()
@@ -46,4 +50,18 @@ func (container *Container) GetOrm() *db.Orm {
 		container.Orm = service
 	}
 	return container.Orm
+}
+func (container *Container) GetSecure() *secure.Service {
+	if container.Secure == nil {
+		service := secure.NewSecure(6)
+		container.Secure = service
+	}
+	return container.Secure
+}
+func (container *Container) GetUserRepository() *userservice.UserRepository {
+	if container.UserRepository == nil {
+		service := userservice.NewUserRepository(container.GetOrm())
+		container.UserRepository = service
+	}
+	return container.UserRepository
 }

@@ -39,7 +39,7 @@ message SignUpRequest {
 }
 
 message SignUpResponse {
-    bool result = 1; // required
+    string token = 1;
 }
 
 

@@ -108,9 +108,8 @@
     "userSignUpResponse": {
       "type": "object",
       "properties": {
-        "result": {
-          "type": "boolean",
-          "format": "boolean"
+        "token": {
+          "type": "string"
         }
       }
     }

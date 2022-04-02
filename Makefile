@@ -1,5 +1,8 @@
-proto:
+get:
 	bin/proto.sh
+
+migrate:
+	go run cmd/db/migration.go
 
 swagger:
 	chmod -R +x bin/
