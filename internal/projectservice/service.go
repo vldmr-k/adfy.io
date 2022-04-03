@@ -6,6 +6,10 @@ import (
 	pb "adfy.io/rpc/project"
 )
 
+func NewProjectService() *ProjectService {
+	return &ProjectService{}
+}
+
 type ProjectService struct{}
 
 func (s *ProjectService) CreateProject(ctx context.Context, req *pb.ProjectRequest) (resp *pb.ProjectResponse, err error) {

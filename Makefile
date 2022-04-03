@@ -1,8 +1,8 @@
-get:
+gen:
 	bin/proto.sh
 
 migrate:
-	go run cmd/db/migration.go
+	go build cmd/db/main.go
 
 swagger:
 	chmod -R +x bin/

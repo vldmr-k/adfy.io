@@ -12,8 +12,19 @@ services:
     type: "*adfy.io/pkg/jwt.JWT"
     returns: "jwt.NewJWT(@{Config})"
   Secure:
-    type: "*adfy.io/pkg/secure.Service"
+    type: "*adfy.io/pkg/secure.Secure"
     returns: "secure.NewSecure(6)"
+
+  UserService:
+    type: "*adfy.io/internal/userservice.UserService"
+    returns: "userservice.NewUserService(@{JWT}, @{Secure}, @{UserRepository})"
   UserRepository:
     type: "*adfy.io/internal/userservice.UserRepository"
     returns: "userservice.NewUserRepository(@{Orm})"
+
+  ProjectService:
+    type: "*adfy.io/internal/projectservice.ProjectService"
+    returns: "projectservice.NewProjectService()"
+  ProjectRepository:
+    type: "*adfy.io/internal/projectservice.ProjectRepository"
+    returns: "projectservice.NewProjectRepository(@{Orm})"

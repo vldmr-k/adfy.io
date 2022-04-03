@@ -19,6 +19,12 @@ func (u *UserRepository) Find(id string) (User, error) {
 	return *user, result.Error
 }
 
+func (u *UserRepository) FindByEmail(email string) (User, error) {
+	user := &User{}
+	result := u.Orm.Where("email = ?", email).First(user)
+	return *user, result.Error
+}
+
 // Create User
 func (u *UserRepository) Save(user *User) error {
 	result := u.Orm.Save(&user)

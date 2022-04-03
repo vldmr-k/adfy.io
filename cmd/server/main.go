@@ -12,7 +12,6 @@ import (
 	"github.com/gorilla/mux"
 
 	projectService "adfy.io/internal/projectservice"
-	userService "adfy.io/internal/userservice"
 
 	projectpb "adfy.io/rpc/project"
 	userpb "adfy.io/rpc/user"
@@ -27,7 +26,7 @@ func main() {
 
 	r.Use(auth)
 
-	userServiceHandler := userpb.NewUserServiceServer(userService.NewUserService(*di.GetJWT(), *di.GetSecure(), *di.GetUserRepository()))
+	userServiceHandler := userpb.NewUserServiceServer(di.GetUserService())
 	projectServiceHandler := projectpb.NewProjectServiceServer(&projectService.ProjectService{})
 
 	r.PathPrefix(userServiceHandler.PathPrefix()).Handler(userServiceHandler)

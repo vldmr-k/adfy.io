@@ -9,7 +9,7 @@ import (
 	"github.com/twitchtv/twirp"
 )
 
-func NewUserService(jwt jwt.JWT, secure secure.Service, userRepository UserRepository) *UserService {
+func NewUserService(jwt *jwt.JWT, secure *secure.Secure, userRepository *UserRepository) *UserService {
 	return &UserService{
 		JWT:            jwt,
 		Secure:         secure,
@@ -18,14 +18,32 @@ func NewUserService(jwt jwt.JWT, secure secure.Service, userRepository UserRepos
 }
 
 type UserService struct {
-	JWT            jwt.JWT
-	Secure         secure.Service
-	UserRepository UserRepository
+	JWT            *jwt.JWT
+	Secure         *secure.Secure
+	UserRepository *UserRepository
 }
 
 func (s *UserService) SignIn(ctx context.Context, req *pb.SignInRequest) (resp *pb.SignInResponse, err error) {
+
+	u, err := s.UserRepository.FindByEmail(req.Email)
+
+	if err != nil {
+		return nil, err
+	}
+
+	result := s.Secure.MatchesHash(u.EncryptedPassword, req.Password)
+
+	if !result {
+		return nil, twirp.NotFoundError("User not found or password is incorrect")
+	}
+
+	token, err := s.JWT.GenerateToken(u.GetAuthUser())
+	if err != nil {
+		return nil, twirp.InternalError(err.Error())
+	}
+
 	return &pb.SignInResponse{
-		Token: ctx.Value("user").(string),
+		Token: token,
 	}, nil
 }
 
@@ -39,6 +57,10 @@ func (s *UserService) SignUp(ctx context.Context, req *pb.SignUpRequest) (out *p
 		Name:              req.Name,
 		Email:             req.Email,
 		EncryptedPassword: s.Secure.Hash(req.Password),
+	}
+
+	if err := s.UserRepository.Create(m); err != nil {
+		return nil, err
 	}
 
 	token, err := s.JWT.GenerateToken(m.GetAuthUser())
