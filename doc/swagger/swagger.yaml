@@ -42,6 +42,22 @@ paths:
           description: A successful response.
           schema:
             $ref: '#/definitions/projectProjectResponse'
+  /twirp/adfy.io.rpc.user.UserService/Me:
+    post:
+      tags:
+      - UserService
+      operationId: Me
+      parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/userEmpty'
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/userMeResponse'
   /twirp/adfy.io.rpc.user.UserService/SignIn:
     post:
       tags:
@@ -92,6 +108,15 @@ definitions:
       result:
         type: boolean
         format: boolean
+  userEmpty:
+    type: object
+  userMeResponse:
+    type: object
+    properties:
+      email:
+        type: string
+      name:
+        type: string
   userSignInRequest:
     type: object
     properties:
@@ -119,9 +144,8 @@ definitions:
   userSignUpResponse:
     type: object
     properties:
-      result:
-        type: boolean
-        format: boolean
+      token:
+        type: string
 externalDocs:
   description: Adfy.io github repository
   url: https://github.com/vldmr-k/adfy.io

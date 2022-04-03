@@ -13,7 +13,8 @@ for proto_file in $(find ./rpc -type f -name "*.proto"); do
 	--validate_out="lang=go:./.." \
 	--go_out=./.. \
       --twirp_swagger_out=${SWAGGER_DIR}/spec \
-      --twirp_out=./..
+      --twirp_out=./.. \
+	--js_out=./web
 
 done
 

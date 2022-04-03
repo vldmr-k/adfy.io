@@ -24,10 +24,12 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 service UserService {
 
     rpc SignIn(SignInRequest) returns (SignInResponse);
-
     rpc SignUp(SignUpRequest) returns (SignUpResponse);
+    rpc Me(Empty) returns (MeResponse);
 
 }
+
+message Empty{}
 
 message SignUpRequest {
     string name = 1 [(validate.rules).string = {min_len: 3, max_len: 50}]; //required
@@ -53,4 +55,9 @@ message SignInRequest {
 
 message SignInResponse {
     string token = 1; // required
+}
+
+message MeResponse {
+    string name = 1;
+    string email = 2;
 }

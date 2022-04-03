@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,10 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	projectService "adfy.io/internal/projectservice"
-
-	projectpb "adfy.io/rpc/project"
-	userpb "adfy.io/rpc/user"
+	mw "adfy.io/pkg/mw"
 )
 
 func main() {
@@ -24,10 +20,11 @@ func main() {
 
 	cfg := di.GetConfig()
 
-	r.Use(auth)
+	r.Use(mw.AuthContext)
+	r.Use(mw.CORS)
 
-	userServiceHandler := userpb.NewUserServiceServer(di.GetUserService())
-	projectServiceHandler := projectpb.NewProjectServiceServer(&projectService.ProjectService{})
+	userServiceHandler := di.GetUserServiceServer()
+	projectServiceHandler := di.GetProjectServiceServer()
 
 	r.PathPrefix(userServiceHandler.PathPrefix()).Handler(userServiceHandler)
 	r.PathPrefix(projectServiceHandler.PathPrefix()).Handler(projectServiceHandler)
@@ -46,19 +43,6 @@ func main() {
 
 }
 
-func auth(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.WithValue(r.Context(), "user", "theuser")
+func registerRouters() {
 
-		// Call the next handler, which can be another middleware in the chain, or the final handler.
-		next.ServeHTTP(w, r.WithContext(ctx))
-	})
-}
-
-func Logging(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		start := time.Now()
-		next.ServeHTTP(w, req)
-		log.Printf("%s %s %s", req.Method, req.RequestURI, time.Since(start))
-	})
 }

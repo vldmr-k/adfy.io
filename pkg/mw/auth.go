@@ -1,13 +1,18 @@
 package mw
 
-import "net/http"
-import "context"
+import (
+	"context"
+	"net/http"
 
-func Authentication(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.WithValue(r.Context(), "user", "theuser")
+	pkgctx "adfy.io/pkg/ctx"
+)
 
-		// Call the next handler, which can be another middleware in the chain, or the final handler.
-		next.ServeHTTP(w, r.WithContext(ctx))
-	})
+// AuthContext adds context with autorization key to http request
+func AuthContext(h http.Handler) http.Handler {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.Background()
+		ctx = context.WithValue(ctx, pkgctx.JWTKey, r.Header.Get("Authorization"))
+		h.ServeHTTP(w, r.WithContext(ctx))
+	}
+	return http.HandlerFunc(fn)
 }

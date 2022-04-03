@@ -35,6 +35,104 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on Empty with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *Empty) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on Empty with the rules defined in the
+// proto definition for this message. If any rules are violated, the result is
+// a list of violation errors wrapped in EmptyMultiError, or nil if none found.
+func (m *Empty) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *Empty) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return EmptyMultiError(errors)
+	}
+
+	return nil
+}
+
+// EmptyMultiError is an error wrapping multiple validation errors returned by
+// Empty.ValidateAll() if the designated constraints aren't met.
+type EmptyMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EmptyMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EmptyMultiError) AllErrors() []error { return m }
+
+// EmptyValidationError is the validation error returned by Empty.Validate if
+// the designated constraints aren't met.
+type EmptyValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EmptyValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EmptyValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EmptyValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EmptyValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EmptyValidationError) ErrorName() string { return "EmptyValidationError" }
+
+// Error satisfies the builtin error interface
+func (e EmptyValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEmpty.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EmptyValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EmptyValidationError{}
+
 // Validate checks the field values on SignUpRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -597,3 +695,106 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SignInResponseValidationError{}
+
+// Validate checks the field values on MeResponse with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *MeResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on MeResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in MeResponseMultiError, or
+// nil if none found.
+func (m *MeResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *MeResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	// no validation rules for Email
+
+	if len(errors) > 0 {
+		return MeResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// MeResponseMultiError is an error wrapping multiple validation errors
+// returned by MeResponse.ValidateAll() if the designated constraints aren't met.
+type MeResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m MeResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m MeResponseMultiError) AllErrors() []error { return m }
+
+// MeResponseValidationError is the validation error returned by
+// MeResponse.Validate if the designated constraints aren't met.
+type MeResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e MeResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e MeResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e MeResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e MeResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e MeResponseValidationError) ErrorName() string { return "MeResponseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e MeResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sMeResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = MeResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = MeResponseValidationError{}

@@ -5,27 +5,42 @@ import (
 	projectservice "adfy.io/internal/projectservice"
 	userservice "adfy.io/internal/userservice"
 	config "adfy.io/pkg/config"
+	ctx "adfy.io/pkg/ctx"
 	db "adfy.io/pkg/db"
+	hook "adfy.io/pkg/hook"
 	jwt "adfy.io/pkg/jwt"
 	secure "adfy.io/pkg/secure"
+	project "adfy.io/rpc/project"
+	user "adfy.io/rpc/user"
 )
 
 type Container struct {
+	AuthContext		*ctx.AuthContext
 	Config			*config.Config
 	Db			*db.Db
 	JWT			*jwt.JWT
 	Orm			*db.Orm
 	ProjectRepository	*projectservice.ProjectRepository
 	ProjectService		*projectservice.ProjectService
+	ProjectServiceServer	*project.TwirpServer
 	Secure			*secure.Secure
 	UserRepository		*userservice.UserRepository
 	UserService		*userservice.UserService
+	UserServiceServer	*user.TwirpServer
+	VerifyJWTHook		*hook.VerifyJWTHook
 }
 
 var DefaultContainer = NewContainer()
 
 func NewContainer() *Container {
 	return &Container{}
+}
+func (container *Container) GetAuthContext() *ctx.AuthContext {
+	if container.AuthContext == nil {
+		service := ctx.NewAuthContext()
+		container.AuthContext = service
+	}
+	return container.AuthContext
 }
 func (container *Container) GetConfig() *config.Config {
 	if container.Config == nil {
@@ -69,6 +84,13 @@ func (container *Container) GetProjectService() *projectservice.ProjectService {
 	}
 	return container.ProjectService
 }
+func (container *Container) GetProjectServiceServer() project.TwirpServer {
+	if container.ProjectServiceServer == nil {
+		service := project.NewProjectServiceServer(container.GetProjectService(), container.GetVerifyJWTHook().WithJWTAuth())
+		container.ProjectServiceServer = &service
+	}
+	return *container.ProjectServiceServer
+}
 func (container *Container) GetSecure() *secure.Secure {
 	if container.Secure == nil {
 		service := secure.NewSecure(6)
@@ -85,8 +107,22 @@ func (container *Container) GetUserRepository() *userservice.UserRepository {
 }
 func (container *Container) GetUserService() *userservice.UserService {
 	if container.UserService == nil {
-		service := userservice.NewUserService(container.GetJWT(), container.GetSecure(), container.GetUserRepository())
+		service := userservice.NewUserService(container.GetJWT(), container.GetSecure(), container.GetUserRepository(), container.GetAuthContext())
 		container.UserService = service
 	}
 	return container.UserService
+}
+func (container *Container) GetUserServiceServer() user.TwirpServer {
+	if container.UserServiceServer == nil {
+		service := user.NewUserServiceServer(container.GetUserService(), container.GetVerifyJWTHook().WithJWTAuth("SignIn", "SignUp"))
+		container.UserServiceServer = &service
+	}
+	return *container.UserServiceServer
+}
+func (container *Container) GetVerifyJWTHook() *hook.VerifyJWTHook {
+	if container.VerifyJWTHook == nil {
+		service := hook.NewVerifyJWTHook(container.GetJWT())
+		container.VerifyJWTHook = service
+	}
+	return container.VerifyJWTHook
 }

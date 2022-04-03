@@ -3,17 +3,19 @@ package userservice
 import (
 	"context"
 
+	pkgctx "adfy.io/pkg/ctx"
 	"adfy.io/pkg/jwt"
 	"adfy.io/pkg/secure"
 	pb "adfy.io/rpc/user"
 	"github.com/twitchtv/twirp"
 )
 
-func NewUserService(jwt *jwt.JWT, secure *secure.Secure, userRepository *UserRepository) *UserService {
+func NewUserService(jwt *jwt.JWT, secure *secure.Secure, userRepository *UserRepository, authContext *pkgctx.AuthContext) *UserService {
 	return &UserService{
 		JWT:            jwt,
 		Secure:         secure,
 		UserRepository: userRepository,
+		AuthContext:    authContext,
 	}
 }
 
@@ -21,6 +23,7 @@ type UserService struct {
 	JWT            *jwt.JWT
 	Secure         *secure.Secure
 	UserRepository *UserRepository
+	AuthContext    *pkgctx.AuthContext
 }
 
 func (s *UserService) SignIn(ctx context.Context, req *pb.SignInRequest) (resp *pb.SignInResponse, err error) {
@@ -70,5 +73,13 @@ func (s *UserService) SignUp(ctx context.Context, req *pb.SignUpRequest) (out *p
 
 	return &pb.SignUpResponse{
 		Token: token,
+	}, nil
+}
+
+func (s *UserService) Me(ctx context.Context, req *pb.Empty) (out *pb.MeResponse, err error) {
+	user := s.AuthContext.GetAuthUser(ctx)
+	return &pb.MeResponse{
+		Email: user.Email,
+		Name:  user.Name,
 	}, nil
 }
