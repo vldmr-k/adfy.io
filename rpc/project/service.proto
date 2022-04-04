@@ -2,19 +2,39 @@ syntax = "proto3";
 package adfy.io.rpc.project;
 option go_package = "adfy.io/rpc/project";
 
+import "validate/validate.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "Adfy.io Project Service Twirp/JSON API Documentation";
+        version: "1.0";
+    };
+    external_docs: {
+        url: "https://github.com/vldmr-k/adfy.io";
+        description: "Adfy.io github repository";
+    };
+    schemes: HTTPS;
+};
+
 
 service ProjectService {
 
-    rpc CreateProject(ProjectRequest) returns (ProjectResponse);
+    rpc CreateProject(CreateRequest) returns (ProjectResponse);
 
-    rpc EditProject(ProjectRequest) returns (ProjectResponse);
+    rpc EditProject(EditRequest) returns (ProjectResponse);
 
 }
 
-message ProjectRequest {
-    string id = 1;
-    string name = 2; //required
-    string website = 3; //required
+message CreateRequest {
+    string name = 2 [(validate.rules).string = {min_len: 3, max_len: 50}]; //required
+    string website = 3 [(validate.rules).string = {min_len: 3, max_len: 50}]; //required
+}
+
+message EditRequest {
+    string id = 1 [(validate.rules).string.uuid = true];
+    string name = 2 [(validate.rules).string = {min_len: 3, max_len: 50}];
+    string website = 3 [(validate.rules).string = {min_len: 3, max_len: 50}]; 
 }
 
 

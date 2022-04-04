@@ -6,8 +6,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-func NewConfig() *Config {
-	viper.AddConfigPath("./../..")
+func NewConfig(path string) *Config {
+	viper.AddConfigPath(path)
 	viper.SetConfigType("yaml")
 	err := viper.ReadInConfig()
 

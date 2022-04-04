@@ -35,48 +35,67 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on ProjectRequest with the rules defined in
+// define the regex for a UUID once up-front
+var _service_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+
+// Validate checks the field values on CreateRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
-func (m *ProjectRequest) Validate() error {
+func (m *CreateRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ProjectRequest with the rules defined
+// ValidateAll checks the field values on CreateRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in ProjectRequestMultiError,
-// or nil if none found.
-func (m *ProjectRequest) ValidateAll() error {
+// result is a list of violation errors wrapped in CreateRequestMultiError, or
+// nil if none found.
+func (m *CreateRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ProjectRequest) validate(all bool) error {
+func (m *CreateRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for Id
+	if l := utf8.RuneCountInString(m.GetName()); l < 3 || l > 50 {
+		err := CreateRequestValidationError{
+			field:  "Name",
+			reason: "value length must be between 3 and 50 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for Name
-
-	// no validation rules for Website
+	if l := utf8.RuneCountInString(m.GetWebsite()); l < 3 || l > 50 {
+		err := CreateRequestValidationError{
+			field:  "Website",
+			reason: "value length must be between 3 and 50 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if len(errors) > 0 {
-		return ProjectRequestMultiError(errors)
+		return CreateRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// ProjectRequestMultiError is an error wrapping multiple validation errors
-// returned by ProjectRequest.ValidateAll() if the designated constraints
+// CreateRequestMultiError is an error wrapping multiple validation errors
+// returned by CreateRequest.ValidateAll() if the designated constraints
 // aren't met.
-type ProjectRequestMultiError []error
+type CreateRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ProjectRequestMultiError) Error() string {
+func (m CreateRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -85,11 +104,11 @@ func (m ProjectRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ProjectRequestMultiError) AllErrors() []error { return m }
+func (m CreateRequestMultiError) AllErrors() []error { return m }
 
-// ProjectRequestValidationError is the validation error returned by
-// ProjectRequest.Validate if the designated constraints aren't met.
-type ProjectRequestValidationError struct {
+// CreateRequestValidationError is the validation error returned by
+// CreateRequest.Validate if the designated constraints aren't met.
+type CreateRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -97,22 +116,22 @@ type ProjectRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e ProjectRequestValidationError) Field() string { return e.field }
+func (e CreateRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ProjectRequestValidationError) Reason() string { return e.reason }
+func (e CreateRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ProjectRequestValidationError) Cause() error { return e.cause }
+func (e CreateRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ProjectRequestValidationError) Key() bool { return e.key }
+func (e CreateRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ProjectRequestValidationError) ErrorName() string { return "ProjectRequestValidationError" }
+func (e CreateRequestValidationError) ErrorName() string { return "CreateRequestValidationError" }
 
 // Error satisfies the builtin error interface
-func (e ProjectRequestValidationError) Error() string {
+func (e CreateRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -124,14 +143,14 @@ func (e ProjectRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sProjectRequest.%s: %s%s",
+		"invalid %sCreateRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ProjectRequestValidationError{}
+var _ error = CreateRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -139,7 +158,148 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ProjectRequestValidationError{}
+} = CreateRequestValidationError{}
+
+// Validate checks the field values on EditRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *EditRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on EditRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in EditRequestMultiError, or
+// nil if none found.
+func (m *EditRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *EditRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if err := m._validateUuid(m.GetId()); err != nil {
+		err = EditRequestValidationError{
+			field:  "Id",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if l := utf8.RuneCountInString(m.GetName()); l < 3 || l > 50 {
+		err := EditRequestValidationError{
+			field:  "Name",
+			reason: "value length must be between 3 and 50 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if l := utf8.RuneCountInString(m.GetWebsite()); l < 3 || l > 50 {
+		err := EditRequestValidationError{
+			field:  "Website",
+			reason: "value length must be between 3 and 50 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return EditRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *EditRequest) _validateUuid(uuid string) error {
+	if matched := _service_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
+
+	return nil
+}
+
+// EditRequestMultiError is an error wrapping multiple validation errors
+// returned by EditRequest.ValidateAll() if the designated constraints aren't met.
+type EditRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m EditRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m EditRequestMultiError) AllErrors() []error { return m }
+
+// EditRequestValidationError is the validation error returned by
+// EditRequest.Validate if the designated constraints aren't met.
+type EditRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e EditRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e EditRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e EditRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e EditRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e EditRequestValidationError) ErrorName() string { return "EditRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e EditRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sEditRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = EditRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = EditRequestValidationError{}
 
 // Validate checks the field values on ProjectResponse with the rules defined
 // in the proto definition for this message. If any rules are violated, the

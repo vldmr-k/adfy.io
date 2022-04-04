@@ -44,7 +44,7 @@ func (container *Container) GetAuthContext() *ctx.AuthContext {
 }
 func (container *Container) GetConfig() *config.Config {
 	if container.Config == nil {
-		service := config.NewConfig()
+		service := config.NewConfig("./../..")
 		container.Config = service
 	}
 	return container.Config
