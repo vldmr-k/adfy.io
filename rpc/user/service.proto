@@ -8,6 +8,7 @@ import "protoc-gen-swagger/options/annotations.proto";
 option go_package = "adfy.io/rpc/user";
 
 
+
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
     info: {
         title: "Adfy.io User Service Twirp/JSON API Documentation";

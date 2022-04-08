@@ -24,5 +24,4 @@ package user
 // It is also used to tell protoc where to put output generated files, through
 // --twirp_out and --go_out.
 
-//go:generate protoc --proto_path=$GOPATH/src --twirp_oprout=$GOPATH/src --go_out=$GOPATH/src adfy.io/rpc/user/model.proto
-//go:generate protoc --proto_path=$GOPATH/src --twirp_out=$GOPATH/src --go_out=$GOPATH/src adfy.io/rpc/user/service.proto
+//go:generate echo Hello, Go Generate!

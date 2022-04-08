@@ -5,6 +5,7 @@ option go_package = "adfy.io/rpc/project";
 import "validate/validate.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 
+
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
     info: {
         title: "Adfy.io Project Service Twirp/JSON API Documentation";
