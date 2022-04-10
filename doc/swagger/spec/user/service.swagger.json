@@ -116,10 +116,6 @@
         },
         "password": {
           "type": "string"
-        },
-        "rememberMe": {
-          "type": "boolean",
-          "format": "boolean"
         }
       }
     },
@@ -128,6 +124,10 @@
       "properties": {
         "token": {
           "type": "string"
+        },
+        "expiresIn": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -150,6 +150,10 @@
       "properties": {
         "token": {
           "type": "string"
+        },
+        "expiresIn": {
+          "type": "string",
+          "format": "int64"
         }
       }
     }

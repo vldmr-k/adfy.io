@@ -1,0 +1,37 @@
+<div class="tui-container tui-container_adaptive">
+  <div class="tui-row_adaptive tui-row_align_center">
+    <div class="tui-col_md-6">
+      <form class="form" [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+
+        <div class="tui-form__row">
+          <label tuiLabel label="Enter your email">
+            <tui-input formControlName="email">
+              Email
+              <input tuiTextfield placeholder="email" type="email">
+            </tui-input>
+
+            <tui-error formControlName="email" [error]="[] | tuiFieldError | async"></tui-error>
+          </label>
+        </div>
+
+
+        <div class="tui-form__row">
+          <label tuiLabel label="Enter your password">
+            <tui-input formControlName="password">
+              Password
+              <input tuiTextfield placeholder="password" type="password" />
+            </tui-input>
+
+            <tui-error formControlName="password" [error]="[] | tuiFieldError | async"></tui-error>
+          </label>
+        </div>
+        <div class="tui-form__row">
+          <button tuiButton type="submit" class="tui-space_right-3 tui-space_bottom-3">
+            Sign In
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

@@ -13,7 +13,7 @@ func CORS(hf http.Handler) http.Handler {
 			w.WriteHeader(200)
 			return
 		}
-		w.Header().Add("Access-Control-Allow-Origin", "*")
+		w.Header().Add("Access-Control-Allow-Origin", "http://localhost:4200")
 
 		hf.ServeHTTP(w, r)
 	}

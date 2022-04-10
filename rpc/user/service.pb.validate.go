@@ -341,6 +341,8 @@ func (m *SignUpResponse) validate(all bool) error {
 
 	// no validation rules for Token
 
+	// no validation rules for ExpiresIn
+
 	if len(errors) > 0 {
 		return SignUpResponseMultiError(errors)
 	}
@@ -463,8 +465,6 @@ func (m *SignInRequest) validate(all bool) error {
 		}
 		errors = append(errors, err)
 	}
-
-	// no validation rules for RememberMe
 
 	if len(errors) > 0 {
 		return SignInRequestMultiError(errors)
@@ -617,6 +617,8 @@ func (m *SignInResponse) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Token
+
+	// no validation rules for ExpiresIn
 
 	if len(errors) > 0 {
 		return SignInResponseMultiError(errors)

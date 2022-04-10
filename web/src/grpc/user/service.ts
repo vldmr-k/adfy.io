@@ -30,7 +30,11 @@ export interface SignUpResponse {
     /**
      * @generated from protobuf field: string token = 1;
      */
-    token: string;
+    token: string; // required
+    /**
+     * @generated from protobuf field: int64 expiresIn = 2;
+     */
+    expiresIn: bigint; // required
 }
 /**
  * @generated from protobuf message adfy.io.rpc.user.SignInRequest
@@ -44,10 +48,6 @@ export interface SignInRequest {
      * @generated from protobuf field: string password = 2;
      */
     password: string;
-    /**
-     * @generated from protobuf field: bool rememberMe = 3;
-     */
-    rememberMe: boolean; // (dafault true)
 }
 /**
  * @generated from protobuf message adfy.io.rpc.user.SignInResponse
@@ -57,6 +57,10 @@ export interface SignInResponse {
      * @generated from protobuf field: string token = 1;
      */
     token: string; // required
+    /**
+     * @generated from protobuf field: int64 expiresIn = 2;
+     */
+    expiresIn: bigint; // required
 }
 /**
  * @generated from protobuf message adfy.io.rpc.user.MeResponse
@@ -99,7 +103,8 @@ export const SignUpRequest = new SignUpRequest$Type();
 class SignUpResponse$Type extends MessageType<SignUpResponse> {
     constructor() {
         super("adfy.io.rpc.user.SignUpResponse", [
-            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "expiresIn", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ }
         ]);
     }
 }
@@ -112,8 +117,7 @@ class SignInRequest$Type extends MessageType<SignInRequest> {
     constructor() {
         super("adfy.io.rpc.user.SignInRequest", [
             { no: 1, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { email: true } } } },
-            { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "6" } } } },
-            { no: 3, name: "rememberMe", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
+            { no: 2, name: "password", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "6" } } } }
         ]);
     }
 }
@@ -125,7 +129,8 @@ export const SignInRequest = new SignInRequest$Type();
 class SignInResponse$Type extends MessageType<SignInResponse> {
     constructor() {
         super("adfy.io.rpc.user.SignInResponse", [
-            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "expiresIn", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ }
         ]);
     }
 }

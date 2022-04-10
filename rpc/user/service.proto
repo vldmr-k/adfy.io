@@ -37,12 +37,14 @@ message SignUpRequest {
 
     string email = 2  [
         (validate.rules).string.email = true
+
     ]; //required
     string password = 3  [(validate.rules).string.min_len = 6]; //required
 }
 
 message SignUpResponse {
-    string token = 1;
+    string token = 1; //required
+    int64 expiresIn = 2; //required
 }
 
 
@@ -51,11 +53,11 @@ message SignInRequest {
         (validate.rules).string.email = true
     ];
     string password = 2 [(validate.rules).string.min_len = 6];
-    bool rememberMe = 3; //(dafault true)
 }
 
 message SignInResponse {
     string token = 1; // required
+    int64 expiresIn = 2; //required
 }
 
 message MeResponse {

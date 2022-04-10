@@ -15,6 +15,7 @@ for proto_file in $(find ./rpc -type f -name "*.proto"); do
         --twirp_swagger_out=${SWAGGER_DIR}/spec \
         --twirp_out=./..
 
+    #@protobuf-ts/runtime
     yarn --cwd web protoc --ts_out ../web/src/grpc --proto_path ../rpc \
         --proto_path ${GOPATH}/pkg/mod/github.com/envoyproxy/protoc-gen-validate@v0.6.7/ \
         --proto_path ${GOPATH}/pkg/mod/github.com/grpc-ecosystem/grpc-gateway@v1.16.0/ \
