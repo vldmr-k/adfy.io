@@ -23,7 +23,8 @@
       "dom"
     ],
     "paths": {
-      "@grpc/*": ["grpc/*"]
+      "@grpc/*": ["grpc/*"],
+      "@module/*": ["app/modules/*"]
     }
   },
   "angularCompilerOptions": {

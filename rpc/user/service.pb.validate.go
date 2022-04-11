@@ -341,8 +341,6 @@ func (m *SignUpResponse) validate(all bool) error {
 
 	// no validation rules for Token
 
-	// no validation rules for ExpiresIn
-
 	if len(errors) > 0 {
 		return SignUpResponseMultiError(errors)
 	}

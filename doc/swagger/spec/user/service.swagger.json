@@ -150,10 +150,6 @@
       "properties": {
         "token": {
           "type": "string"
-        },
-        "expiresIn": {
-          "type": "string",
-          "format": "int64"
         }
       }
     }

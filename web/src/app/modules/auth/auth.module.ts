@@ -7,16 +7,20 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { TuiButtonModule, TuiErrorModule, TuiNotificationModule } from '@taiga-ui/core';
 import { TuiFieldErrorPipeModule, TuiFilterByInputPipeModule, TuiInputModule } from '@taiga-ui/kit';
+import { CoreModule } from '../core/core.module';
+import { AuthLayoutComponent } from 'app/_layout/auth/auth-layout.component';
 
 
 @NgModule({
   declarations: [
+    AuthLayoutComponent,
     SignInComponent,
     ForgotComponent,
-    SignUpComponent,
+    SignUpComponent
   ],
   imports: [
     CommonModule,
+    CoreModule,
     AuthRoutingModule,
     FormsModule,
     ReactiveFormsModule,

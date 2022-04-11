@@ -12,6 +12,8 @@ import { UserServiceClient } from '@grpc/user/service.client';
 import { ProjectServiceClient } from '@grpc/project/service.client';
 
 import { AuthModule } from './modules/auth/auth.module';
+import { DashboardModule } from "./modules/dashboard/dashboard.module";
+import { addAuthHeaderInterceptor } from "./modules/core/interceptors/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { AuthModule } from './modules/auth/auth.module';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     AuthModule,
+    DashboardModule,
 
 
     // Registers the `PbDatePipe`.
@@ -31,8 +34,10 @@ import { AuthModule } from './modules/auth/auth.module';
      // Registers the `TwirpTransport` with the given options
     // and sets up dependency injection.
     TwirpModule.forRoot({
-      // don't forget the "twirp" prefix if your server requires it
       baseUrl: "http://localhost:8080/twirp/",
+      interceptors: [
+        addAuthHeaderInterceptor
+      ]
     }),
       TuiRootModule,
       BrowserAnimationsModule,

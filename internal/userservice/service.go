@@ -52,14 +52,13 @@ func (s *UserService) SignIn(ctx context.Context, req *pb.SignInRequest) (resp *
 		return nil, twirp.NotFoundError("User not found or password is incorrect")
 	}
 
-	token, exp, err := s.JWT.GenerateToken(u.GetAuthUser())
+	token, err := s.JWT.GenerateToken(u.GetAuthUser())
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
 
 	return &pb.SignInResponse{
-		Token:     token,
-		ExpiresIn: exp,
+		Token: token,
 	}, nil
 }
 
@@ -79,14 +78,13 @@ func (s *UserService) SignUp(ctx context.Context, req *pb.SignUpRequest) (out *p
 		return nil, err
 	}
 
-	token, exp, err := s.JWT.GenerateToken(m.GetAuthUser())
+	token, err := s.JWT.GenerateToken(m.GetAuthUser())
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
 
 	return &pb.SignUpResponse{
-		Token:     token,
-		ExpiresIn: exp,
+		Token: token,
 	}, nil
 }
 

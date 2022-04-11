@@ -41,18 +41,16 @@ type JWT struct {
 }
 
 // GenerateToken generates new jwt token
-func (j *JWT) GenerateToken(u *AuthUser) (token string, exp int64, err error) {
-	exp = time.Now().Add(j.duration).Unix()
-
+func (j *JWT) GenerateToken(u *AuthUser) (token string, err error) {
 	t := jwt.NewWithClaims(j.algo, jwt.MapClaims{
 		"id":  u.ID,
 		"e":   u.Email,
 		"n":   u.Name,
-		"exp": exp,
+		"exp": time.Now().Add(j.duration).Unix(),
 	})
 
 	token, err = t.SignedString(j.key)
-	return token, exp, err
+	return token, err
 }
 
 // ParseToken parses the bearer token

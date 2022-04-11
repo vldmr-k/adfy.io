@@ -31,10 +31,6 @@ export interface SignUpResponse {
      * @generated from protobuf field: string token = 1;
      */
     token: string; // required
-    /**
-     * @generated from protobuf field: int64 expiresIn = 2;
-     */
-    expiresIn: bigint; // required
 }
 /**
  * @generated from protobuf message adfy.io.rpc.user.SignInRequest
@@ -103,8 +99,7 @@ export const SignUpRequest = new SignUpRequest$Type();
 class SignUpResponse$Type extends MessageType<SignUpResponse> {
     constructor() {
         super("adfy.io.rpc.user.SignUpResponse", [
-            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "expiresIn", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 0 /*LongType.BIGINT*/ }
+            { no: 1, name: "token", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

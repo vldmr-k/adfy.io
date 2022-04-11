@@ -28,7 +28,7 @@ export function getValidateFormErrors(e: RpcError): Map<string, string> {
   if (isValidateFormError(e)) {
     for (const [key, value] of Object.entries(e.meta)) {
       if (typeof value == 'string') {
-        map.set(key, value);
+        map.set(key.toLocaleLowerCase(), value);
       }
     }
 

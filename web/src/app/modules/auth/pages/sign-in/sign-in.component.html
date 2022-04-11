@@ -14,7 +14,6 @@
           </label>
         </div>
 
-
         <div class="tui-form__row">
           <label tuiLabel label="Enter your password">
             <tui-input formControlName="password">
@@ -26,8 +25,8 @@
           </label>
         </div>
         <div class="tui-form__row">
-          <button tuiButton type="submit" class="tui-space_right-3 tui-space_bottom-3">
-            Sign In
+          <button tuiButton [disabled]="signInForm.invalid" type="submit" class="tui-space_right-3 tui-space_bottom-3">
+            Login
           </button>
         </div>
       </form>
