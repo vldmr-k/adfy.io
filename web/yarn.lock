@@ -1264,9 +1264,9 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@ng-web-apis/common@^1.12.1":
-  version "1.12.1"
-  resolved "https://registry.npmjs.org/@ng-web-apis/common/-/common-1.12.1.tgz"
-  integrity sha512-gfTWBm+hFXJCDYTnInMCGi4PjawfClklDldBTxbPwMAIRPsL2mFS+f9BREK7Fs2Eb60FEXw4TitgUFU2+98liw==
+  version "1.13.0"
+  resolved "https://registry.npmjs.org/@ng-web-apis/common/-/common-1.13.0.tgz"
+  integrity sha512-tr/0YHKlfAl0ECo0BPNdNnpQLdI9G4m3nUr9Nf7MXOBqk4p/fOwTtgCyl9IZFpfAxVezFLCZU+ootTaYWVyVlA==
   dependencies:
     tslib "^1.9.0"
 
@@ -2403,7 +2403,7 @@ ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
 
 angular2-text-mask@^9.0.0:
   version "9.0.0"
-  resolved "https://registry.npmjs.org/angular2-text-mask/-/angular2-text-mask-9.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/angular2-text-mask/-/angular2-text-mask-9.0.0.tgz#70490170a8096241fc3ce9482ed6a758ddbce8ea"
   integrity sha512-iALcnhJPS1zvX48d86rgUgDe/crX6XfhZrXC4Gdlo2/YwZW7u7KJZY6/b3ieSCIWVq/E6p+wDCzeo3E6leRjDA==
   dependencies:
     text-mask-core "^5.0.0"
@@ -6195,7 +6195,7 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
 
 moment@^2.29.2:
   version "2.29.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.2.tgz#00910c60b20843bcba52d37d58c628b47b1f20e4"
+  resolved "https://registry.npmjs.org/moment/-/moment-2.29.2.tgz"
   integrity sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg==
 
 ms@2.0.0:
@@ -6285,6 +6285,13 @@ ngx-highlightjs@^4.1.4:
     highlight.js "^10.0.0"
     highlightjs-line-numbers.js "^2.8.0"
     tslib "^2.0.0"
+
+ngx-webstorage-service@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-webstorage-service/-/ngx-webstorage-service-5.0.0.tgz#0a65e24ddb77298c00cd13793c15919e918ee885"
+  integrity sha512-adipYzdVGA1HxPF5n62eJoQGohiJRlpCp7lPuNQcOvkHGfFUByAfXZHmmLFzb5OFfeNWh1XZ8M2qppbC5uNXFQ==
+  dependencies:
+    tslib "^2.3.0"
 
 nice-napi@^1.0.2:
   version "1.0.2"

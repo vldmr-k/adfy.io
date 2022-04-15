@@ -63,11 +63,15 @@ export interface SignInResponse {
  */
 export interface MeResponse {
     /**
-     * @generated from protobuf field: string name = 1;
+     * @generated from protobuf field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from protobuf field: string name = 2;
      */
     name: string;
     /**
-     * @generated from protobuf field: string email = 2;
+     * @generated from protobuf field: string email = 3;
      */
     email: string;
 }
@@ -137,8 +141,9 @@ export const SignInResponse = new SignInResponse$Type();
 class MeResponse$Type extends MessageType<MeResponse> {
     constructor() {
         super("adfy.io.rpc.user.MeResponse", [
-            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

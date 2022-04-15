@@ -4,7 +4,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AccountLayoutComponent } from 'app/_layout/account-layout/account-layout.component';
 import { CoreModule } from '@module/core/core.module';
-
+import {TuiLoaderModule} from '@taiga-ui/core';
 
 
 @NgModule({
@@ -16,6 +16,7 @@ import { CoreModule } from '@module/core/core.module';
     CommonModule,
     CoreModule,
     DashboardRoutingModule,
+    TuiLoaderModule
   ]
 })
 export class DashboardModule { }

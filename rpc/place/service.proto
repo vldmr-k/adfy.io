@@ -1,0 +1,42 @@
+syntax = "proto3";
+package adfy.io.rpc.place;
+option go_package = "adfy.io/rpc/place";
+
+import "validate/validate.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "Adfy.io Place Service Twirp/JSON API Documentation";
+        version: "1.0";
+    };
+    external_docs: {
+        url: "https://github.com/vldmr-k/adfy.io";
+        description: "Adfy.io github repository";
+    };
+    schemes: HTTPS;
+};
+
+
+service PlaceService {
+
+    rpc CreatePlace(PlaceCreateRequest) returns (PlaceResponse);
+
+    rpc EditPlace(PlaceEditRequest) returns (PlaceResponse);
+
+}
+
+message PlaceCreateRequest {
+    string name = 1 [(validate.rules).string = {min_len: 3, max_len: 50}]; //required
+}
+
+message PlaceEditRequest {
+    string id = 1 [(validate.rules).string.uuid = true];
+    string name = 2 [(validate.rules).string = {min_len: 3, max_len: 50}];
+}
+
+
+message PlaceResponse {
+    string id = 1; // required
+}

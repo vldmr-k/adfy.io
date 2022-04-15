@@ -5,6 +5,8 @@ import { AccountLayoutComponent } from 'app/_layout/account-layout/account-layou
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 
+
+
 const routes: Routes = [
   {
     path: 'dashboard', component: AccountLayoutComponent,

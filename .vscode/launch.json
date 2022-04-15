@@ -3,8 +3,14 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
+    "compounds": [
+      {
+        "name": "srv + web",
+        "configurations": ["go srv", "ng start"],
+        "stopAll": true
+      }
+    ],
     "configurations": [
-
         {
             "name": "go srv",
             "type": "go",
@@ -14,14 +20,7 @@
             "cwd" : "${workspaceFolder}/cmd/server"
         },
         {
-          "name": "ng dev:ssr",
-          "type": "pwa-chrome",
-          "request": "launch",
-          "preLaunchTask": "npm: dev:ssr",
-          "url": "http://localhost:4200/"
-        },
-        {
-          "name": "ng serve",
+          "name": "ng start",
           "type": "pwa-chrome",
           "request": "launch",
           "preLaunchTask": "npm: start",
