@@ -6,7 +6,7 @@ import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { UserService } from "./service";
 import type { MeResponse } from "./service";
-import type { Empty } from "./service";
+import type { Empty } from "../google/protobuf/empty";
 import type { SignUpResponse } from "./service";
 import type { SignUpRequest } from "./service";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -27,7 +27,7 @@ export interface IUserServiceClient {
      */
     signUp(input: SignUpRequest, options?: RpcOptions): UnaryCall<SignUpRequest, SignUpResponse>;
     /**
-     * @generated from protobuf rpc: Me(adfy.io.rpc.user.Empty) returns (adfy.io.rpc.user.MeResponse);
+     * @generated from protobuf rpc: Me(google.protobuf.Empty) returns (adfy.io.rpc.user.MeResponse);
      */
     me(input: Empty, options?: RpcOptions): UnaryCall<Empty, MeResponse>;
 }
@@ -58,7 +58,7 @@ export class UserServiceClient implements IUserServiceClient, ServiceInfo {
         return stackIntercept<SignUpRequest, SignUpResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: Me(adfy.io.rpc.user.Empty) returns (adfy.io.rpc.user.MeResponse);
+     * @generated from protobuf rpc: Me(google.protobuf.Empty) returns (adfy.io.rpc.user.MeResponse);
      */
     me(input: Empty, options?: RpcOptions): UnaryCall<Empty, MeResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);

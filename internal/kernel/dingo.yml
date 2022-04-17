@@ -26,13 +26,16 @@ services:
     type: "*adfy.io/internal/userservice.UserRepository"
     returns: "userservice.NewUserRepository(@{Orm})"
   UserServiceServer:
-    type: "adfy.io/rpc/user.TwirpServer"
+    type: adfy.io/rpc/user.TwirpServer
     returns: user.NewUserServiceServer(@{UserService}, @{VerifyJWTHook}.WithJWTAuth("SignIn", "SignUp"))
 
- 
+
   ProjectService:
     type: "*adfy.io/internal/projectservice.ProjectService"
-    returns: "projectservice.NewProjectService()"
+    returns: "projectservice.NewProjectService(@{ProjectRepository}, @{AuthContext}, @{ProjectFactory})"
+  ProjectFactory:
+    type: "*adfy.io/internal/projectservice.ProjectFactory"
+    returns: "projectservice.NewProjectFactory()"
   ProjectRepository:
     type: "*adfy.io/internal/projectservice.ProjectRepository"
     returns: "projectservice.NewProjectRepository(@{Orm})"

@@ -8,6 +8,7 @@ import (
 	"adfy.io/pkg/jwt"
 	"adfy.io/pkg/secure"
 	pb "adfy.io/rpc/user"
+	gprotobuf "github.com/golang/protobuf/ptypes/empty"
 	"github.com/twitchtv/twirp"
 )
 
@@ -88,7 +89,7 @@ func (s *UserService) SignUp(ctx context.Context, req *pb.SignUpRequest) (out *p
 	}, nil
 }
 
-func (s *UserService) Me(ctx context.Context, req *pb.Empty) (out *pb.MeResponse, err error) {
+func (s *UserService) Me(ctx context.Context, req *gprotobuf.Empty) (out *pb.MeResponse, err error) {
 	user := s.AuthContext.GetAuthUser(ctx)
 	return &pb.MeResponse{
 		Id:    user.ID.String(),

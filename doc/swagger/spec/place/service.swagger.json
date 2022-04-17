@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Adfy.io Project Service Twirp/JSON API Documentation",
+    "title": "Adfy.io Place Service Twirp/JSON API Documentation",
     "version": "1.0"
   },
   "schemes": [
@@ -14,14 +14,14 @@
     "application/json"
   ],
   "paths": {
-    "/twirp/adfy.io.rpc.project.ProjectService/AllProject": {
+    "/twirp/adfy.io.rpc.place.PlaceService/Create": {
       "post": {
-        "operationId": "AllProject",
+        "operationId": "Create",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/projectAllProjectResponse"
+              "$ref": "#/definitions/placeCreateResponse"
             }
           }
         },
@@ -31,44 +31,18 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/protobufEmpty"
+              "$ref": "#/definitions/placeCreateRequest"
             }
           }
         ],
         "tags": [
-          "ProjectService"
+          "PlaceService"
         ]
       }
     },
-    "/twirp/adfy.io.rpc.project.ProjectService/CreateProject": {
+    "/twirp/adfy.io.rpc.place.PlaceService/Delete": {
       "post": {
-        "operationId": "CreateProject",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/projectCreateResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/projectCreateRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ProjectService"
-        ]
-      }
-    },
-    "/twirp/adfy.io.rpc.project.ProjectService/DeleteProject": {
-      "post": {
-        "operationId": "DeleteProject",
+        "operationId": "Delete",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -83,23 +57,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/projectIdRequest"
+              "$ref": "#/definitions/placeIdRequest"
             }
           }
         ],
         "tags": [
-          "ProjectService"
+          "PlaceService"
         ]
       }
     },
-    "/twirp/adfy.io.rpc.project.ProjectService/EditProject": {
+    "/twirp/adfy.io.rpc.place.PlaceService/Edit": {
       "post": {
-        "operationId": "EditProject",
+        "operationId": "Edit",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/projectEditResponse"
+              "$ref": "#/definitions/placeEditResponse"
             }
           }
         },
@@ -109,23 +83,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/projectEditRequest"
+              "$ref": "#/definitions/placeEditRequest"
             }
           }
         ],
         "tags": [
-          "ProjectService"
+          "PlaceService"
         ]
       }
     },
-    "/twirp/adfy.io.rpc.project.ProjectService/GetProject": {
+    "/twirp/adfy.io.rpc.place.PlaceService/Get": {
       "post": {
-        "operationId": "GetProject",
+        "operationId": "Get",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/projectGetProjectResponse"
+              "$ref": "#/definitions/placeGetPlaceResponse"
             }
           }
         },
@@ -135,54 +109,63 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/projectIdRequest"
+              "$ref": "#/definitions/placeIdRequest"
             }
           }
         ],
         "tags": [
-          "ProjectService"
+          "PlaceService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.place.PlaceService/GetByProject": {
+      "post": {
+        "operationId": "GetByProject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/placeGetByProjectResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/placeProjectRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlaceService"
         ]
       }
     }
   },
   "definitions": {
-    "projectAllProjectResponse": {
-      "type": "object",
-      "properties": {
-        "projects": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/projectProject"
-          }
-        }
-      }
-    },
-    "projectCreateRequest": {
+    "placeCreateRequest": {
       "type": "object",
       "properties": {
         "name": {
           "type": "string"
         },
-        "domain": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "description": {
+        "project": {
           "type": "string"
         }
       }
     },
-    "projectCreateResponse": {
+    "placeCreateResponse": {
       "type": "object",
       "properties": {
-        "project": {
-          "$ref": "#/definitions/projectProject"
+        "place": {
+          "$ref": "#/definitions/placePlace"
         }
       }
     },
-    "projectEditRequest": {
+    "placeEditRequest": {
       "type": "object",
       "properties": {
         "id": {
@@ -190,35 +173,37 @@
         },
         "name": {
           "type": "string"
-        },
-        "domain": {
+        }
+      }
+    },
+    "placeEditResponse": {
+      "type": "object",
+      "properties": {
+        "place": {
+          "$ref": "#/definitions/placePlace"
+        }
+      }
+    },
+    "placeGetByProjectResponse": {
+      "type": "object",
+      "properties": {
+        "places": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/placePlace"
           }
-        },
-        "description": {
-          "type": "string"
         }
       }
     },
-    "projectEditResponse": {
+    "placeGetPlaceResponse": {
       "type": "object",
       "properties": {
-        "project": {
-          "$ref": "#/definitions/projectProject"
+        "place": {
+          "$ref": "#/definitions/placePlace"
         }
       }
     },
-    "projectGetProjectResponse": {
-      "type": "object",
-      "properties": {
-        "project": {
-          "$ref": "#/definitions/projectProject"
-        }
-      }
-    },
-    "projectIdRequest": {
+    "placeIdRequest": {
       "type": "object",
       "properties": {
         "id": {
@@ -226,25 +211,28 @@
         }
       }
     },
-    "projectProject": {
+    "placePlace": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string"
         },
-        "name": {
+        "project": {
           "type": "string"
         },
-        "domain": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "description": {
-          "type": "string"
+        "immutable": {
+          "type": "boolean",
+          "format": "boolean"
         },
         "htmlCode": {
+          "type": "string"
+        }
+      }
+    },
+    "placeProjectRequest": {
+      "type": "object",
+      "properties": {
+        "projectId": {
           "type": "string"
         }
       }

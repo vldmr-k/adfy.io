@@ -3,7 +3,7 @@ package adfy.io.rpc.user;
 
 import "validate/validate.proto";
 import "protoc-gen-swagger/options/annotations.proto";
-
+import "google/protobuf/empty.proto";
 
 option go_package = "adfy.io/rpc/user";
 
@@ -26,11 +26,10 @@ service UserService {
 
     rpc SignIn(SignInRequest) returns (SignInResponse);
     rpc SignUp(SignUpRequest) returns (SignUpResponse);
-    rpc Me(Empty) returns (MeResponse);
+    rpc Me(google.protobuf.Empty) returns (MeResponse);
 
 }
 
-message Empty{}
 
 message SignUpRequest {
     string name = 1 [(validate.rules).string = {min_len: 3, max_len: 50}]; //required

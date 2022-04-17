@@ -31,7 +31,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/userEmpty"
+              "$ref": "#/definitions/protobufEmpty"
             }
           }
         ],
@@ -94,9 +94,6 @@
     }
   },
   "definitions": {
-    "userEmpty": {
-      "type": "object"
-    },
     "userMeResponse": {
       "type": "object",
       "properties": {

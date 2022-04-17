@@ -20,6 +20,7 @@ type Container struct {
 	Db			*db.Db
 	JWT			*jwt.JWT
 	Orm			*db.Orm
+	ProjectFactory		*projectservice.ProjectFactory
 	ProjectRepository	*projectservice.ProjectRepository
 	ProjectService		*projectservice.ProjectService
 	ProjectServiceServer	*project.TwirpServer
@@ -70,6 +71,13 @@ func (container *Container) GetOrm() *db.Orm {
 	}
 	return container.Orm
 }
+func (container *Container) GetProjectFactory() *projectservice.ProjectFactory {
+	if container.ProjectFactory == nil {
+		service := projectservice.NewProjectFactory()
+		container.ProjectFactory = service
+	}
+	return container.ProjectFactory
+}
 func (container *Container) GetProjectRepository() *projectservice.ProjectRepository {
 	if container.ProjectRepository == nil {
 		service := projectservice.NewProjectRepository(container.GetOrm())
@@ -79,7 +87,7 @@ func (container *Container) GetProjectRepository() *projectservice.ProjectReposi
 }
 func (container *Container) GetProjectService() *projectservice.ProjectService {
 	if container.ProjectService == nil {
-		service := projectservice.NewProjectService()
+		service := projectservice.NewProjectService(container.GetProjectRepository(), container.GetAuthContext(), container.GetProjectFactory())
 		container.ProjectService = service
 	}
 	return container.ProjectService

@@ -1,6 +1,9 @@
 gen:
 	bin/proto.sh
 
+serve:
+	go run cmd/server/main.go
+
 migrate:
 	go build cmd/db/main.go
 
