@@ -38,7 +38,7 @@ services:
     returns: "projectservice.NewProjectFactory()"
   ProjectRepository:
     type: "*adfy.io/internal/projectservice.ProjectRepository"
-    returns: "projectservice.NewProjectRepository(@{Orm})"
+    returns: "projectservice.NewProjectRepository(@{Orm}, @{AuthContext})"
   ProjectServiceServer:
     type: "adfy.io/rpc/project.TwirpServer"
     returns: "project.NewProjectServiceServer(@{ProjectService}, @{VerifyJWTHook}.WithJWTAuth())"

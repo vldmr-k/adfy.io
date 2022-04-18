@@ -23,7 +23,7 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 service PlaceService {
     rpc Create(CreateRequest) returns (CreateResponse);
     rpc Get(IdRequest) returns (GetPlaceResponse);
-    rpc GetByProject(ProjectRequest) returns(GetByProjectResponse);
+    rpc GetByProject(GetByProjectRequest) returns(GetByProjectResponse);
     rpc Edit(EditRequest) returns (EditResponse);
     rpc Delete(IdRequest) returns (google.protobuf.Empty);
 }
@@ -50,7 +50,7 @@ message IdRequest {
   string id = 1;
 }
 
-message ProjectRequest {
+message GetByProjectRequest {
   string projectId = 1;
 }
 

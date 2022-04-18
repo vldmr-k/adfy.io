@@ -26,7 +26,6 @@ type ProjectService struct {
 }
 
 func (s *ProjectService) CreateProject(ctx context.Context, req *pb.CreateRequest) (resp *pb.CreateResponse, err error) {
-	usr := s.authContext.GetAuthUser(ctx)
 
 	if validate := req.ValidateAll(); validate != nil {
 
@@ -45,7 +44,7 @@ func (s *ProjectService) CreateProject(ctx context.Context, req *pb.CreateReques
 		Description: req.Description,
 	}
 
-	s.projectRepository.Create(usr, project)
+	s.projectRepository.Create(ctx, project)
 
 	return &pb.CreateResponse{
 		Project: project.GrpcResponse(),
@@ -53,8 +52,7 @@ func (s *ProjectService) CreateProject(ctx context.Context, req *pb.CreateReques
 }
 
 func (s *ProjectService) GetProject(ctx context.Context, req *pb.IdRequest) (resp *pb.GetProjectResponse, err error) {
-	usr := s.authContext.GetAuthUser(ctx)
-	project, err := s.projectRepository.Find(usr, req.Id)
+	project, err := s.projectRepository.Find(ctx, req.Id)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
@@ -66,8 +64,7 @@ func (s *ProjectService) GetProject(ctx context.Context, req *pb.IdRequest) (res
 }
 
 func (s *ProjectService) EditProject(ctx context.Context, req *pb.EditRequest) (resp *pb.EditResponse, err error) {
-	usr := s.authContext.GetAuthUser(ctx)
-	project, err := s.projectRepository.Find(usr, req.Id)
+	project, err := s.projectRepository.Find(ctx, req.Id)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
@@ -79,14 +76,32 @@ func (s *ProjectService) EditProject(ctx context.Context, req *pb.EditRequest) (
 }
 
 func (s *ProjectService) AllProject(ctx context.Context, req *gprotobuf.Empty) (resp *pb.AllProjectResponse, err error) {
-	usr := s.authContext.GetAuthUser(ctx)
-	projects, err := s.projectRepository.All(usr)
+	items, err := s.projectRepository.All(ctx)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
 
+	var projects []*pb.Project
+
+	for _, item := range items {
+		projects = append(projects, item.GrpcResponse())
+	}
+
 	return &pb.AllProjectResponse{
 		Projects: projects,
 	}, nil
+}
+
+func (s *ProjectService) DeleteProject(ctx context.Context, req *pb.IdRequest) (resp *gprotobuf.Empty, err error) {
+	usr := s.authContext.GetAuthUser(ctx)
+	project, err := s.projectRepository.Find(ctx, req.Id)
+
+	if err != nil {
+		return nil, twirp.InternalError(err.Error())
+	}
+
+	err = s.projectRepository.Delete(usr, project)
+
+	return &gprotobuf.Empty{}, err
 }

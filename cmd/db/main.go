@@ -22,6 +22,6 @@ func main() {
 	}
 
 	orm.AutoMigrate(&userservice.User{})
-	orm.AutoMigrate(&projectservice.User{})
+	orm.AutoMigrate(&projectservice.Project{})
 	fmt.Println("Done!")
 }

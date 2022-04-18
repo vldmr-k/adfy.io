@@ -80,7 +80,7 @@ func (container *Container) GetProjectFactory() *projectservice.ProjectFactory {
 }
 func (container *Container) GetProjectRepository() *projectservice.ProjectRepository {
 	if container.ProjectRepository == nil {
-		service := projectservice.NewProjectRepository(container.GetOrm())
+		service := projectservice.NewProjectRepository(container.GetOrm(), container.GetAuthContext())
 		container.ProjectRepository = service
 	}
 	return container.ProjectRepository

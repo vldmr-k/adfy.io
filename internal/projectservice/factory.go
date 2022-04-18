@@ -19,7 +19,7 @@ func (p *ProjectFactory) Create() *Project {
 //Init Project Model by *jwt.AuthUser
 func (p *ProjectFactory) CreateByUser(usr *jwt.AuthUser) *Project {
 	return &Project{
-		OwnerID: usr.ID.String(),
+		OwnerID: usr.ID,
 	}
 }
 

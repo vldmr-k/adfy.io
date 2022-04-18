@@ -1,43 +1,73 @@
 package projectservice
 
 import (
+	"context"
+	"errors"
+
+	pkgctx "adfy.io/pkg/ctx"
 	"adfy.io/pkg/db"
 	"adfy.io/pkg/jwt"
+	"gorm.io/gorm"
 )
 
-func NewProjectRepository(orm *db.Orm) *ProjectRepository {
+func NewProjectRepository(orm *db.Orm, authContext *pkgctx.AuthContext) *ProjectRepository {
 	return &ProjectRepository{
-		Orm: orm,
+		Orm:         orm,
+		AuthContext: authContext,
 	}
 }
 
 type ProjectRepository struct {
-	Orm *db.Orm
+	Orm         *db.Orm
+	AuthContext *pkgctx.AuthContext
+}
+
+func (u *ProjectRepository) authUser(ctx context.Context) *jwt.AuthUser {
+	return u.AuthContext.GetAuthUser(ctx)
 }
 
 // Find Project By ID
-func (u *ProjectRepository) Find(usr *jwt.AuthUser, id string) (Project, error) {
+func (r *ProjectRepository) Find(ctx context.Context, id string) (Project, error) {
+	usr := r.authUser(ctx)
+
 	project := &Project{}
-	result := u.Orm.Where("OwnerID =? ", usr.ID.String()).First(&project, id)
+	result := r.Orm.Scopes(ownerScope(usr)).First(&project, id)
 	return *project, result.Error
 }
 
 //Find Project By User
-func (u *ProjectRepository) All(usr *jwt.AuthUser) ([]Project, error) {
+func (r *ProjectRepository) All(ctx context.Context) ([]Project, error) {
+	usr := r.authUser(ctx)
 	var projects []Project
-	result := u.Orm.Where("OwnerID = ?", usr.ID).Find(&projects)
+	result := r.Orm.Scopes(ownerScope(usr)).Find(&projects)
 	return projects, result.Error
 }
 
 // Create Project
-func (u *ProjectRepository) Save(project *Project) error {
-	result := u.Orm.Save(&project)
+func (r *ProjectRepository) Save(ctx context.Context, project *Project) error {
+	usr := r.authUser(ctx)
+	result := r.Orm.Scopes(ownerScope(usr)).Save(&project)
 	return result.Error
 }
 
 // Create Project
-func (u *ProjectRepository) Create(owner *jwt.AuthUser, project *Project) error {
-	project.OwnerID = owner.ID.String()
-	result := u.Orm.Create(&project)
+func (r *ProjectRepository) Create(ctx context.Context, project *Project) error {
+	if project.OwnerID == r.authUser(ctx).ID {
+		return errors.New("Project OwnerID not equel context auth user")
+	}
+
+	result := r.Orm.Create(&project)
 	return result.Error
+}
+
+//Delete Project
+func (u *ProjectRepository) Delete(owner *jwt.AuthUser, project Project) error {
+	result := u.Orm.Delete(project)
+	return result.Error
+}
+
+func ownerScope(usr *jwt.AuthUser) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Scopes().Where("OwnerID = ?", usr.ID.String())
+	}
 }

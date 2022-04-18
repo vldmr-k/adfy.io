@@ -1,7 +1,0 @@
-{
-  "license": "MIT",
-  "dependencies": {
-    "@protobuf-ts/plugin": "^2.4.0",
-    "@protobuf-ts/twirp-transport": "^2.4.0"
-  }
-}
