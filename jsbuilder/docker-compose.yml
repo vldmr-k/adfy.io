@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    container_name: adfy_js_builder
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "3050:3000"
+    volumes:
+      - .:/app
+    command: node /app/server.js
+
