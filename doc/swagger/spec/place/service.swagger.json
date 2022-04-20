@@ -135,7 +135,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/placeProjectRequest"
+              "$ref": "#/definitions/placeGetByProjectRequest"
             }
           }
         ],
@@ -184,6 +184,14 @@
         }
       }
     },
+    "placeGetByProjectRequest": {
+      "type": "object",
+      "properties": {
+        "projectId": {
+          "type": "string"
+        }
+      }
+    },
     "placeGetByProjectResponse": {
       "type": "object",
       "properties": {
@@ -225,14 +233,6 @@
           "format": "boolean"
         },
         "htmlCode": {
-          "type": "string"
-        }
-      }
-    },
-    "placeProjectRequest": {
-      "type": "object",
-      "properties": {
-        "projectId": {
           "type": "string"
         }
       }

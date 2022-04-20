@@ -2,7 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -21,16 +21,17 @@
     "lib": [
       "es2020",
       "dom"
-    ],
-    "paths": {
-      "@grpc/*": ["grpc/*"],
-      "@module/*": ["app/modules/*"]
-    }
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "paths": {
+    "@grpc/*": ["grpc/*"],
+    "@core/*": ["app/@core/*"],
+    "@pages/*": ["app/pages/*"]
+  },
 }
