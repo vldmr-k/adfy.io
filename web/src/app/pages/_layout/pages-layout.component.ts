@@ -1,16 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'adfy-root',
+  selector: 'adfy-pages-layout',
   template: `
-
-  <tui-root>
+    Pages Layout
     <router-outlet></router-outlet>
-  </tui-root>
-
-
-  `
+  `,
 })
-export class AppComponent {
-  title = 'adfy.io';
+export class PagesLayoutComponent {
+
 }
