@@ -1,6 +1,6 @@
 import { Inject, Injector, InjectionToken, inject } from "@angular/core";
 import { RpcInterceptor, UnaryCall, ServerStreamingCall } from "@protobuf-ts/runtime-rpc";
-import { JWT_KEY } from "@core/storage/user-token.service";
+import { JWT_KEY } from "@core/services/user-token.service";
 
 
 

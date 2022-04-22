@@ -4,8 +4,9 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthLayoutComponent } from './_layout/auth-layout.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { TuiRootModule } from '@taiga-ui/core';
-import { TuiIslandModule } from '@taiga-ui/kit';
+import { TuiErrorModule, TuiRootModule } from '@taiga-ui/core';
+import { TuiFieldErrorPipeModule, TuiInputModule, TuiIslandModule } from '@taiga-ui/kit';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,8 +18,12 @@ import { TuiIslandModule } from '@taiga-ui/kit';
   imports: [
     CommonModule,
     AuthRoutingModule,
+    ReactiveFormsModule,
     TuiRootModule,
-    TuiIslandModule
+    TuiIslandModule,
+    TuiErrorModule,
+    TuiFieldErrorPipeModule,
+    TuiInputModule
   ]
 })
 export class AuthModule { }

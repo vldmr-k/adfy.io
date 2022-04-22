@@ -12,6 +12,9 @@ import { AppComponent } from './app.component';
 import { TwirpHttpInterceptor } from '@core/twirp-http.interceptor'
 
 import { environment } from "environments/environment";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from "@ngrx/effects"
+import { UserEffects } from "store/effects/user.effects";
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { environment } from "environments/environment";
         TwirpHttpInterceptor.addBearerToken()
       ]
     }),
+
+     StoreModule.forRoot({}, {}),
+     EffectsModule.forRoot([UserEffects])
   ],
   providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
   bootstrap: [AppComponent]
