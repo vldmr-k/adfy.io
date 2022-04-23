@@ -1,9 +1,5 @@
 
-import {
-  UserActionTypes
-} from '@store/actions/user.actions';
-
-import { Injectable } from "@angular/core"
+import { Inject, Injectable } from "@angular/core"
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
 import { mergeMap, map, catchError } from 'rxjs/operators';
@@ -12,7 +8,7 @@ import { from, of } from 'rxjs'
 import { User } from '@store/models/user.model';
 import { UserServiceClient } from '@grpc/user/service.client';
 import { SignInRequest } from '@grpc/user/service';
-import { SignInError, SignInSuccess } from 'store/actions/user.actions';
+import * as userActions from 'store/actions/user.actions';
 
 
 let request: SignInRequest = {
@@ -20,23 +16,22 @@ let request: SignInRequest = {
   password: "password"
 }
 
-
-
 @Injectable({ providedIn: 'root' })
 export class UserEffects {
-  constructor(private actions$: Actions, private userServiceClient: UserServiceClient) {}
+  constructor(
+    private actions$: Actions,
+    @Inject(UserServiceClient) private userServiceClient: UserServiceClient
+    ) {}
 
-  singIn$ = this.actions$.pipe(
-    ofType(UserActionTypes.SignInRequest),
-    mergeMap((action) =>
-      from(this.userServiceClient.signIn(request)).pipe(
+  singIn$ = createEffect(() => this.actions$.pipe(
+    ofType(userActions.signInRequest),
+    mergeMap((action) => from(this.userServiceClient.signIn(action.request)).pipe(
           map(
-            (response) =>
-              new SignInSuccess({ response: response.response })
+            (response) => userActions.signInSuccess({ response: response.response })
           ),
-          catchError(() => of(new SignInError()))
+          catchError((response) => of(userActions.signInError({ response: response })))
         )
       )
 
-  );
+  ))
 }

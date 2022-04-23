@@ -6,11 +6,10 @@ import { AuthService } from '@core/services/auth.service';
 import {  Subject } from 'rxjs';
 import { TUI_IS_CYPRESS, TuiValidationError } from '@taiga-ui/cdk';
 import { getValidateFormErrors, isValidateFormError } from '@core/halper';
-import { SignInResponse } from '@grpc/user/service';
+import { SignInRequest, SignInResponse } from '@grpc/user/service';
 import { Router } from '@angular/router';
-
-
-
+import { Store } from '@ngrx/store';
+import { signInRequest } from '@store/actions/user.actions';
 
 
 @Component({
@@ -29,6 +28,7 @@ export class SignInComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private store: Store,
     @Inject(AuthService) private readonly authService: AuthService,
     private router: Router
   ) {
@@ -44,12 +44,12 @@ export class SignInComponent implements OnInit {
 
   onSubmit() {
     const value = this.form.value;
-    this.authService.login(value.email, value.password, value.rememberMe)
+    const request: SignInRequest = {
+      email: value.email,
+      password: value.password
+    }
 
-    this.sinInResponse.subscribe({
-      next: this.handleSuccess.bind(this),
-      error: this.handleError.bind(this)
-    })
+    this.store.dispatch(signInRequest({request: request}));
 
   }
 

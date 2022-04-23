@@ -15,6 +15,9 @@ import { environment } from "environments/environment";
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from "@ngrx/effects"
 import { UserEffects } from "store/effects/user.effects";
+import { UserServiceClient } from "@grpc/user/service.client";
+
+import { log } from "@store/reducers/log-meta.reducer";
 
 @NgModule({
   declarations: [
@@ -31,7 +34,7 @@ import { UserEffects } from "store/effects/user.effects";
     // for `google.protobuf.Timestamp` and `google.type.DateTime`.
     PbDatePipeModule,
 
-     // Registers the `TwirpTransport` with the given options
+    // Registers the `TwirpTransport` with the given options
     // and sets up dependency injection.
     TwirpModule.forRoot({
       baseUrl: environment.twirp.baseUrl,
@@ -40,10 +43,13 @@ import { UserEffects } from "store/effects/user.effects";
       ]
     }),
 
-     StoreModule.forRoot({}, {}),
-     EffectsModule.forRoot([UserEffects])
+    StoreModule.forRoot({}, {metaReducers: [log]}),
+    EffectsModule.forRoot([UserEffects])
   ],
-  providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
+  providers: [
+    { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
+    UserServiceClient
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

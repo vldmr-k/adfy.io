@@ -9,6 +9,7 @@ import { TuiButtonModule, TuiErrorModule, TuiNotificationModule } from '@taiga-u
 import { TuiFieldErrorPipeModule, TuiFilterByInputPipeModule, TuiInputModule } from '@taiga-ui/kit';
 import { CoreModule } from '../core/core.module';
 import { AuthLayoutComponent } from 'app/_layout/auth/auth-layout.component';
+import { UserServiceClient } from '@grpc/user/service.client';
 
 
 @NgModule({
