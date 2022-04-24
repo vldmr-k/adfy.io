@@ -2,7 +2,7 @@
 import { Inject, Injectable } from "@angular/core"
 import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, switchMap } from 'rxjs/operators';
 import { from, of } from 'rxjs'
 
 import { User } from '@store/models/user.model';
@@ -25,12 +25,15 @@ export class UserEffects {
   singIn$ = createEffect(() => this.actions$.pipe(
     ofType(userActions.signInRequest),
     mergeMap((action) => from(this.userServiceClient.signIn(action.request)).pipe(
-
           map((response) => userActions.signInSuccess({ response: response.response })),
           catchError((response) => of(userActions.signInError({ response: response })))
         )
       )
   ))
+
+  singInSuccess$ = createEffect(() => this.actions$.pipe(ofType(userActions.signInSuccess))).subscribe(
+    response => this.userTokenStorage.setToken(response.response.token)
+  );
 
   loadMe$ = createEffect(() => this.actions$.pipe(
     ofType(userActions.meRequest),

@@ -4,7 +4,7 @@ import { User } from "store/models/user.model";
 
 import { createReducer, createFeature, on } from '@ngrx/store';
 
-interface State {
+export interface State {
   user: User | null,
   sinInResponse: any,
   singInError: any,
@@ -25,8 +25,8 @@ export const userFeature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(userActions.signInRequest, state => ({ ...state, loading: true })),
-    on(userActions.signInSuccess, state => ({ ...state, sinInResponse: state.sinInResponse, loading: false })),
+    on(userActions.signInRequest, (state) => ({ ...state, loading: true })),
+    on(userActions.signInSuccess, (state, action) => ({ ...state, sinInResponse: state.sinInResponse, loading: false })),
     on(userActions.signInError, state => ({ ...state, loading: false })),
 
     on(userActions.meRequest, state => ({ ...state, loading: true })),

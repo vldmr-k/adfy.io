@@ -7,7 +7,7 @@ import {
 import * as user from '@store/reducers/user.reducer';
 
 export interface State {
-  user: user.UserState;
+  user: user.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
