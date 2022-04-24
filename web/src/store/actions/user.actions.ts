@@ -9,6 +9,6 @@ export const signInSuccess = createAction('[User] Sign In Success', props<{ resp
 export const signInError = createAction('[User] Sign In Error', props<{ response: any;}>());
 
 export const meRequest = createAction('[User] Me Request');
-export const meSuccess = createAction('[User] Me Success', props<{ response: grpc.MeResponse;}>());
-export const meError = createAction('[User] Me Error');
+export const meSuccess = createAction('[User] Me Success', props<{ user: User}>());
+export const meError = createAction('[User] Me Error', props<{ response: grpc.MeResponse }>());
 

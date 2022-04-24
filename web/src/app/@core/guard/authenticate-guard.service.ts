@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from '@core/services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
-import { UserTokenStorage } from '@core/services/user-token-storage.service';
+import { UserTokenStorage } from '@core/services/user-token.service';
 
 @Injectable()
 export class AuthenticateGuardService implements CanActivate {
