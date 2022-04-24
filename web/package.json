@@ -19,6 +19,8 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
+    "@ngrx/effects": "^13.1.0",
+    "@ngrx/store": "^13.1.0",
     "@protobuf-ts/runtime": "^2.4.0",
     "@protobuf-ts/runtime-angular": "^2.4.0",
     "@protobuf-ts/runtime-rpc": "^2.4.0",
