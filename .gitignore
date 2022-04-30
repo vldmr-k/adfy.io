@@ -90,6 +90,9 @@ sw.*
 # Vim swap files
 *.swp
 
+#jetbrains
+.idea
+
 # Build files
 ./main
-__debug_bind
+__debug_bin

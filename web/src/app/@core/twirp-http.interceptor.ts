@@ -1,13 +1,10 @@
-import { Inject, Injector, InjectionToken, inject } from "@angular/core";
+import { Inject, Injector, InjectionToken } from "@angular/core";
 import { RpcInterceptor, UnaryCall, ServerStreamingCall } from "@protobuf-ts/runtime-rpc";
-import { JWT_KEY } from "@core/services/user-token.service";
+import { JWT_KEY, UserTokenStorage } from "@core/services/user-token.service";
 
-
-
-const token = localStorage.getItem(JWT_KEY)
+const token = localStorage.getItem(JWT_KEY)?.replace(/"/g, "")
 
 export class TwirpHttpInterceptor {
-
 
   static addBearerToken(): RpcInterceptor {
     return {

@@ -62,10 +62,6 @@ export class SignInComponent implements OnInit {
 
   }
 
-  private handleSuccess(resp: SignInResponse) {
-    this.router.navigateByUrl('/dashboard')
-  }
-
   private handleError(err: any) {
     if (isValidateFormError(err)) {
       const errors = getValidateFormErrors(err);
