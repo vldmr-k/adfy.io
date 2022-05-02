@@ -2,10 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'adfy-pages-layout',
-  template: `
-    Pages Layout
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: './pages-layout.component.html'
 })
 export class PagesLayoutComponent {
 

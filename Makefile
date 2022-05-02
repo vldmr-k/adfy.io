@@ -4,8 +4,11 @@ gen:
 serve:
 	go run cmd/server/main.go
 
+web:
+	cd web && yarn run start
+
 migrate:
-	go build cmd/db/main.go
+	go run cmd/db/main.go
 
 swagger:
 	chmod -R +x bin/

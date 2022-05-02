@@ -1,7 +1,7 @@
 import { NgDompurifySanitizer } from "@tinkoff/ng-dompurify";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { TuiRootModule, TUI_SANITIZER } from "@taiga-ui/core";
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PbDatePipeModule, TwirpModule } from '@protobuf-ts/runtime-angular';
 import { RouterModule, Routes } from '@angular/router';
@@ -18,6 +18,11 @@ import { UserEffects } from "store/effects/user.effects";
 import { UserServiceClient } from "@grpc/user/service.client";
 
 import { log } from "@store/reducers/log-meta.reducer";
+import { AuthenticateGuard, GuestGuard } from "@core/guard";
+
+import {TUI_LANGUAGE, TUI_ENGLISH_LANGUAGE} from '@taiga-ui/i18n';
+import { of } from "rxjs";
+
 
 @NgModule({
   declarations: [
@@ -48,8 +53,14 @@ import { log } from "@store/reducers/log-meta.reducer";
   ],
   providers: [
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
-    UserServiceClient
+    { provide: TUI_LANGUAGE, useValue: of(TUI_ENGLISH_LANGUAGE) },
+    UserServiceClient,
+    GuestGuard,
+    AuthenticateGuard
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+  }
+}

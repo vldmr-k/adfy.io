@@ -5,23 +5,15 @@ import { PagesLayoutComponent } from './_layout/pages-layout.component';
 import { NotFoundComponent } from './_error/not-found.component';
 
 const routes: Routes = [{
-  path: 'account',
+  path: '',
   component: PagesLayoutComponent,
   children: [
     {
-      path: 'dashboard',
-      loadChildren: () => import('@pages/dashboard/dashboard.module')
-        .then(m => m.DashboardModule),
+      path: 'project',
+      loadChildren: () => import('@pages/project/project.module')
+        .then(m => m.ProjectModule),
     },
-    {
-      path: '',
-      redirectTo: 'dashboard',
-      pathMatch: 'full',
-    },
-    {
-      path: '**',
-      component: NotFoundComponent,
-    },
+    { path: '', redirectTo: 'project', pathMatch: 'full',},
   ],
 },
 ];

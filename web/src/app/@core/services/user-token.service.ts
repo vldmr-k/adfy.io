@@ -26,6 +26,10 @@ export class UserTokenStorage {
     return this.storage.has(JWT_KEY);
   }
 
+  removeToken(): void {
+    this.storage.remove(JWT_KEY)
+  }
+
   get getData(): UserTokenData | null {
     const token = this.getToken();
     if(token == null) return null;
@@ -43,5 +47,4 @@ export class UserTokenStorage {
     if (this.getData == null) return moment();
     return moment.unix(this.getData.exp);
   }
-
 }

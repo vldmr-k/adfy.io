@@ -3,13 +3,14 @@ import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup,
 import { EMPTY_STR, INVALID_REQUEST } from '@core/constant';
 
 import { AuthService } from '@core/services/auth.service';
-import {  Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { TUI_IS_CYPRESS, TuiValidationError } from '@taiga-ui/cdk';
 import { getValidateFormErrors, isValidateFormError } from '@core/halper';
 import { SignInRequest, SignInResponse } from '@grpc/user/service';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { signInRequest } from '@store/actions/user.actions';
+import { selectUser } from '@store/reducers/user.reducer';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class SignInComponent implements OnInit {
    */
   form: FormGroup;
 
-  sinInResponse : Subject<SignInResponse> = new Subject<SignInResponse>();
+  sinInResponse: Subject<SignInResponse> = new Subject<SignInResponse>();
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +39,14 @@ export class SignInComponent implements OnInit {
       rememberMe: new FormControl(false),
     });
   }
+
   ngOnInit(): void {
+
+    this.store.pipe(
+      select(selectUser),
+    ).subscribe((user) => {
+      console.log("user", user)
+    })
 
   }
 
@@ -49,21 +57,18 @@ export class SignInComponent implements OnInit {
       password: value.password
     }
 
-    this.store.dispatch(signInRequest({request: request}));
+    this.store.dispatch(signInRequest({ request: request }));
 
-  }
 
-  private handleSuccess(resp : SignInResponse) {
-    this.router.navigateByUrl('/dashboard')
   }
 
   private handleError(err: any) {
     if (isValidateFormError(err)) {
       const errors = getValidateFormErrors(err);
 
-      errors.forEach((value : string, prop : string) => {
+      errors.forEach((value: string, prop: string) => {
         const formControl = this.form.get(prop);
-        if(formControl) {
+        if (formControl) {
           formControl.setErrors({
             other: new TuiValidationError(value),
           })

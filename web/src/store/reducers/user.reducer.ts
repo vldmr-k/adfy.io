@@ -4,13 +4,15 @@ import { User } from "store/models/user.model";
 
 import { createReducer, createFeature, on } from '@ngrx/store';
 
-interface State {
-  user: any,
+export interface State {
+  user: User | null,
+  errorResponse: null,
   loading: boolean
 }
 
 export const initialState: State = {
-  user: {},
+  user: null,
+  errorResponse: null,
   loading: false,
 };
 
@@ -21,9 +23,13 @@ export const userFeature = createFeature({
   reducer: createReducer(
     initialState,
 
+    on(userActions.signInRequest, (state) => ({ ...state, loading: true })),
+    on(userActions.signInSuccess, (state, action) => ({ ...state, loading: false })),
+    on(userActions.signInError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
+
     on(userActions.meRequest, state => ({ ...state, loading: true })),
-    on(userActions.meSuccess, state => ({ ...state, user: state.user })),
-    on(userActions.meError, state => ({ ...state, loading: false })),
+    on(userActions.meSuccess, (state, action) => ({ ...state, user: action.user, loading: false })),
+    on(userActions.meError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
   ),
 });
 
@@ -32,5 +38,6 @@ export const {
   reducer, // feature reducer
   selectUserState,
   selectUser,
-  selectLoading
+  selectLoading,
+  selectErrorResponse
 } = userFeature;
