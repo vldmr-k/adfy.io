@@ -1,1 +1,25 @@
-<p>project-dialog works!</p>
+<form [formGroup]="form">
+  <tui-input formControlName="name">
+    Name
+  </tui-input>
+
+  <label *ngFor="let phone of formDomains.controls; let i = index" tuiLabel label="Domain" formArrayName="domains"
+    class="tui-space_bottom-4">
+    <span class="row">
+      <tui-input formControlName="{{i}}" tuiTextfieldAutocomplete="off" tuiTextfieldSize="m" class="input"></tui-input>
+      <button tuiIconButton type="button" size="m" title="Delete domain" appearance="icon" icon="tuiIconTrash"
+        class="tui-space_left-2 icon" (click)="removePhone(i)"></button>
+    </span>
+    <ng-template #phoneErrorContent>
+      Invalid domain
+    </ng-template>
+    <tui-field-error formControlName="{{i}}"></tui-field-error>
+  </label>
+
+  <tui-field-error formArrayName="domains" class="form-array-error"></tui-field-error>
+
+  <button tuiButton type="button" size="s" lass="tui-space_top-4" (click)="addDomain()">
+    Add a phone number
+  </button>
+
+</form>

@@ -58,8 +58,6 @@ export class SignInComponent implements OnInit {
     }
 
     this.store.dispatch(signInRequest({ request: request }));
-
-
   }
 
   private handleError(err: any) {

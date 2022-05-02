@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/c
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ProjectDialogComponent } from '@pages/project/list/components/project-dialog/project-dialog.component';
+import { EMPTY_STR } from '@core/constant';
 
 @Component({
   selector: 'adfy-project-list',
@@ -12,12 +13,7 @@ import { ProjectDialogComponent } from '@pages/project/list/components/project-d
 export class ProjectListComponent {
 
   private readonly dialog = this.dialogService.open<number>(
-    new PolymorpheusComponent(ProjectDialogComponent, this.injector),
-    {
-      data: 237,
-      dismissible: true,
-      label: 'Heading',
-    },
+    new PolymorpheusComponent(ProjectDialogComponent, this.injector)
   );
 
   constructor(
