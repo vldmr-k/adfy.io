@@ -1,19 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiIslandModule } from '@taiga-ui/kit';
-import { TuiButtonModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiDialogModule } from '@taiga-ui/core';
 import { ProjectListComponent } from './project-list.component';
-import { ProjectItemModule } from '../item/project-item.module';
+import { ProjectDialogComponent } from './components/project-dialog/project-dialog.component';
 
 @NgModule({
   declarations: [
-    ProjectListComponent
+    ProjectListComponent,
+    ProjectDialogComponent
   ],
   imports: [
     CommonModule,
     TuiIslandModule,
     TuiButtonModule,
-    ProjectItemModule
+    TuiIslandModule,
+    TuiDialogModule
   ],
+  exports: [
+    ProjectListComponent
+  ],
+  entryComponents: [
+    ProjectListComponent
+  ]
 })
 export class ProjectListModule { }

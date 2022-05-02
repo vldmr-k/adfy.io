@@ -4,7 +4,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { Store, StoreModule } from '@ngrx/store';
 import { meRequest } from '@store/actions/user.actions';
 import { selectErrorResponse, userFeature } from '@store/reducers/user.reducer';
-import { TuiAlertModule, TuiLinkModule, TuiRootModule } from '@taiga-ui/core';
+import { TuiAlertModule, TuiDialogModule, TuiLinkModule, TuiRootModule } from '@taiga-ui/core';
 import { NavbarComponent } from './_layout/navbar/navbar.component';
 
 import { TUI_DOC_LOGO } from '@taiga-ui/addon-doc';
@@ -17,6 +17,7 @@ import { NavbarModule } from './_layout/navbar/navbar.module';
     PagesRoutingModule,
     TuiRootModule,
     TuiAlertModule,
+    TuiDialogModule,
     PagesLayoutModule,
     NavbarModule,
 
