@@ -5,8 +5,13 @@
   <div class="container adfy-content">
     <div class="tui-row">
       <div class="tui-col_md-4">
-        <adfy-project-item-add (click)="onAddClickHandler()"></adfy-project-item-add>
+        <tui-island [size]="'l'" [hoverable]="true">
+          <div class="adfy-project-item adfy-project-item__add"  (click)="showProjectDialog()">
+            <button tuiIconButton type="button" appearance="icon" icon="tuiIconPlus" [size]="'l'"></button>
+          </div>
+        </tui-island>
       </div>
     </div>
   </div>
 </div>
+
