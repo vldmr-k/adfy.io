@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'adfy-root',
+  template: `
+
+  <tui-root>
+    <router-outlet></router-outlet>
+  </tui-root>
+
+
+  `
 })
 export class AppComponent {
   title = 'adfy.io';

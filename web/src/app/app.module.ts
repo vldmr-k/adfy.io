@@ -1,54 +1,66 @@
+import { NgDompurifySanitizer } from "@tinkoff/ng-dompurify";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { TuiRootModule, TuiDialogModule, TuiNotificationsModule, TuiErrorModule } from "@taiga-ui/core";
-import { NgModule } from '@angular/core';
+import { TuiRootModule, TUI_SANITIZER } from "@taiga-ui/core";
+import { NgModule, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PbDatePipeModule, TwirpModule } from '@protobuf-ts/runtime-angular';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 
-import { AppRoutingModule } from './modules/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { UserServiceClient } from '@grpc/user/service.client';
-import { ProjectServiceClient } from '@grpc/project/service.client';
+import { TwirpHttpInterceptor } from '@core/twirp-http.interceptor'
 
-import { AuthModule } from './modules/auth/auth.module';
-import { DashboardModule } from "./modules/dashboard/dashboard.module";
-import { addAuthHeaderInterceptor } from "./modules/core/interceptors/auth.interceptor";
+import { environment } from "environments/environment";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from "@ngrx/effects"
+import { UserEffects } from "store/effects/user.effects";
+import { UserServiceClient } from "@grpc/user/service.client";
+
+import { log } from "@store/reducers/log-meta.reducer";
+import { AuthenticateGuard, GuestGuard } from "@core/guard";
+
+import {TUI_LANGUAGE, TUI_ENGLISH_LANGUAGE} from '@taiga-ui/i18n';
+import { of } from "rxjs";
+
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
     AppRoutingModule,
-    AuthModule,
-    DashboardModule,
-
+    TuiRootModule,
+    BrowserAnimationsModule,
 
     // Registers the `PbDatePipe`.
     // This pipe overrides the standard "date" pipe and adds support
     // for `google.protobuf.Timestamp` and `google.type.DateTime`.
     PbDatePipeModule,
 
-     // Registers the `TwirpTransport` with the given options
+    // Registers the `TwirpTransport` with the given options
     // and sets up dependency injection.
     TwirpModule.forRoot({
-      baseUrl: "http://localhost:8080/twirp/",
+      baseUrl: environment.twirp.baseUrl,
       interceptors: [
-        addAuthHeaderInterceptor
+        TwirpHttpInterceptor.addBearerToken()
       ]
     }),
-      TuiRootModule,
-      BrowserAnimationsModule,
-      TuiDialogModule,
-      TuiNotificationsModule,
-      TuiErrorModule
-],
+
+    StoreModule.forRoot({}, {metaReducers: [log]}),
+    EffectsModule.forRoot([UserEffects])
+  ],
   providers: [
+    { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
+    { provide: TUI_LANGUAGE, useValue: of(TUI_ENGLISH_LANGUAGE) },
     UserServiceClient,
-    ProjectServiceClient
+    GuestGuard,
+    AuthenticateGuard
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+  }
+}

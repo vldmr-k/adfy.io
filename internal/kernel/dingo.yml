@@ -1,3 +1,5 @@
+#https://github.com/elliotchance/dingo
+
 services:
   Config:
     type: "*adfy.io/pkg/config.Config"

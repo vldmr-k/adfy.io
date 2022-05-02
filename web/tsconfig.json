@@ -23,9 +23,22 @@
       "dom"
     ],
     "paths": {
-      "@grpc/*": ["grpc/*"],
-      "@module/*": ["app/modules/*"]
-    }
+      "@grpc/*": [
+        "grpc/*"
+      ],
+      "@core/*": [
+        "app/@core/*"
+      ],
+      "@pages/*": [
+        "app/pages/*"
+      ],
+      "@auth/*": [
+        "app/auth/*"
+      ],
+      "@store/*": [
+        "store/*"
+      ]
+    },
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

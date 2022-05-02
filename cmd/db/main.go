@@ -9,7 +9,9 @@ import (
 )
 
 func main() {
-	orm := kernel.DefaultContainer.GetOrm()
+	di := kernel.DefaultContainer
+
+	orm := di.GetOrm()
 
 	extension := `
 		CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
