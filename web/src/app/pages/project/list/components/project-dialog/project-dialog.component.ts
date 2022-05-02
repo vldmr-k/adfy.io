@@ -46,15 +46,15 @@ export class ProjectDialogComponent {
   }
 
 
-  get data(): number {
-    return this.context.data;
+  onSubmit() {
+    this.context.completeWith(0);
   }
 
-  onSubit() {
-    this.context.completeWith(this.data);
+  get hasErrors(): boolean {
+    return this.form.valid
   }
 
-  removePhone(index: number) {
+  removeDomain(index: number) {
     this.formDomains.removeAt(index);
 
     let n = 0;
