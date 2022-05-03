@@ -21,14 +21,14 @@ function createControlValidator(handler: TuiBooleanHandler<string>): ValidatorFn
       const invalidDomains = value ? value.filter(handler) : EMPTY_ARRAY;
       return invalidDomains.length > 0
           ? {
-                tags: new TuiValidationError('Some tags are invalid'),
+                tags: new TuiValidationError('Some domains are invalid'),
             }
           : null;
   };
 }
 
 function domainValidator(domain: string) {
-  return !/\d/.test(domain);
+  return !/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(domain);
 }
 
 @Component({
@@ -45,14 +45,14 @@ export class ProjectDialogComponent {
   name: string | null = null;
   domains: Array<string> = EMPTY_ARRAY
 
-  form: FormGroup;
+  projectForm: FormGroup;
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
     private readonly context: TuiDialogContext<number, number>,
     private readonly fb: FormBuilder
   ) {
-    this.form = this.fb.group({
+    this.projectForm = this.fb.group({
       name: new FormControl(EMPTY_STR, { validators: [Validators.required] }),
       domains: new FormControl(EMPTY_ARRAY, createControlValidator(domainValidator))
     })
@@ -60,10 +60,14 @@ export class ProjectDialogComponent {
 
 
   onSubmit() {
+    for (const field in this.projectForm.controls) { // 'field' is a string
+      console.log(field, this.projectForm.controls[field].value);
+    }
+
     this.context.completeWith(0);
   }
 
   get hasErrors(): boolean {
-    return this.form.valid
+    return this.projectForm.valid
   }
 }

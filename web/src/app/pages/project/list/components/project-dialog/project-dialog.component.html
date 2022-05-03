@@ -1,22 +1,29 @@
-<form class="form" [formGroup]="form">
+<form class="form" [formGroup]="projectForm" (submit)="onSubmit()">
   <div class="tui-form__row">
     <label tuiLabel label="Name">
       <tui-input formControlName="name">
-        Name
+        Name&nbsp;<span class="tui-required"></span>
       </tui-input>
+
+      <tui-field-error formControlName="name"></tui-field-error>
     </label>
   </div>
 
   <div class="tui-form__row">
-    <tui-input-tag class="b-form" tuiTextfieldLabelOutside="true" formControlName="domains">
-      Domains
-    </tui-input-tag>
+    <label tuiLabel label="Allow Domains">
+      <tui-input-tag formControlName="domains" [tuiTextfieldSize]="'s'"
+        tuiHintContent="Set only domains whithout http(s):// and www. For example  adfy.io, google.com, twitter.com">
+        Domains&nbsp;<span class="tui-required"></span>
+      </tui-input-tag>
+
+      <tui-field-error formControlName="domains"></tui-field-error>
+
+    </label>
   </div>
 
 
   <div class="tui-form__row">
-    <button class="tui-space_right-3 tui-space_bottom-3" tuiButton type="button" size="m" [disabled]="!hasErrors"
-      (click)="onSubmit()">
+    <button class="tui-space_right-3 tui-space_bottom-3" tuiButton type="button" size="m" [disabled]="!hasErrors">
       Save
     </button>
   </div>
