@@ -12,8 +12,24 @@ import {
 import { EMPTY_STR } from '@core/constant';
 import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
-import { TuiValidationError } from '@taiga-ui/cdk';
+import { TuiBooleanHandler, TuiValidationError, EMPTY_ARRAY } from '@taiga-ui/cdk';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+
+
+function createControlValidator(handler: TuiBooleanHandler<string>): ValidatorFn {
+  return ({value}: AbstractControl) => {
+      const invalidDomains = value ? value.filter(handler) : EMPTY_ARRAY;
+      return invalidDomains.length > 0
+          ? {
+                tags: new TuiValidationError('Some tags are invalid'),
+            }
+          : null;
+  };
+}
+
+function domainValidator(domain: string) {
+  return !/\d/.test(domain);
+}
 
 @Component({
   selector: 'adfy-project-dialog',
@@ -27,7 +43,7 @@ export class ProjectDialogComponent {
   domainErrorContent: PolymorpheusContent = '';
 
   name: string | null = null;
-  domains: Array<string> = []
+  domains: Array<string> = EMPTY_ARRAY
 
   form: FormGroup;
 
@@ -38,10 +54,7 @@ export class ProjectDialogComponent {
   ) {
     this.form = this.fb.group({
       name: new FormControl(EMPTY_STR, { validators: [Validators.required] }),
-      domains: new FormArray(
-        [new FormControl(EMPTY_STR, [Validators.required])],
-        [this.getDomainArrayValidator()],
-      ),
+      domains: new FormControl(EMPTY_ARRAY, createControlValidator(domainValidator))
     })
   }
 
@@ -53,56 +66,4 @@ export class ProjectDialogComponent {
   get hasErrors(): boolean {
     return this.form.valid
   }
-
-  removeDomain(index: number) {
-    this.formDomains.removeAt(index);
-
-    let n = 0;
-
-    while (n <= 1 && this.formDomains.controls[n]) {
-      this.formDomains.controls[n].setValidators([
-        Validators.required,
-        this.getDomainLengthValidator(),
-      ]);
-      n++;
-    }
-  }
-
-  addDomain() {
-    this.formDomains.push(new FormControl('', this.addValidators()));
-  }
-
-  get formDomains() {
-    return <FormArray>this.form.get('domains');
-  }
-
-  addValidators(): ValidationErrors | null {
-    return this.formDomains.controls.length < 2
-      ? [Validators.required, this.getDomainLengthValidator()]
-      : null;
-  }
-
-  private getDomainArrayValidator(): ValidatorFn {
-    return ((array: FormArray): ValidationErrors | null =>
-      array.controls.length < 2 ||
-        (!!array.controls.filter(item => item.errors).length && array.controls.length)
-        ? {
-          length: new TuiValidationError(
-            'You should add at least 2 phone number',
-          ),
-        }
-        : null) as ValidatorFn;
-  }
-
-  private getDomainLengthValidator(): (
-    field: AbstractControl,
-  ) => ValidationErrors | null {
-    return (field: AbstractControl): ValidationErrors | null =>
-      field.value.length <= 3
-        ? {
-          lenght: new TuiValidationError(this.domainErrorContent),
-        }
-        : null;
-  }
-
 }

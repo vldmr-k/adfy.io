@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TuiInputModule, TuiIslandModule } from '@taiga-ui/kit';
+import { TuiInputModule, TuiInputTagModule, TuiIslandModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiDialogModule, TuiErrorModule } from '@taiga-ui/core';
 import { ProjectListComponent } from './project-list.component';
 import { ProjectDialogComponent } from './components/project-dialog/project-dialog.component';
@@ -22,7 +22,8 @@ import { TuiValidatorModule } from '@taiga-ui/cdk';
     TuiDialogModule,
     TuiInputModule,
     TuiValidatorModule,
-    TuiErrorModule
+    TuiErrorModule,
+    TuiInputTagModule
   ],
   exports: [
     ProjectListComponent
