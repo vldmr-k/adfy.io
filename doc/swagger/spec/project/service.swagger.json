@@ -14,14 +14,14 @@
     "application/json"
   ],
   "paths": {
-    "/twirp/adfy.io.rpc.project.ProjectService/AllProject": {
+    "/twirp/adfy.io.rpc.project.ProjectService/All": {
       "post": {
-        "operationId": "AllProject",
+        "operationId": "All",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/projectAllProjectResponse"
+              "$ref": "#/definitions/projectAllResponse"
             }
           }
         },
@@ -40,9 +40,9 @@
         ]
       }
     },
-    "/twirp/adfy.io.rpc.project.ProjectService/CreateProject": {
+    "/twirp/adfy.io.rpc.project.ProjectService/Create": {
       "post": {
-        "operationId": "CreateProject",
+        "operationId": "Create",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -66,9 +66,9 @@
         ]
       }
     },
-    "/twirp/adfy.io.rpc.project.ProjectService/DeleteProject": {
+    "/twirp/adfy.io.rpc.project.ProjectService/Delete": {
       "post": {
-        "operationId": "DeleteProject",
+        "operationId": "Delete",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -92,40 +92,14 @@
         ]
       }
     },
-    "/twirp/adfy.io.rpc.project.ProjectService/EditProject": {
+    "/twirp/adfy.io.rpc.project.ProjectService/Get": {
       "post": {
-        "operationId": "EditProject",
+        "operationId": "Get",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/projectEditResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/projectEditRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ProjectService"
-        ]
-      }
-    },
-    "/twirp/adfy.io.rpc.project.ProjectService/GetProject": {
-      "post": {
-        "operationId": "GetProject",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/projectGetProjectResponse"
+              "$ref": "#/definitions/projectGetResponse"
             }
           }
         },
@@ -143,10 +117,36 @@
           "ProjectService"
         ]
       }
+    },
+    "/twirp/adfy.io.rpc.project.ProjectService/Update": {
+      "post": {
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/projectUpdateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/projectUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ProjectService"
+        ]
+      }
     }
   },
   "definitions": {
-    "projectAllProjectResponse": {
+    "projectAllResponse": {
       "type": "object",
       "properties": {
         "projects": {
@@ -182,35 +182,7 @@
         }
       }
     },
-    "projectEditRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "domain": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "description": {
-          "type": "string"
-        }
-      }
-    },
-    "projectEditResponse": {
-      "type": "object",
-      "properties": {
-        "project": {
-          "$ref": "#/definitions/projectProject"
-        }
-      }
-    },
-    "projectGetProjectResponse": {
+    "projectGetResponse": {
       "type": "object",
       "properties": {
         "project": {
@@ -246,6 +218,34 @@
         },
         "htmlCode": {
           "type": "string"
+        }
+      }
+    },
+    "projectUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "projectUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "$ref": "#/definitions/projectProject"
         }
       }
     }

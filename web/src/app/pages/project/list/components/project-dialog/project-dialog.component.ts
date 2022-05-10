@@ -1,12 +1,9 @@
 import { Component, ChangeDetectionStrategy, Inject, ViewChild } from '@angular/core';
 import {
   AbstractControl,
-  AsyncValidatorFn,
   FormBuilder, FormControl,
   FormGroup,
-  FormArray,
   ValidatorFn,
-  ValidationErrors,
   Validators
 } from '@angular/forms';
 import { EMPTY_STR } from '@core/constant';
@@ -14,6 +11,10 @@ import { TuiDialogContext, TuiDialogService } from '@taiga-ui/core';
 import { POLYMORPHEUS_CONTEXT } from '@tinkoff/ng-polymorpheus';
 import { TuiBooleanHandler, TuiValidationError, EMPTY_ARRAY } from '@taiga-ui/cdk';
 import { PolymorpheusContent } from '@tinkoff/ng-polymorpheus';
+import { ProjectServiceClient } from '@grpc/project/service.client';
+import { select, Store } from '@ngrx/store';
+import { projectActions } from "@store/actions/index"
+import { CreateRequest } from '@grpc/project/service';
 
 
 function createControlValidator(handler: TuiBooleanHandler<string>): ValidatorFn {
@@ -43,31 +44,37 @@ export class ProjectDialogComponent {
   domainErrorContent: PolymorpheusContent = '';
 
   name: string | null = null;
-  domains: Array<string> = EMPTY_ARRAY
+  domain: Array<string> = EMPTY_ARRAY
 
-  projectForm: FormGroup;
+  form: FormGroup;
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT)
-    private readonly context: TuiDialogContext<number, number>,
+    private readonly context: TuiDialogContext<FormGroup>,
+    private readonly projectServiceClient: ProjectServiceClient,
+    @Inject(Store) private store: Store,
     private readonly fb: FormBuilder
   ) {
-    this.projectForm = this.fb.group({
-      name: new FormControl(EMPTY_STR, { validators: [Validators.required] }),
-      domains: new FormControl(EMPTY_ARRAY, createControlValidator(domainValidator))
+    this.form = this.fb.group({
+      name: new FormControl(this.name, { validators: [Validators.required] }),
+      domain: new FormControl(this.domain, createControlValidator(domainValidator))
     })
   }
 
 
   onSubmit() {
-    for (const field in this.projectForm.controls) { // 'field' is a string
-      console.log(field, this.projectForm.controls[field].value);
-    }
+      let value = this.form.value;
 
-    this.context.completeWith(0);
+      let request : CreateRequest = {
+        name: value.name,
+        description: "",
+        domain: value.domain
+      }
+
+      this.store.dispatch(projectActions.createRequest({ request: request }))
   }
 
   get hasErrors(): boolean {
-    return this.projectForm.valid
+    return this.form.valid
   }
 }

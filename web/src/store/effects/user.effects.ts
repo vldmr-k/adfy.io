@@ -5,10 +5,8 @@ import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
 import { mergeMap, map, catchError, switchMap, tap } from 'rxjs/operators';
 import { from, of } from 'rxjs'
 
-import { User } from '@store/models/user.model';
+import { User } from '@store/models/index';
 import { UserServiceClient } from '@grpc/user/service.client';
-import { MeResponse } from '@grpc/user/service';
-import { SignInRequest } from '@grpc/user/service';
 import * as userActions from 'store/actions/user.actions';
 import { UserTokenStorage } from "@core/services/user-token.service";
 import { Empty } from "@grpc/google/protobuf/empty";
@@ -48,8 +46,7 @@ export class UserEffects {
     ofType(userActions.meRequest),
     mergeMap((action) => from(this.userServiceClient.me(Empty)).pipe(
           map((call) => {
-            const user : User = call.response
-            return userActions.meSuccess({ user: user })
+            return userActions.meSuccess({ user: call.response.user! })
           }),
           catchError((error) => of(userActions.meError({ error: error })))
         )

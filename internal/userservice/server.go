@@ -91,9 +91,12 @@ func (s *UserService) SignUp(ctx context.Context, req *pb.SignUpRequest) (out *p
 
 func (s *UserService) Me(ctx context.Context, req *gprotobuf.Empty) (out *pb.MeResponse, err error) {
 	user := s.AuthContext.GetAuthUser(ctx)
+
 	return &pb.MeResponse{
-		Id:    user.ID.String(),
-		Email: user.Email,
-		Name:  user.Name,
+		User: &pb.User{
+			Id:    user.ID.String(),
+			Name:  user.Name,
+			Email: user.Email,
+		},
 	}, nil
 }

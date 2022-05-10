@@ -7,7 +7,6 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { TuiAlertModule, TuiButtonModule, TuiErrorModule, TuiRootModule } from '@taiga-ui/core';
 import { TuiFieldErrorPipeModule, TuiInputModule, TuiIslandModule } from '@taiga-ui/kit';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserServiceClient } from '@grpc/user/service.client';
 import { StoreModule } from '@ngrx/store';
 import { userFeature } from '@store/reducers/user.reducer';
 

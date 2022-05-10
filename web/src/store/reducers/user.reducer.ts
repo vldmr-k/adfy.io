@@ -1,16 +1,16 @@
 import * as userActions from  "@store/actions/user.actions";
-import { User } from "store/models/user.model";
+import { User } from "@store/models/index";
 
 
 import { createReducer, createFeature, on } from '@ngrx/store';
 
-export interface State {
+export interface UserState {
   user: User | null,
   errorResponse: null,
   loading: boolean
 }
 
-export const initialState: State = {
+export const initialState: UserState = {
   user: null,
   errorResponse: null,
   loading: false,

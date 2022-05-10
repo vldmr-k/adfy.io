@@ -1,37 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TuiInputModule, TuiInputTagModule, TuiIslandModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiDialogModule, TuiErrorModule, TuiHintControllerModule, TuiHintModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiButtonModule } from '@taiga-ui/core';
 import { ProjectListComponent } from './project-list.component';
-import { ProjectDialogComponent } from './components/project-dialog/project-dialog.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiValidatorModule } from '@taiga-ui/cdk';
+import { ProjectDialogModule } from './components/project-dialog/project-dialog.module';
+import { Store, StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { ProjectEffects } from '@store/effects';
 
 @NgModule({
   declarations: [
-    ProjectListComponent,
-    ProjectDialogComponent
+    ProjectListComponent
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TuiButtonModule,
+    ProjectDialogModule,
     TuiIslandModule,
-    TuiDialogModule,
-    TuiInputModule,
-    TuiValidatorModule,
-    TuiErrorModule,
-    TuiInputTagModule,
-    TuiHintModule,
-    TuiHintControllerModule,
-    TuiTextfieldControllerModule
+    TuiButtonModule,
+    EffectsModule.forFeature([ProjectEffects])
   ],
   exports: [
-    ProjectListComponent
-  ],
-  entryComponents: [
-    ProjectListComponent
+    ProjectListComponent,
   ]
 })
 export class ProjectListModule { }

@@ -3,6 +3,7 @@ import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ProjectDialogComponent } from '@pages/project/list/components/project-dialog/project-dialog.component';
 import { EMPTY_STR } from '@core/constant';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'adfy-project-list',
@@ -12,7 +13,7 @@ import { EMPTY_STR } from '@core/constant';
 })
 export class ProjectListComponent {
 
-  private readonly dialog = this.dialogService.open<number>(
+  private readonly dialog = this.dialogService.open<FormGroup>(
     new PolymorpheusComponent(ProjectDialogComponent, this.injector)
   );
 
@@ -25,7 +26,7 @@ export class ProjectListComponent {
 
     this.dialog.subscribe({
       next: data => {
-        console.info(`Dialog emitted data = ${data}`);
+        console.info(`Dialog emitted name = ${data}`);
       },
       complete: () => {
         console.info('Dialog closed');

@@ -25,7 +25,7 @@ type ProjectService struct {
 	projectFactory    *ProjectFactory
 }
 
-func (s *ProjectService) CreateProject(ctx context.Context, req *pb.CreateRequest) (resp *pb.CreateResponse, err error) {
+func (s *ProjectService) Create(ctx context.Context, req *pb.CreateRequest) (resp *pb.CreateResponse, err error) {
 
 	if validate := req.ValidateAll(); validate != nil {
 
@@ -51,31 +51,31 @@ func (s *ProjectService) CreateProject(ctx context.Context, req *pb.CreateReques
 	}, nil
 }
 
-func (s *ProjectService) GetProject(ctx context.Context, req *pb.IdRequest) (resp *pb.GetProjectResponse, err error) {
+func (s *ProjectService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetResponse, err error) {
 	project, err := s.projectRepository.Find(ctx, req.Id)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
 
-	return &pb.GetProjectResponse{
+	return &pb.GetResponse{
 		Project: project.GrpcResponse(),
 	}, nil
 }
 
-func (s *ProjectService) EditProject(ctx context.Context, req *pb.EditRequest) (resp *pb.EditResponse, err error) {
+func (s *ProjectService) Update(ctx context.Context, req *pb.UpdateRequest) (resp *pb.UpdateResponse, err error) {
 	project, err := s.projectRepository.Find(ctx, req.Id)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
 
-	return &pb.EditResponse{
+	return &pb.UpdateResponse{
 		Project: project.GrpcResponse(),
 	}, nil
 }
 
-func (s *ProjectService) AllProject(ctx context.Context, req *gprotobuf.Empty) (resp *pb.AllProjectResponse, err error) {
+func (s *ProjectService) All(ctx context.Context, req *gprotobuf.Empty) (resp *pb.AllResponse, err error) {
 	items, err := s.projectRepository.All(ctx)
 
 	if err != nil {
@@ -88,12 +88,12 @@ func (s *ProjectService) AllProject(ctx context.Context, req *gprotobuf.Empty) (
 		projects = append(projects, item.GrpcResponse())
 	}
 
-	return &pb.AllProjectResponse{
+	return &pb.AllResponse{
 		Projects: projects,
 	}, nil
 }
 
-func (s *ProjectService) DeleteProject(ctx context.Context, req *pb.IdRequest) (resp *gprotobuf.Empty, err error) {
+func (s *ProjectService) Delete(ctx context.Context, req *pb.IdRequest) (resp *gprotobuf.Empty, err error) {
 	usr := s.authContext.GetAuthUser(ctx)
 	project, err := s.projectRepository.Find(ctx, req.Id)
 

@@ -5,11 +5,11 @@ import { Injectable } from "@angular/core";
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { ProjectService } from "./service";
-import type { EditResponse } from "./service";
-import type { EditRequest } from "./service";
-import type { AllProjectResponse } from "./service";
+import type { UpdateResponse } from "./service";
+import type { UpdateRequest } from "./service";
+import type { AllResponse } from "./service";
 import type { Empty } from "../google/protobuf/empty";
-import type { GetProjectResponse } from "./service";
+import type { GetResponse } from "./service";
 import type { IdRequest } from "./service";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { CreateResponse } from "./service";
@@ -21,25 +21,25 @@ import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
  */
 export interface IProjectServiceClient {
     /**
-     * @generated from protobuf rpc: CreateProject(adfy.io.rpc.project.CreateRequest) returns (adfy.io.rpc.project.CreateResponse);
+     * @generated from protobuf rpc: Create(adfy.io.rpc.project.CreateRequest) returns (adfy.io.rpc.project.CreateResponse);
      */
-    createProject(input: CreateRequest, options?: RpcOptions): UnaryCall<CreateRequest, CreateResponse>;
+    create(input: CreateRequest, options?: RpcOptions): UnaryCall<CreateRequest, CreateResponse>;
     /**
-     * @generated from protobuf rpc: GetProject(adfy.io.rpc.project.IdRequest) returns (adfy.io.rpc.project.GetProjectResponse);
+     * @generated from protobuf rpc: Get(adfy.io.rpc.project.IdRequest) returns (adfy.io.rpc.project.GetResponse);
      */
-    getProject(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetProjectResponse>;
+    get(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse>;
     /**
-     * @generated from protobuf rpc: AllProject(google.protobuf.Empty) returns (adfy.io.rpc.project.AllProjectResponse);
+     * @generated from protobuf rpc: All(google.protobuf.Empty) returns (adfy.io.rpc.project.AllResponse);
      */
-    allProject(input: Empty, options?: RpcOptions): UnaryCall<Empty, AllProjectResponse>;
+    all(input: Empty, options?: RpcOptions): UnaryCall<Empty, AllResponse>;
     /**
-     * @generated from protobuf rpc: EditProject(adfy.io.rpc.project.EditRequest) returns (adfy.io.rpc.project.EditResponse);
+     * @generated from protobuf rpc: Update(adfy.io.rpc.project.UpdateRequest) returns (adfy.io.rpc.project.UpdateResponse);
      */
-    editProject(input: EditRequest, options?: RpcOptions): UnaryCall<EditRequest, EditResponse>;
+    update(input: UpdateRequest, options?: RpcOptions): UnaryCall<UpdateRequest, UpdateResponse>;
     /**
-     * @generated from protobuf rpc: DeleteProject(adfy.io.rpc.project.IdRequest) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: Delete(adfy.io.rpc.project.IdRequest) returns (google.protobuf.Empty);
      */
-    deleteProject(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, Empty>;
+    delete(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, Empty>;
 }
 /**
  * @generated from protobuf service adfy.io.rpc.project.ProjectService
@@ -54,37 +54,37 @@ export class ProjectServiceClient implements IProjectServiceClient, ServiceInfo 
     private readonly _transport: RpcTransport) {
     }
     /**
-     * @generated from protobuf rpc: CreateProject(adfy.io.rpc.project.CreateRequest) returns (adfy.io.rpc.project.CreateResponse);
+     * @generated from protobuf rpc: Create(adfy.io.rpc.project.CreateRequest) returns (adfy.io.rpc.project.CreateResponse);
      */
-    createProject(input: CreateRequest, options?: RpcOptions): UnaryCall<CreateRequest, CreateResponse> {
+    create(input: CreateRequest, options?: RpcOptions): UnaryCall<CreateRequest, CreateResponse> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
         return stackIntercept<CreateRequest, CreateResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: GetProject(adfy.io.rpc.project.IdRequest) returns (adfy.io.rpc.project.GetProjectResponse);
+     * @generated from protobuf rpc: Get(adfy.io.rpc.project.IdRequest) returns (adfy.io.rpc.project.GetResponse);
      */
-    getProject(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetProjectResponse> {
+    get(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
-        return stackIntercept<IdRequest, GetProjectResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<IdRequest, GetResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: AllProject(google.protobuf.Empty) returns (adfy.io.rpc.project.AllProjectResponse);
+     * @generated from protobuf rpc: All(google.protobuf.Empty) returns (adfy.io.rpc.project.AllResponse);
      */
-    allProject(input: Empty, options?: RpcOptions): UnaryCall<Empty, AllProjectResponse> {
+    all(input: Empty, options?: RpcOptions): UnaryCall<Empty, AllResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
-        return stackIntercept<Empty, AllProjectResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<Empty, AllResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: EditProject(adfy.io.rpc.project.EditRequest) returns (adfy.io.rpc.project.EditResponse);
+     * @generated from protobuf rpc: Update(adfy.io.rpc.project.UpdateRequest) returns (adfy.io.rpc.project.UpdateResponse);
      */
-    editProject(input: EditRequest, options?: RpcOptions): UnaryCall<EditRequest, EditResponse> {
+    update(input: UpdateRequest, options?: RpcOptions): UnaryCall<UpdateRequest, UpdateResponse> {
         const method = this.methods[3], opt = this._transport.mergeOptions(options);
-        return stackIntercept<EditRequest, EditResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<UpdateRequest, UpdateResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: DeleteProject(adfy.io.rpc.project.IdRequest) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: Delete(adfy.io.rpc.project.IdRequest) returns (google.protobuf.Empty);
      */
-    deleteProject(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, Empty> {
+    delete(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, Empty> {
         const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<IdRequest, Empty>("unary", this._transport, method, opt, input);
     }

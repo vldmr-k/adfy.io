@@ -29,9 +29,9 @@ export interface CreateResponse {
     project?: Project;
 }
 /**
- * @generated from protobuf message adfy.io.rpc.project.EditRequest
+ * @generated from protobuf message adfy.io.rpc.project.UpdateRequest
  */
-export interface EditRequest {
+export interface UpdateRequest {
     /**
      * @generated from protobuf field: string id = 1;
      */
@@ -50,18 +50,18 @@ export interface EditRequest {
     description: string;
 }
 /**
- * @generated from protobuf message adfy.io.rpc.project.EditResponse
+ * @generated from protobuf message adfy.io.rpc.project.UpdateResponse
  */
-export interface EditResponse {
+export interface UpdateResponse {
     /**
      * @generated from protobuf field: adfy.io.rpc.project.Project project = 1;
      */
     project?: Project;
 }
 /**
- * @generated from protobuf message adfy.io.rpc.project.GetProjectResponse
+ * @generated from protobuf message adfy.io.rpc.project.GetResponse
  */
-export interface GetProjectResponse {
+export interface GetResponse {
     /**
      * @generated from protobuf field: adfy.io.rpc.project.Project project = 1;
      */
@@ -77,9 +77,9 @@ export interface IdRequest {
     id: string;
 }
 /**
- * @generated from protobuf message adfy.io.rpc.project.AllProjectResponse
+ * @generated from protobuf message adfy.io.rpc.project.AllResponse
  */
-export interface AllProjectResponse {
+export interface AllResponse {
     /**
      * @generated from protobuf field: repeated adfy.io.rpc.project.Project projects = 1;
      */
@@ -137,9 +137,9 @@ class CreateResponse$Type extends MessageType<CreateResponse> {
  */
 export const CreateResponse = new CreateResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class EditRequest$Type extends MessageType<EditRequest> {
+class UpdateRequest$Type extends MessageType<UpdateRequest> {
     constructor() {
-        super("adfy.io.rpc.project.EditRequest", [
+        super("adfy.io.rpc.project.UpdateRequest", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "50" } } } },
             { no: 3, name: "domain", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { repeated: { unique: true } } } },
@@ -148,33 +148,33 @@ class EditRequest$Type extends MessageType<EditRequest> {
     }
 }
 /**
- * @generated MessageType for protobuf message adfy.io.rpc.project.EditRequest
+ * @generated MessageType for protobuf message adfy.io.rpc.project.UpdateRequest
  */
-export const EditRequest = new EditRequest$Type();
+export const UpdateRequest = new UpdateRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class EditResponse$Type extends MessageType<EditResponse> {
+class UpdateResponse$Type extends MessageType<UpdateResponse> {
     constructor() {
-        super("adfy.io.rpc.project.EditResponse", [
+        super("adfy.io.rpc.project.UpdateResponse", [
             { no: 1, name: "project", kind: "message", T: () => Project }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message adfy.io.rpc.project.EditResponse
+ * @generated MessageType for protobuf message adfy.io.rpc.project.UpdateResponse
  */
-export const EditResponse = new EditResponse$Type();
+export const UpdateResponse = new UpdateResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetProjectResponse$Type extends MessageType<GetProjectResponse> {
+class GetResponse$Type extends MessageType<GetResponse> {
     constructor() {
-        super("adfy.io.rpc.project.GetProjectResponse", [
+        super("adfy.io.rpc.project.GetResponse", [
             { no: 1, name: "project", kind: "message", T: () => Project }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message adfy.io.rpc.project.GetProjectResponse
+ * @generated MessageType for protobuf message adfy.io.rpc.project.GetResponse
  */
-export const GetProjectResponse = new GetProjectResponse$Type();
+export const GetResponse = new GetResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class IdRequest$Type extends MessageType<IdRequest> {
     constructor() {
@@ -188,17 +188,17 @@ class IdRequest$Type extends MessageType<IdRequest> {
  */
 export const IdRequest = new IdRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AllProjectResponse$Type extends MessageType<AllProjectResponse> {
+class AllResponse$Type extends MessageType<AllResponse> {
     constructor() {
-        super("adfy.io.rpc.project.AllProjectResponse", [
+        super("adfy.io.rpc.project.AllResponse", [
             { no: 1, name: "projects", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Project }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message adfy.io.rpc.project.AllProjectResponse
+ * @generated MessageType for protobuf message adfy.io.rpc.project.AllResponse
  */
-export const AllProjectResponse = new AllProjectResponse$Type();
+export const AllResponse = new AllResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Project$Type extends MessageType<Project> {
     constructor() {
@@ -219,9 +219,9 @@ export const Project = new Project$Type();
  * @generated ServiceType for protobuf service adfy.io.rpc.project.ProjectService
  */
 export const ProjectService = new ServiceType("adfy.io.rpc.project.ProjectService", [
-    { name: "CreateProject", options: {}, I: CreateRequest, O: CreateResponse },
-    { name: "GetProject", options: {}, I: IdRequest, O: GetProjectResponse },
-    { name: "AllProject", options: {}, I: Empty, O: AllProjectResponse },
-    { name: "EditProject", options: {}, I: EditRequest, O: EditResponse },
-    { name: "DeleteProject", options: {}, I: IdRequest, O: Empty }
+    { name: "Create", options: {}, I: CreateRequest, O: CreateResponse },
+    { name: "Get", options: {}, I: IdRequest, O: GetResponse },
+    { name: "All", options: {}, I: Empty, O: AllResponse },
+    { name: "Update", options: {}, I: UpdateRequest, O: UpdateResponse },
+    { name: "Delete", options: {}, I: IdRequest, O: Empty }
 ]);
