@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"adfy.io/internal/kernel"
 	"adfy.io/internal/projectservice"
@@ -9,8 +10,9 @@ import (
 )
 
 func main() {
-	di := kernel.DefaultContainer
 
+	di := kernel.DefaultContainer
+	fmt.Print(os.Getenv("CONFIG_PATH"))
 	orm := di.GetOrm()
 
 	extension := `

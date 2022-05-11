@@ -4,6 +4,11 @@
   </div>
   <div class="container adfy-content">
     <div class="tui-row">
+
+      <div *ngFor="let project of list$ | async; index as i">
+        {{ project.id }}
+      </div>
+
       <div class="tui-col_md-4">
         <tui-island [size]="'l'" [hoverable]="true">
           <div class="adfy-project-item adfy-project-item__add"  (click)="showProjectDialog()">

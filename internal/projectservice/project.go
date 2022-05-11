@@ -3,13 +3,12 @@ package projectservice
 import (
 	"adfy.io/pkg/db"
 	pb "adfy.io/rpc/project"
-	"github.com/google/uuid"
 	"github.com/lib/pq"
 )
 
 type Project struct {
 	db.BaseModel
-	OwnerID     uuid.UUID
+	OwnerID     string         `gorm:"type:uuid;not null;"`
 	Name        string         `gorm:"type:varchar(128);not null;"`
 	Domain      pq.StringArray `gorm:"type:text[]"`
 	Description string         `gorm:"type:varchar(255);"`

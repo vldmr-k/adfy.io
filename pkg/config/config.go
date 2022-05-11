@@ -7,6 +7,7 @@ import (
 )
 
 func NewConfig(path string) *Config {
+
 	viper.AddConfigPath(path)
 	viper.SetConfigType("yaml")
 	err := viper.ReadInConfig()

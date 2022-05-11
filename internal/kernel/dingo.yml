@@ -3,7 +3,7 @@
 services:
   Config:
     type: "*adfy.io/pkg/config.Config"
-    returns: config.NewConfig("./../..")
+    returns: config.NewConfig(${CONFIG_PATH})
   Db:
     type: "*adfy.io/pkg/db.Db"
     returns: "db.NewDb(@{Config})"

@@ -25,6 +25,7 @@ func (u *User) Sanitize() {
 
 func (u *User) GetAuthUser() *jwt.AuthUser {
 	return &jwt.AuthUser{
+		ID:    u.ID.String(),
 		Email: u.Email,
 		Name:  u.Name,
 	}

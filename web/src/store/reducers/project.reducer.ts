@@ -1,6 +1,7 @@
 import * as projectActions from  "@store/actions/project.actions";
 import { Project } from "@store/models/index";
 
+export const STORE_PROJECT_KEY = 'project';
 
 import { createReducer, createFeature, on } from '@ngrx/store';
 
@@ -21,7 +22,7 @@ export const initialState: ProjectState = {
 
 
 export const projectFeature = createFeature({
-  name: 'project',
+  name: STORE_PROJECT_KEY,
   reducer: createReducer(
     initialState,
 

@@ -4,6 +4,9 @@ import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 import { ProjectDialogComponent } from '@pages/project/list/components/project-dialog/project-dialog.component';
 import { EMPTY_STR } from '@core/constant';
 import { FormGroup } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { project } from '@store/reducers/index';
+import { projectActions } from '@store/actions/index';
 
 @Component({
   selector: 'adfy-project-list',
@@ -13,6 +16,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class ProjectListComponent {
 
+  list$ = this.store.select(project.selectList)
+
   private readonly dialog = this.dialogService.open<FormGroup>(
     new PolymorpheusComponent(ProjectDialogComponent, this.injector)
   );
@@ -20,7 +25,10 @@ export class ProjectListComponent {
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
     @Inject(Injector) private readonly injector: Injector,
-  ) { }
+    @Inject(Store) private readonly store: Store
+  ) {
+    this.store.dispatch(projectActions.allRequest())
+   }
 
   showProjectDialog() {
 

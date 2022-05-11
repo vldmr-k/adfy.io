@@ -2,7 +2,6 @@ package projectservice
 
 import (
 	"context"
-	"errors"
 
 	pkgctx "adfy.io/pkg/ctx"
 	"adfy.io/pkg/db"
@@ -52,10 +51,6 @@ func (r *ProjectRepository) Save(ctx context.Context, project *Project) error {
 
 // Create Project
 func (r *ProjectRepository) Create(ctx context.Context, project *Project) error {
-	if project.OwnerID == r.authUser(ctx).ID {
-		return errors.New("Project OwnerID not equel context auth user")
-	}
-
 	result := r.Orm.Create(&project)
 	return result.Error
 }
@@ -68,6 +63,6 @@ func (u *ProjectRepository) Delete(owner *jwt.AuthUser, project Project) error {
 
 func ownerScope(usr *jwt.AuthUser) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Scopes().Where("OwnerID = ?", usr.ID.String())
+		return db.Scopes().Where("OwnerID = ?", usr.ID)
 	}
 }

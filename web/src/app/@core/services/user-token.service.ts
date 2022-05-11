@@ -19,7 +19,7 @@ export class UserTokenStorage {
   }
 
   setToken(token : string) : void {
-    this.storage.set(JWT_KEY, token)
+    this.storage.set(JWT_KEY, token);
   }
 
   hasToken(): boolean {

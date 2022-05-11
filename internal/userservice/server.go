@@ -94,7 +94,7 @@ func (s *UserService) Me(ctx context.Context, req *gprotobuf.Empty) (out *pb.MeR
 
 	return &pb.MeResponse{
 		User: &pb.User{
-			Id:    user.ID.String(),
+			Id:    user.ID,
 			Name:  user.Name,
 			Email: user.Email,
 		},

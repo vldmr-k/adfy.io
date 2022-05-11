@@ -38,17 +38,14 @@ func (s *ProjectService) Create(ctx context.Context, req *pb.CreateRequest) (res
 		return nil, pkgerr.InvalidRequestError(mapError)
 	}
 
-	var project = &Project{
-		Name:        req.Name,
-		Domain:      req.Domain,
-		Description: req.Description,
-	}
+	usr := s.authContext.GetAuthUser(ctx)
+	var project = s.projectFactory.CreateByRequest(usr, req)
 
-	s.projectRepository.Create(ctx, project)
+	err = s.projectRepository.Create(ctx, project)
 
 	return &pb.CreateResponse{
 		Project: project.GrpcResponse(),
-	}, nil
+	}, err
 }
 
 func (s *ProjectService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetResponse, err error) {

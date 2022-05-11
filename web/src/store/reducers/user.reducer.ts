@@ -1,6 +1,8 @@
 import * as userActions from  "@store/actions/user.actions";
 import { User } from "@store/models/index";
 
+export const STORE_USER_KEY = 'user';
+
 
 import { createReducer, createFeature, on } from '@ngrx/store';
 
@@ -19,7 +21,7 @@ export const initialState: UserState = {
 
 
 export const userFeature = createFeature({
-  name: 'user',
+  name: STORE_USER_KEY,
   reducer: createReducer(
     initialState,
 

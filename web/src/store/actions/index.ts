@@ -1,2 +1,2 @@
 export * as projectActions from './project.actions';
-export * from './user.actions'
+export * as userActions from './user.actions'

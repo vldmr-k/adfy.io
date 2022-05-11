@@ -12,6 +12,7 @@ import (
 	secure "adfy.io/pkg/secure"
 	project "adfy.io/rpc/project"
 	user "adfy.io/rpc/user"
+	"os"
 )
 
 type Container struct {
@@ -45,7 +46,7 @@ func (container *Container) GetAuthContext() *ctx.AuthContext {
 }
 func (container *Container) GetConfig() *config.Config {
 	if container.Config == nil {
-		service := config.NewConfig("./../..")
+		service := config.NewConfig(os.Getenv("CONFIG_PATH"))
 		container.Config = service
 	}
 	return container.Config
