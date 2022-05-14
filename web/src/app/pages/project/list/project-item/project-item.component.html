@@ -1,8 +1,17 @@
-<tui-island [size]="'l'" [hoverable]="true" [textAlign]="'left'" class="adfy-project-item tui-space_bottom-3"
-  (click)="onUpdateProject(project)">
+<tui-island [size]="'l'" [hoverable]="true" [textAlign]="'left'" class="adfy-project-item tui-space_bottom-9">
   <div class="tui-island__content">
-    <figure class="tui-island__figure adfy-project-item__delete-btn" >
-        ...
+    <figure class="tui-island__figure">
+     
+
+      <button
+    tuiLink
+    [tuiDropdownContent]="dropdownContent"
+    [tuiDropdown]="projectMenuOpen"
+    (click)="projectMenuOpen = true"
+>
+    <tui-svg src="tuiIconMoreVer" class="icon"></tui-svg>
+</button>
+
     </figure>
     <div>
       <div class="tui-island__title">
@@ -13,3 +22,20 @@
     </div>
   </div>
 </tui-island>
+
+<ng-template #icon>
+  <tui-svg src="tuiIconMoreVer"></tui-svg>
+</ng-template>
+
+<ng-template let-activeZone #dropdownContent (tuiActiveZoneChange)="onObscured(false)">
+
+  <tui-data-list tuiDataListDropdownManager [tuiActiveZoneParent]="activeZone">
+    <div tuiOption (click)="onUpdateProject(project)">
+      Edit
+    </div>
+    <div tuiOption (click)="onDeleteProject(project)">
+      Delete
+    </div>
+  </tui-data-list>
+
+</ng-template>

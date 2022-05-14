@@ -23,7 +23,7 @@ import {TUI_LANGUAGE, TUI_ENGLISH_LANGUAGE} from '@taiga-ui/i18n';
 import { of } from "rxjs";
 import { ProjectServiceClient } from "@grpc/project/service.client";
 import { ProjectEffects, UserEffects } from "@store/effects";
-
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -49,8 +49,9 @@ import { ProjectEffects, UserEffects } from "@store/effects";
       ]
     }),
 
-    StoreModule.forRoot({}, {metaReducers: [log]}),
-    EffectsModule.forRoot([UserEffects, ProjectEffects])
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([UserEffects, ProjectEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true })
   ],
   providers: [
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
