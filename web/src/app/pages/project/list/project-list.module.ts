@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TuiInputModule, TuiInputTagModule, TuiIslandModule } from '@taiga-ui/kit';
-import { TuiButtonModule } from '@taiga-ui/core';
+import { TuiInputModule, TuiInputTagModule, TuiIslandModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { ProjectListComponent } from './project-list.component';
-import { ProjectDialogModule } from './components/project-dialog/project-dialog.module';
+import { ProjectDialogModule } from './project-dialog/project-dialog.module';
 import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ProjectEffects } from '@store/effects';
+import { ProjectItemModule } from './project-item/project-item.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,9 @@ import { ProjectEffects } from '@store/effects';
     ProjectDialogModule,
     TuiIslandModule,
     TuiButtonModule,
+    TuiLoaderModule,
+    TuiTagModule,
+    ProjectItemModule,
     EffectsModule.forFeature([ProjectEffects])
   ],
   exports: [

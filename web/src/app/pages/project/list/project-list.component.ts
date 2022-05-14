@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { ProjectDialogComponent } from '@pages/project/list/components/project-dialog/project-dialog.component';
-import { EMPTY_STR } from '@core/constant';
-import { FormGroup } from '@angular/forms';
+import { ProjectDialogComponent } from '@pages/project/list/project-dialog/project-dialog.component';
 import { Store } from '@ngrx/store';
 import { project } from '@store/reducers/index';
 import { projectActions } from '@store/actions/index';
+import { Project } from '@store/models/index'
+import { IdRequest } from '@grpc/project/service';
 
 @Component({
   selector: 'adfy-project-list',
@@ -18,9 +18,7 @@ export class ProjectListComponent {
 
   list$ = this.store.select(project.selectList)
 
-  private readonly dialog = this.dialogService.open<FormGroup>(
-    new PolymorpheusComponent(ProjectDialogComponent, this.injector)
-  );
+
 
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
@@ -28,18 +26,48 @@ export class ProjectListComponent {
     @Inject(Store) private readonly store: Store
   ) {
     this.store.dispatch(projectActions.allRequest())
-   }
+  }
 
-  showProjectDialog() {
+  addProjectDialog() {
+    this.dialogService
+      .open<unknown>(
+        new PolymorpheusComponent(ProjectDialogComponent, this.injector)
+      ).subscribe({
+        next: data => {
+          console.info(`Dialog emitted name = ${data}`);
+        },
+        complete: () => {
+          this.store.dispatch(projectActions.allRequest());
+        },
+      });
 
-    this.dialog.subscribe({
+  }
+
+  deleteProject($event: Event, project: Project) {
+    $event.preventDefault();
+    let idRequest: IdRequest = {id: project.id}
+    this.store.dispatch(projectActions.deleteRequest({request: idRequest}))
+    this.store.dispatch(projectActions.allRequest())
+  }
+
+  updateProjectDialog(project: Project) {
+
+    this.dialogService
+      .open<unknown>(
+        new PolymorpheusComponent(ProjectDialogComponent, this.injector),
+        {
+          data: project
+        }
+      )
+    .subscribe({
       next: data => {
         console.info(`Dialog emitted name = ${data}`);
       },
       complete: () => {
-        console.info('Dialog closed');
+        this.store.dispatch(projectActions.allRequest());
       },
     });
+
   }
 
 }

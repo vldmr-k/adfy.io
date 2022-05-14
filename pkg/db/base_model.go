@@ -12,7 +12,7 @@ type BaseModel struct {
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 
-	ID uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4()"`
+	ID uuid.UUID `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
 }
 
 type Sanitize interface {

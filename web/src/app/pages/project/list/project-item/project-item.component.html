@@ -1,0 +1,15 @@
+<tui-island [size]="'l'" [hoverable]="true" [textAlign]="'left'" class="adfy-project-item tui-space_bottom-3"
+  (click)="onUpdateProject(project)">
+  <div class="tui-island__content">
+    <figure class="tui-island__figure adfy-project-item__delete-btn" >
+        ...
+    </figure>
+    <div>
+      <div class="tui-island__title">
+        {{ project.name }}
+      </div>
+      <div class="tui-island__category">Domains</div>
+      <tui-tag *ngFor="let domain of project.domain" [size]="'s'" [value]="domain"></tui-tag>
+    </div>
+  </div>
+</tui-island>

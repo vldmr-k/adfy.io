@@ -25,16 +25,26 @@ type ProjectService struct {
 	projectFactory    *ProjectFactory
 }
 
+func (s *ProjectService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetResponse, err error) {
+	project, err := s.projectRepository.Find(ctx, req.Id)
+
+	if err != nil {
+		return nil, twirp.InternalError(err.Error())
+	}
+
+	return &pb.GetResponse{
+		Project: project.GrpcResponse(),
+	}, nil
+}
+
 func (s *ProjectService) Create(ctx context.Context, req *pb.CreateRequest) (resp *pb.CreateResponse, err error) {
 
 	if validate := req.ValidateAll(); validate != nil {
-
 		var mapError = map[string]string{}
 		for _, e := range validate.(pb.CreateRequestMultiError) {
 			d := e.(pb.CreateRequestValidationError)
 			mapError[d.Field()] = d.Reason()
 		}
-
 		return nil, pkgerr.InvalidRequestError(mapError)
 	}
 
@@ -48,24 +58,27 @@ func (s *ProjectService) Create(ctx context.Context, req *pb.CreateRequest) (res
 	}, err
 }
 
-func (s *ProjectService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetResponse, err error) {
-	project, err := s.projectRepository.Find(ctx, req.Id)
-
-	if err != nil {
-		return nil, twirp.InternalError(err.Error())
-	}
-
-	return &pb.GetResponse{
-		Project: project.GrpcResponse(),
-	}, nil
-}
-
 func (s *ProjectService) Update(ctx context.Context, req *pb.UpdateRequest) (resp *pb.UpdateResponse, err error) {
 	project, err := s.projectRepository.Find(ctx, req.Id)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
+
+	if validate := req.ValidateAll(); validate != nil {
+		var mapError = map[string]string{}
+		for _, e := range validate.(pb.UpdateRequestMultiError) {
+			d := e.(pb.UpdateRequestValidationError)
+			mapError[d.Field()] = d.Reason()
+		}
+		return nil, pkgerr.InvalidRequestError(mapError)
+	}
+
+	project.Name = req.Name
+	project.Domain = req.Domain
+	project.Description = req.Description
+
+	s.projectRepository.Save(ctx, project)
 
 	return &pb.UpdateResponse{
 		Project: project.GrpcResponse(),
