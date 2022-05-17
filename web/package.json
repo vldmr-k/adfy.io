@@ -42,6 +42,7 @@
     "@tinkoff/ng-polymorpheus": "^3.1.12",
     "dompurify": "2.2.9",
     "moment": "^2.29.3",
+    "ngx-schema-form": "^2.7.0",
     "ngx-webstorage-service": "^5.0.0",
     "rxjs": "^6.6.7",
     "tslib": "^2.3.0",

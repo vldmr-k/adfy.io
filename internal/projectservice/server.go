@@ -104,14 +104,13 @@ func (s *ProjectService) All(ctx context.Context, req *gprotobuf.Empty) (resp *p
 }
 
 func (s *ProjectService) Delete(ctx context.Context, req *pb.IdRequest) (resp *gprotobuf.Empty, err error) {
-	usr := s.authContext.GetAuthUser(ctx)
 	project, err := s.projectRepository.Find(ctx, req.Id)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
 
-	err = s.projectRepository.Delete(usr, project)
+	err = s.projectRepository.Delete(ctx, project)
 
 	return &gprotobuf.Empty{}, err
 }

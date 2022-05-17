@@ -7,25 +7,12 @@
 
       <ng-container *ngFor="let project of projects; index as i">
         <div class="tui-col_md-4">
-          <adfy-project-list-item [project]="project" (updateProjectAction)="updateProjectDialog(project)"></adfy-project-list-item>
-
-          <!--
-          <tui-island [size]="'l'" [hoverable]="true" [textAlign]="'left'" class="adfy-project-item tui-space_bottom-3"
-            (click)="updateProjectDialog(project)">
-            <div class="tui-island__content">
-              <figure class="tui-island__figure adfy-project-item__delete-btn" (click)="deleteProject($event, project)">
-
-              </figure>
-              <div>
-                <div class="tui-island__title">
-                  {{ project.name }}
-                </div>
-                <div class="tui-island__category">Domains</div>
-                <tui-tag *ngFor="let domain of project.domain" [size]="'s'" [value]="domain"></tui-tag>
-              </div>
-            </div>
-          </tui-island>
-          -->
+          <adfy-project-list-item [project]="project"
+           (deleteAction)="onDeleteProjectAction(project)"
+           (updateAction)="onUpdateProjectDialog(project)"
+           (clickCardAction)="onClickCardAction(project)"
+           >
+          </adfy-project-list-item>
         </div>
       </ng-container>
 

@@ -9,6 +9,7 @@ import { ProjectServiceClient } from '@grpc/project/service.client';
 import * as projectActions from 'store/actions/project.actions';
 import { Router } from "@angular/router";
 import { Empty } from "@grpc/google/protobuf/empty";
+import { Store } from "@ngrx/store";
 
 
 @Injectable({ providedIn: 'root' })
@@ -16,6 +17,7 @@ export class ProjectEffects {
 
   constructor(
     private actions$: Actions,
+    @Inject(Store) private store: Store,
     @Inject(ProjectServiceClient) private projectServiceClient: ProjectServiceClient
   ) { }
 
@@ -24,20 +26,22 @@ export class ProjectEffects {
     mergeMap(
       (action) => from(this.projectServiceClient.create(action.request)).pipe(
         map((call) => projectActions.createSuccess({ response: call.response })),
+        tap((call) => { this.store.dispatch(projectActions.allRequest())}),
         catchError((error) => of(projectActions.createError({ error: error })))
       )
     )
-  ))
+  ));
 
   update$ = createEffect(() => this.actions$.pipe(
     ofType(projectActions.updateRequest),
     mergeMap(
       (action) => from(this.projectServiceClient.update(action.request)).pipe(
         map((call) => projectActions.updateSuccess({ response: call.response })),
+        tap((call) => { this.store.dispatch(projectActions.allRequest())}),
         catchError((error) => of(projectActions.updateError({ error: error })))
       )
     )
-  ));
+  ))
 
 
   all$ = createEffect(() => this.actions$.pipe(
@@ -56,9 +60,9 @@ export class ProjectEffects {
     mergeMap(
       (action) => from(this.projectServiceClient.delete(action.request)).pipe(
         map((call) => projectActions.deleteSuccess()),
+        tap((call) => { this.store.dispatch(projectActions.allRequest())}),
         catchError((error) => of(projectActions.deleteError({ error: error })))
       )
     )
-  ));
-
+  ))
 }

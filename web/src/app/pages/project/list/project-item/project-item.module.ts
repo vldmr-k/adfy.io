@@ -5,6 +5,7 @@ import { TuiIslandModule, TuiTagModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiDataListModule, TuiDropdownModule, TuiHostedDropdownModule, TuiLinkModule, TuiSvgModule } from '@taiga-ui/core';
 import { ProjectItemDummyComponent } from './project-dummy.component';
 import { TuiActiveZoneModule, TuiDropdownHostModule } from '@taiga-ui/cdk';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -19,13 +20,11 @@ import { TuiActiveZoneModule, TuiDropdownHostModule } from '@taiga-ui/cdk';
     TuiButtonModule,
     TuiTagModule,
     TuiLinkModule,
-    TuiDataListModule,
     TuiDropdownModule,
     TuiButtonModule,
     TuiSvgModule,
     TuiDataListModule,
-    TuiActiveZoneModule,
-    TuiHostedDropdownModule
+    TuiActiveZoneModule
   ],
   exports: [
     ProjectItemComponent,

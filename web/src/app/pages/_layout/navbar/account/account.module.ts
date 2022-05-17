@@ -11,7 +11,6 @@ import { AccountComponent } from './account.component';
     CommonModule,
     TuiLinkModule,
     RouterModule,
-    TuiDataListModule,
     TuiDropdownModule,
     TuiButtonModule,
     TuiSvgModule,

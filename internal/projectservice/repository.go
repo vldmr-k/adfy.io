@@ -56,8 +56,9 @@ func (r *ProjectRepository) Create(ctx context.Context, project *Project) error 
 }
 
 //Delete Project
-func (u *ProjectRepository) Delete(owner *jwt.AuthUser, project *Project) error {
-	result := u.Orm.Delete(project)
+func (r *ProjectRepository) Delete(ctx context.Context, project *Project) error {
+	usr := r.authUser(ctx)
+	result := r.Orm.Scopes(ownerScope(usr)).Delete(project, "id = ?", project.ID)
 	return result.Error
 }
 

@@ -9,7 +9,7 @@
 </ng-template>
 <ng-template #content>
 
-  <tui-data-list role="menu" emptyContent="No a">
+  <tui-data-list role="menu">
     <tui-opt-group>
       <a *ngFor="let item of menuItems" tuiOption [routerLink]="item.routerLink">
         {{item.label}}

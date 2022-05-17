@@ -7,6 +7,7 @@ import { project } from '@store/reducers/index';
 import { projectActions } from '@store/actions/index';
 import { Project } from '@store/models/index'
 import { IdRequest } from '@grpc/project/service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'adfy-project-list',
@@ -18,10 +19,9 @@ export class ProjectListComponent {
 
   list$ = this.store.select(project.selectList)
 
-
-
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    @Inject(Router) private readonly router: Router,
     @Inject(Injector) private readonly injector: Injector,
     @Inject(Store) private readonly store: Store
   ) {
@@ -32,25 +32,21 @@ export class ProjectListComponent {
     this.dialogService
       .open<unknown>(
         new PolymorpheusComponent(ProjectDialogComponent, this.injector)
-      ).subscribe({
-        next: data => {
-          console.info(`Dialog emitted name = ${data}`);
-        },
-        complete: () => {
-          this.store.dispatch(projectActions.allRequest());
-        },
-      });
+      ).subscribe()
 
   }
 
-  deleteProject($event: Event, project: Project) {
-    $event.preventDefault();
+  onClickCardAction(project: Project) {
+      this.router.navigateByUrl(`/account/block/${project.id}/builder`)
+  }
+
+  onDeleteProjectAction(project: Project) {
     let idRequest: IdRequest = {id: project.id}
     this.store.dispatch(projectActions.deleteRequest({request: idRequest}))
-    this.store.dispatch(projectActions.allRequest())
+    //this.store.dispatch(projectActions.allRequest())
   }
 
-  updateProjectDialog(project: Project) {
+  onUpdateProjectDialog(project: Project) {
 
     this.dialogService
       .open<unknown>(
@@ -59,14 +55,7 @@ export class ProjectListComponent {
           data: project
         }
       )
-    .subscribe({
-      next: data => {
-        console.info(`Dialog emitted name = ${data}`);
-      },
-      complete: () => {
-        this.store.dispatch(projectActions.allRequest());
-      },
-    });
+    .subscribe();
 
   }
 
