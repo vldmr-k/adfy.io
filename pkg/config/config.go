@@ -30,6 +30,7 @@ type Config struct {
 	Server   *Server   `mapstructure:"server"`
 	Database *Database `mapstructure:"database"`
 	Jwt      *Jwt      `mapstructure:"jwt"`
+	S3       *S3       `mapstructure:"s3"`
 }
 
 type Server struct {
@@ -50,4 +51,14 @@ type Jwt struct {
 	Secret   string `yaml:"secret"`
 	Duration int    `yaml:"duration"`
 	Algo     string `yaml:"algo"`
+}
+
+type S3 struct {
+	Client *S3Client `mapstructure:"client"`
+}
+
+type S3Client struct {
+	Bucket string `yaml:"bucket"`
+	Key    string `yaml:"key"`
+	Secret string `yaml:"secret"`
 }

@@ -96,3 +96,6 @@ sw.*
 # Build files
 ./main
 __debug_bin
+
+config.yml
+/vendor

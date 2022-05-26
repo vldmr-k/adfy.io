@@ -9,6 +9,7 @@ import (
 	db "adfy.io/pkg/db"
 	hook "adfy.io/pkg/hook"
 	jwt "adfy.io/pkg/jwt"
+	s3 "adfy.io/pkg/s3"
 	secure "adfy.io/pkg/secure"
 	project "adfy.io/rpc/project"
 	user "adfy.io/rpc/user"
@@ -20,6 +21,7 @@ type Container struct {
 	Config			*config.Config
 	Db			*db.Db
 	JWT			*jwt.JWT
+	NewS3Client		*s3.S3Client
 	Orm			*db.Orm
 	ProjectFactory		*projectservice.ProjectFactory
 	ProjectRepository	*projectservice.ProjectRepository
@@ -64,6 +66,13 @@ func (container *Container) GetJWT() *jwt.JWT {
 		container.JWT = service
 	}
 	return container.JWT
+}
+func (container *Container) GetNewS3Client() *s3.S3Client {
+	if container.NewS3Client == nil {
+		service := s3.NewS3Client(container.GetConfig())
+		container.NewS3Client = service
+	}
+	return container.NewS3Client
 }
 func (container *Container) GetOrm() *db.Orm {
 	if container.Orm == nil {

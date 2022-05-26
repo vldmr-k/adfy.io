@@ -49,3 +49,7 @@ services:
   AuthContext:
     type: "*adfy.io/pkg/ctx.AuthContext"
     returns: "ctx.NewAuthContext()"
+
+  NewS3Client:
+    type: "*adfy.io/pkg/s3.S3Client"
+    returns: "s3.NewS3Client(@{Config})"
