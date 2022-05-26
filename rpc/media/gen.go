@@ -11,7 +11,7 @@
 // express or implied. See the License for the specific language governing
 // permissions and limitations under the License.
 
-package place
+package media
 
 // Go generate directives are a convenient way to describe compilation of proto
 // files. They let users run 'go generate ./...', no Makefile necessary.
