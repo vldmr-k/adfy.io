@@ -2,9 +2,11 @@ syntax = "proto3";
 package adfy.io.rpc.place;
 option go_package = "adfy.io/rpc/place";
 
+import "project/service.proto";
 import "validate/validate.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 import "google/protobuf/empty.proto";
+
 
 
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
@@ -64,7 +66,7 @@ message GetPlaceResponse {
 
 message Place {
   string id = 1;
-  string project = 2;
-  bool immutable = 3;
-  string htmlCode = 4;
+  string name = 2;
+  project.Project project = 3;
+  string securityKey = 4;
 }

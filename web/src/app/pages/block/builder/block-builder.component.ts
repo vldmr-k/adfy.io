@@ -19,11 +19,15 @@ export class BlockBuilderComponent implements OnInit {
       email: {
         type: "boolean",
         title: "Email",
+      },
+      rememberMe: {
+        type: "boolean",
+        title: "rememberMe",
       }
     }
   };
 
-  myModel = {name: "test", "url": "http://ukr.net"}
+  myModel = {name: "test", "url": "http://ukr.net", email: true, rememberMe: false}
 
   constructor() { }
 

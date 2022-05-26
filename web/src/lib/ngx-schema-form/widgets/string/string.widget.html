@@ -1,14 +1,15 @@
-<input *ngIf="this.schema.widget.id ==='hidden'; else notHiddenFieldBlock" [attr.name]="name" type="hidden"
-  [formControl]="control">
+<div class="tui-form__row">
+  <input *ngIf="this.schema.widget.id ==='hidden'; else notHiddenFieldBlock" [attr.name]="name" type="hidden"
+    [formControl]="control">
 
 
-<ng-template #notHiddenFieldBlock>
-  <div class="tui-form__row">
-    <tui-input nativeId="id" [formControl]="control"  tuiHintContent="It will be used for sending documents">
-      {{schema.title}}
-    </tui-input>
-  </div>
-  <!-- <div class="widget form-group">
+  <ng-template #notHiddenFieldBlock>
+    <div class="tui-form__row">
+      <tui-input nativeId="id" [formControl]="control" tuiHintContent="It will be used for sending documents">
+        {{schema.title}}
+      </tui-input>
+    </div>
+    <!-- <div class="widget form-group">
     <label [attr.for]="id" class="horizontal control-label">
       {{ schema.title }}
     </label>
@@ -28,4 +29,6 @@
       [formControl]="control">
   </div>-->
 
-</ng-template>
+  </ng-template>
+
+</div>

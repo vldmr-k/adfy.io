@@ -1,5 +1,5 @@
 gen:
-	bin/proto.sh
+	go generate ./...
 
 serve:
 	export CONFIG_PATH=. && go run cmd/server/main.go

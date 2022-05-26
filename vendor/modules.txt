@@ -14,6 +14,9 @@ github.com/fsnotify/fsnotify
 # github.com/gadelkareem/go-helpers v0.0.0-20220309204952-b41d4c3bef9a
 ## explicit; go 1.13
 github.com/gadelkareem/go-helpers
+# github.com/go-sql-driver/mysql v1.6.0
+## explicit; go 1.10
+github.com/go-sql-driver/mysql
 # github.com/go-yaml/yaml v2.1.0+incompatible
 ## explicit
 # github.com/golang/protobuf v1.5.2
@@ -47,7 +50,7 @@ github.com/hashicorp/hcl/json/token
 # github.com/jackc/chunkreader/v2 v2.0.1
 ## explicit; go 1.12
 github.com/jackc/chunkreader/v2
-# github.com/jackc/pgconn v1.10.1
+# github.com/jackc/pgconn v1.11.0
 ## explicit; go 1.12
 github.com/jackc/pgconn
 github.com/jackc/pgconn/internal/ctxwatch
@@ -64,10 +67,10 @@ github.com/jackc/pgproto3/v2
 # github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b
 ## explicit; go 1.14
 github.com/jackc/pgservicefile
-# github.com/jackc/pgtype v1.9.1
+# github.com/jackc/pgtype v1.10.0
 ## explicit; go 1.13
 github.com/jackc/pgtype
-# github.com/jackc/pgx/v4 v4.14.1
+# github.com/jackc/pgx/v4 v4.15.0
 ## explicit; go 1.13
 github.com/jackc/pgx/v4
 github.com/jackc/pgx/v4/internal/sanitize
@@ -197,6 +200,12 @@ gopkg.in/ini.v1
 # gopkg.in/yaml.v2 v2.4.0
 ## explicit; go 1.15
 gopkg.in/yaml.v2
+# gorm.io/datatypes v1.0.6
+## explicit; go 1.14
+gorm.io/datatypes
+# gorm.io/driver/mysql v1.3.2
+## explicit; go 1.14
+gorm.io/driver/mysql
 # gorm.io/driver/postgres v1.3.1
 ## explicit; go 1.14
 gorm.io/driver/postgres

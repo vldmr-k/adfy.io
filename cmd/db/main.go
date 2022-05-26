@@ -5,7 +5,9 @@ import (
 	"os"
 
 	"adfy.io/internal/kernel"
+	"adfy.io/internal/placeservice"
 	"adfy.io/internal/projectservice"
+	"adfy.io/internal/templateservice"
 	"adfy.io/internal/userservice"
 )
 
@@ -27,5 +29,7 @@ func main() {
 
 	orm.AutoMigrate(&userservice.User{})
 	orm.AutoMigrate(&projectservice.Project{})
+	orm.AutoMigrate(&placeservice.Place{})
+	orm.AutoMigrate(&templateservice.Template{})
 	fmt.Println("Done!")
 }

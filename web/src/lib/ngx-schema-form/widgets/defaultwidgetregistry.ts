@@ -11,6 +11,8 @@ export class AdfyWidgetRegistry extends DefaultWidgetRegistry {
 
     this.register('string', StringWidget);
     this.register('boolean', CheckboxWidget);
+    this.register('checkbox', CheckboxWidget);
+
 
 
     this.setDefaultWidget(StringWidget);

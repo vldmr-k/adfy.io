@@ -7,12 +7,12 @@ import {
 
 
 import { StringWidget } from './widgets/string/string.widget';
-import { WidgetRegistry } from 'ngx-schema-form';
+import { SchemaFormModule, WidgetRegistry } from 'ngx-schema-form';
 import { AdfyWidgetRegistry } from './widgets/defaultwidgetregistry';
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiInputModule } from '@taiga-ui/kit';
 import { TuiHintModule, TuiLabelModule, TuiTooltipModule } from '@taiga-ui/core';
 import { CheckboxWidget } from './widgets/checkbox/checkbox.widget';
-
+import { FormElementComponent } from './formelement.component'
 
 const moduleProviders = [
   {
@@ -24,6 +24,7 @@ const moduleProviders = [
 @NgModule({
   imports: [
     CommonModule,
+    SchemaFormModule,
     FormsModule,
     ReactiveFormsModule,
     TuiInputModule,
@@ -35,15 +36,18 @@ const moduleProviders = [
   ],
   declarations: [
     StringWidget,
-    CheckboxWidget
+    CheckboxWidget,
+    FormElementComponent,
   ],
   entryComponents: [
     StringWidget,
-    CheckboxWidget
+    CheckboxWidget,
+    FormElementComponent
   ],
   exports: [
     StringWidget,
-    CheckboxWidget
+    CheckboxWidget,
+    FormElementComponent,
   ]
 })
 export class AdfySchemaFormModule {

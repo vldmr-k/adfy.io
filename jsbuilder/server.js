@@ -2,24 +2,55 @@ const fastify = require('fastify')({ logger: true })
 const builder = require('./rollup.svelte');
 const port = process.env.PORT || 3000;
 
-fastify.get('/',  (request, reply) => {
-  return {"result": "ok"};
+fastify.get('/', (request, reply) => {
+  return { "result": "ok" };
 })
 
 // Declare a route
-fastify.get('/api/v1/compiller',  (request, reply) => {
-  let id = 'index';
-  let components = {
-    "another.svelte": "<h2>another svelte component</h2><style>h2 {color:red}</style>",
-    "index.svelte": '<script>import Another from "another.svelte"</script><h1>Hello world!</h1> <Another />'
+fastify.post('/api/v1/compile', (request, reply) => {
+
+  const entry = request.body.entry || null;
+
+  if (entry === null) {
+    throw new Error("Entry is not set or empty");
   }
 
-  let v = builder.builder(id, components).then(({ output }) => {
-    let o = output[0] || `window.innerHTML = 'Error compiling banner ${id}`
-    reply
-      .code(200)
-      .header('Content-Type', 'text/javascript; charset=utf-8').send(o.code)
-  })
+  const components = request.body.components || [];
+
+  if (components.length <= 0) {
+    throw new Error("No components for compiling");
+  }
+
+  builder.builder(entry, components)
+    .then(({ output }) => {
+      let jscode = output[0] || null;
+
+      if (jscode === null) {
+        reply.code(500).header('Content-Type', 'text/json; charset=utf-8').send({
+          "id": entry,
+          "output": output,
+          "msg": "compiler return empty component"
+        })
+      } else {
+        reply
+          .code(200)
+          .header('Content-Type', 'text/javascript; charset=utf-8').send(jscode.code)
+      }
+
+    }).catch((error) => {
+      console.log("error", error);
+      reply.code(400)
+        .header('Content-Type', 'text/json; charset=utf-8')
+        .send({
+          "id": error.id,
+          "name": error.name,
+          "start": error.start,
+          "end": error.end,
+          "frame": error.frame
+        })
+      console.log("error", Object.keys(error));
+    })
+
 })
 
 

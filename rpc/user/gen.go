@@ -24,4 +24,4 @@ package user
 // It is also used to tell protoc where to put output generated files, through
 // --twirp_out and --go_out.
 
-//go:generate echo Hello, Go Generate!
+//go:generate bash ./../../bin/protogen.sh user/service.proto

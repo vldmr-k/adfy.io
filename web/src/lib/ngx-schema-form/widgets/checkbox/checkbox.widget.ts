@@ -4,7 +4,20 @@ import { ControlWidget } from 'ngx-schema-form';
 
 @Component({
   selector: 'sf-checkbox-widget',
-  template: `<div class="widget form-group">
+  template: `
+
+  <div class="tui-form__row">
+
+    <tui-checkbox-labeled [formControl]="control">
+      {{ schema.title }}
+    </tui-checkbox-labeled>
+
+  </div>
+
+
+
+  <!--
+  <div class="widget form-group">
     <label [attr.for]="id" class="horizontal control-label">
         {{ schema.title }}
     </label>
@@ -15,7 +28,7 @@ import { ControlWidget } from 'ngx-schema-form';
 			{{schema.description}}
 		</label>
 	</div>
-  
+
 	<ng-container *ngIf="schema.type==='array'">
 		<div *ngFor="let option of schema.items?.oneOf" class="checkbox">
 			<label class="horizontal control-label">
@@ -30,7 +43,9 @@ import { ControlWidget } from 'ngx-schema-form';
 			</label>
 		</div>
 	</ng-container>
-</div>`
+</div>
+-->
+`
 })
 export class CheckboxWidget extends ControlWidget implements AfterViewInit {
 
