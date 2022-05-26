@@ -19,10 +19,6 @@ type (
 	}
 )
 
-func (u *User) Sanitize() {
-	u.EncryptedPassword = "***"
-}
-
 func (u *User) GetAuthUser() *jwt.AuthUser {
 	return &jwt.AuthUser{
 		ID:    u.ID.String(),

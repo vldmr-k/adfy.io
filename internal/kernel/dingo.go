@@ -31,6 +31,7 @@ type Container struct {
 	UserRepository		*userservice.UserRepository
 	UserService		*userservice.UserService
 	UserServiceServer	*user.TwirpServer
+	UserTransormer		*userservice.Transformer
 	VerifyJWTHook		*hook.VerifyJWTHook
 }
 
@@ -125,7 +126,7 @@ func (container *Container) GetUserRepository() *userservice.UserRepository {
 }
 func (container *Container) GetUserService() *userservice.UserService {
 	if container.UserService == nil {
-		service := userservice.NewUserService(container.GetJWT(), container.GetSecure(), container.GetUserRepository(), container.GetAuthContext())
+		service := userservice.NewUserService(container.GetJWT(), container.GetSecure(), container.GetUserRepository(), container.GetAuthContext(), container.GetUserTransormer())
 		container.UserService = service
 	}
 	return container.UserService
@@ -136,6 +137,13 @@ func (container *Container) GetUserServiceServer() user.TwirpServer {
 		container.UserServiceServer = &service
 	}
 	return *container.UserServiceServer
+}
+func (container *Container) GetUserTransormer() *userservice.Transformer {
+	if container.UserTransormer == nil {
+		service := userservice.NewTransformer()
+		container.UserTransormer = service
+	}
+	return container.UserTransormer
 }
 func (container *Container) GetVerifyJWTHook() *hook.VerifyJWTHook {
 	if container.VerifyJWTHook == nil {
