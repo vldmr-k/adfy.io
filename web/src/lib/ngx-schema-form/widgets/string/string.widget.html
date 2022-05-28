@@ -2,33 +2,40 @@
   <input *ngIf="this.schema.widget.id ==='hidden'; else notHiddenFieldBlock" [attr.name]="name" type="hidden"
     [formControl]="control">
 
-
-  <ng-template #notHiddenFieldBlock>
-    <div class="tui-form__row">
-      <tui-input nativeId="id" [formControl]="control" tuiHintContent="It will be used for sending documents">
-        {{schema.title}}
-      </tui-input>
-    </div>
-    <!-- <div class="widget form-group">
-    <label [attr.for]="id" class="horizontal control-label">
-      {{ schema.title }}
-    </label>
-    <span *ngIf="schema.description" class="formHelp">{{schema.description}}</span>
-    <input
-      [name]="name"
-      [attr.readonly]="(schema.widget.id!=='color') && schema.readOnly?true:null"
-      class="text-widget.id textline-widget form-control"
-      [attr.type]="!this.schema.widget.id || this.schema.widget.id === 'string' ? 'text' : this.schema.widget.id"
-      [attr.id]="id"
-      [formControl]="control"
-      [attr.placeholder]="schema.placeholder"
-      [attr.maxLength]="schema.maxLength || null" [attr.minLength]="schema.minLength || null"
-      [attr.required]="schema.required || null"
-      [attr.disabled]="(schema.widget.id=='color' && schema.readOnly)?true:null">
-    <input *ngIf="(schema.widget.id==='color' && schema.readOnly)" [attr.name]="name" type="hidden"
-      [formControl]="control">
-  </div>-->
-
-  </ng-template>
-
 </div>
+
+
+
+<ng-template #notHiddenFieldBlock>
+  <tui-input nativeId="id" [formControl]="control">
+    {{schema.title}}
+  </tui-input>
+
+
+  <!-- <div class="widget form-group">
+  <label [attr.for]="id" class="horizontal control-label">
+    {{ schema.title }}
+  </label>
+  <span *ngIf="schema.description" class="formHelp">{{schema.description}}</span>
+  <input
+    [name]="name"
+    [attr.readonly]="(schema.widget.id!=='color') && schema.readOnly?true:null"
+    class="text-widget.id textline-widget form-control"
+    [attr.type]="!this.schema.widget.id || this.schema.widget.id === 'string' ? 'text' : this.schema.widget.id"
+    [attr.id]="id"
+    [formControl]="control"
+    [attr.placeholder]="schema.placeholder"
+    [attr.maxLength]="schema.maxLength || null" [attr.minLength]="schema.minLength || null"
+    [attr.required]="schema.required || null"
+    [attr.disabled]="(schema.widget.id=='color' && schema.readOnly)?true:null">
+  <input *ngIf="(schema.widget.id==='color' && schema.readOnly)" [attr.name]="name" type="hidden"
+    [formControl]="control">
+</div>-->
+
+</ng-template>
+
+<ng-template #string>
+  <tui-input nativeId="id" [formControl]="control" tuiHintContent="It will be used for sending documents">
+    {{schema.title}}
+  </tui-input>
+</ng-template>

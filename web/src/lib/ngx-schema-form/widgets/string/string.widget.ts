@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ControlWidget } from 'ngx-schema-form';
 
 
 @Component({
   selector: 'sf-string-widget',
   templateUrl: './string.widget.html',
-  styleUrls: ['./string.widget.less']
+  styleUrls: ['./string.widget.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StringWidget extends ControlWidget {
 

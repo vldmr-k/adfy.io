@@ -23,6 +23,11 @@ export class BlockBuilderComponent implements OnInit {
       rememberMe: {
         type: "boolean",
         title: "rememberMe",
+      },
+      color: {
+        type: "string",
+        title: "Color",
+        widget: "color"
       }
     }
   };

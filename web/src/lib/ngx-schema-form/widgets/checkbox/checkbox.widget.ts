@@ -1,9 +1,10 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { ControlWidget } from 'ngx-schema-form';
 
 
 @Component({
   selector: 'sf-checkbox-widget',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 
   <div class="tui-form__row">
