@@ -27,9 +27,6 @@ services:
   UserRepository:
     type: "*adfy.io/internal/userservice.UserRepository"
     returns: "userservice.NewUserRepository(@{Orm})"
-  UserServiceServer:
-    type: adfy.io/rpc/user.TwirpServer
-    returns: user.NewUserServiceServer(@{UserService}, @{VerifyJWTHook}.WithJWTAuth("SignIn", "SignUp"))
   UserTransormer:
     type: "*adfy.io/internal/userservice.Transformer"
     returns: "userservice.NewTransformer()"
@@ -43,10 +40,20 @@ services:
   ProjectRepository:
     type: "*adfy.io/internal/projectservice.ProjectRepository"
     returns: "projectservice.NewProjectRepository(@{Orm}, @{AuthContext})"
-  ProjectServiceServer:
-    type: "adfy.io/rpc/project.TwirpServer"
-    returns: "project.NewProjectServiceServer(@{ProjectService}, @{VerifyJWTHook}.WithJWTAuth())"
 
+
+  TemplateService:
+    type: "*adfy.io/internal/templateservice.TemplateService"
+    returns: "templateservice.NewTemplateService(@{TemplateRepository}, @{AuthContext}, @{TemplateTransofrmer})"
+  TemplateRepository:
+    type: "*adfy.io/internal/templateservice.TemplateRepository"
+    returns: "templateservice.NewTemplateRepository(@{Orm})"
+  TemplateTransofrmer:
+    type: "*adfy.io/internal/templateservice.Transformer"
+    returns: "templateservice.NewTransformer()"
+  TemplateHandler:
+    type: "*adfy.io/internal/handler.TemplateHandler"
+    returns: "handler.NewTemplateHandler(@{TemplateRepository})"
 
   AuthContext:
     type: "*adfy.io/pkg/ctx.AuthContext"
@@ -55,3 +62,15 @@ services:
   NewS3Client:
     type: "*adfy.io/pkg/s3.S3Client"
     returns: "s3.NewS3Client(@{Config})"
+
+
+
+  UserTwirpHandler:
+    type: adfy.io/rpc/user.TwirpServer
+    returns: user.NewUserServiceServer(@{UserService}, @{VerifyJWTHook}.WithJWTAuth("SignIn", "SignUp"))
+  TemplateTwirpHandler:
+    type: "adfy.io/rpc/template.TwirpServer"
+    returns: "template.NewTemplateServiceServer(@{TemplateService}, @{VerifyJWTHook}.WithJWTAuth())"
+  ProjectTwirpHandler:
+    type: "adfy.io/rpc/project.TwirpServer"
+    returns: "project.NewProjectServiceServer(@{ProjectService}, @{VerifyJWTHook}.WithJWTAuth())"

@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <script type="text/javascript">
+      var template = {{.Component}}
+      document.addEventListener('DOMContentLoaded', function(){
+        new template({target: document.querySelector('body'), props: {{.SampleData}} })
+      })
+    </script>
+
+  </head>
+  <body></body>
+</html>

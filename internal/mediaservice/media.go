@@ -4,8 +4,8 @@ import (
 	"adfy.io/pkg/db"
 )
 
-const MEDIA_TYPE_IMAGE = "IMAGE"
-const MEDIA_TYPE_VIDEO = "VIDEO"
+const MEDIA_TYPE_IMAGE = 1
+const MEDIA_TYPE_VIDEO = 2
 
 type (
 	Media struct {
@@ -14,8 +14,8 @@ type (
 		Path     string `gorm:"type:string;not null;"`
 		MimeType string `gorm:"type:string;not null;"`
 		Size     int32  `gorm:"type:integer;not null;"`
-		Width    int32  `gorm:"type:width;not null;"`
-		Height   int32  `gorm:"type:height;not null;"`
-		Type     string `gorm:"type:type;not null;"`
+		Width    int32  `gorm:"type:integer;"`
+		Height   int32  `gorm:"type:integer;"`
+		Type     int32  `gorm:"type:integer;not null;"`
 	}
 )

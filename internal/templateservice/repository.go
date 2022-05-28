@@ -22,7 +22,7 @@ func (r *TemplateRepository) All() ([]Template, error) {
 // Find Template By ID
 func (r *TemplateRepository) Find(id string) (Template, error) {
 	template := &Template{}
-	result := r.Orm.First(&template, id)
+	result := r.Orm.First(&template, "id = ?", id)
 	return *template, result.Error
 }
 

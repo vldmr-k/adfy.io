@@ -23,11 +23,17 @@ func main() {
 	r.Use(mw.AuthContext)
 	r.Use(mw.CORS)
 
-	userServiceHandler := di.GetUserServiceServer()
-	projectServiceHandler := di.GetProjectServiceServer()
+	templateHandler := di.GetTemplateHandler()
+	//default handler
+	r.HandleFunc("/template/render-sample", templateHandler.RenderSample)
 
+	userServiceHandler := di.GetUserTwirpHandler()
+	projectServiceHandler := di.GetProjectTwirpHandler()
+	templateServiceHandler := di.GetTemplateTwirpHandler()
+	//twirp handler
 	r.PathPrefix(userServiceHandler.PathPrefix()).Handler(userServiceHandler)
 	r.PathPrefix(projectServiceHandler.PathPrefix()).Handler(projectServiceHandler)
+	r.PathPrefix(templateServiceHandler.PathPrefix()).Handler(templateServiceHandler)
 
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
 
@@ -38,7 +44,7 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-  
+
 	log.Fatal(srv.ListenAndServe())
 
 }

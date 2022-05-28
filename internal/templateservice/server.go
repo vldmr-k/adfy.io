@@ -9,7 +9,7 @@ import (
 	"github.com/twitchtv/twirp"
 )
 
-func NewTemplateService(authContext *pkgctx.AuthContext, templateRepository *TemplateRepository, transformer *Transformer) *TemplateService {
+func NewTemplateService(templateRepository *TemplateRepository, authContext *pkgctx.AuthContext, transformer *Transformer) *TemplateService {
 	return &TemplateService{
 		authContext:        authContext,
 		templateRepository: templateRepository,
@@ -24,14 +24,9 @@ type TemplateService struct {
 }
 
 func (s *TemplateService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetResponse, err error) {
-	template, err := s.templateRepository.Find(req.Id)
-
-	if err != nil {
-		return nil, err
-	}
 
 	return &pb.GetResponse{
-		Template: s.transformer.Transofrm(template),
+		Template: nil,
 	}, nil
 }
 

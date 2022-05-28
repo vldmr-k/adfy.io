@@ -15,7 +15,7 @@ type UserRepository struct {
 // Find User By ID
 func (u *UserRepository) Find(id string) (User, error) {
 	user := &User{}
-	result := u.Orm.First(&user, id)
+	result := u.Orm.First(&user, "id = ?", id)
 	return *user, result.Error
 }
 

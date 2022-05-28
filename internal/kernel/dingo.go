@@ -2,7 +2,9 @@
 package kernel
 
 import (
+	handler "adfy.io/internal/handler"
 	projectservice "adfy.io/internal/projectservice"
+	templateservice "adfy.io/internal/templateservice"
 	userservice "adfy.io/internal/userservice"
 	config "adfy.io/pkg/config"
 	ctx "adfy.io/pkg/ctx"
@@ -12,6 +14,7 @@ import (
 	s3 "adfy.io/pkg/s3"
 	secure "adfy.io/pkg/secure"
 	project "adfy.io/rpc/project"
+	template "adfy.io/rpc/template"
 	user "adfy.io/rpc/user"
 	"os"
 )
@@ -26,12 +29,17 @@ type Container struct {
 	ProjectFactory		*projectservice.ProjectFactory
 	ProjectRepository	*projectservice.ProjectRepository
 	ProjectService		*projectservice.ProjectService
-	ProjectServiceServer	*project.TwirpServer
+	ProjectTwirpHandler	*project.TwirpServer
 	Secure			*secure.Secure
+	TemplateHandler		*handler.TemplateHandler
+	TemplateRepository	*templateservice.TemplateRepository
+	TemplateService		*templateservice.TemplateService
+	TemplateTransofrmer	*templateservice.Transformer
+	TemplateTwirpHandler	*template.TwirpServer
 	UserRepository		*userservice.UserRepository
 	UserService		*userservice.UserService
-	UserServiceServer	*user.TwirpServer
 	UserTransormer		*userservice.Transformer
+	UserTwirpHandler	*user.TwirpServer
 	VerifyJWTHook		*hook.VerifyJWTHook
 }
 
@@ -103,12 +111,12 @@ func (container *Container) GetProjectService() *projectservice.ProjectService {
 	}
 	return container.ProjectService
 }
-func (container *Container) GetProjectServiceServer() project.TwirpServer {
-	if container.ProjectServiceServer == nil {
+func (container *Container) GetProjectTwirpHandler() project.TwirpServer {
+	if container.ProjectTwirpHandler == nil {
 		service := project.NewProjectServiceServer(container.GetProjectService(), container.GetVerifyJWTHook().WithJWTAuth())
-		container.ProjectServiceServer = &service
+		container.ProjectTwirpHandler = &service
 	}
-	return *container.ProjectServiceServer
+	return *container.ProjectTwirpHandler
 }
 func (container *Container) GetSecure() *secure.Secure {
 	if container.Secure == nil {
@@ -116,6 +124,41 @@ func (container *Container) GetSecure() *secure.Secure {
 		container.Secure = service
 	}
 	return container.Secure
+}
+func (container *Container) GetTemplateHandler() *handler.TemplateHandler {
+	if container.TemplateHandler == nil {
+		service := handler.NewTemplateHandler(container.GetTemplateRepository())
+		container.TemplateHandler = service
+	}
+	return container.TemplateHandler
+}
+func (container *Container) GetTemplateRepository() *templateservice.TemplateRepository {
+	if container.TemplateRepository == nil {
+		service := templateservice.NewTemplateRepository(container.GetOrm())
+		container.TemplateRepository = service
+	}
+	return container.TemplateRepository
+}
+func (container *Container) GetTemplateService() *templateservice.TemplateService {
+	if container.TemplateService == nil {
+		service := templateservice.NewTemplateService(container.GetTemplateRepository(), container.GetAuthContext(), container.GetTemplateTransofrmer())
+		container.TemplateService = service
+	}
+	return container.TemplateService
+}
+func (container *Container) GetTemplateTransofrmer() *templateservice.Transformer {
+	if container.TemplateTransofrmer == nil {
+		service := templateservice.NewTransformer()
+		container.TemplateTransofrmer = service
+	}
+	return container.TemplateTransofrmer
+}
+func (container *Container) GetTemplateTwirpHandler() template.TwirpServer {
+	if container.TemplateTwirpHandler == nil {
+		service := template.NewTemplateServiceServer(container.GetTemplateService(), container.GetVerifyJWTHook().WithJWTAuth())
+		container.TemplateTwirpHandler = &service
+	}
+	return *container.TemplateTwirpHandler
 }
 func (container *Container) GetUserRepository() *userservice.UserRepository {
 	if container.UserRepository == nil {
@@ -131,19 +174,19 @@ func (container *Container) GetUserService() *userservice.UserService {
 	}
 	return container.UserService
 }
-func (container *Container) GetUserServiceServer() user.TwirpServer {
-	if container.UserServiceServer == nil {
-		service := user.NewUserServiceServer(container.GetUserService(), container.GetVerifyJWTHook().WithJWTAuth("SignIn", "SignUp"))
-		container.UserServiceServer = &service
-	}
-	return *container.UserServiceServer
-}
 func (container *Container) GetUserTransormer() *userservice.Transformer {
 	if container.UserTransormer == nil {
 		service := userservice.NewTransformer()
 		container.UserTransormer = service
 	}
 	return container.UserTransormer
+}
+func (container *Container) GetUserTwirpHandler() user.TwirpServer {
+	if container.UserTwirpHandler == nil {
+		service := user.NewUserServiceServer(container.GetUserService(), container.GetVerifyJWTHook().WithJWTAuth("SignIn", "SignUp"))
+		container.UserTwirpHandler = &service
+	}
+	return *container.UserTwirpHandler
 }
 func (container *Container) GetVerifyJWTHook() *hook.VerifyJWTHook {
 	if container.VerifyJWTHook == nil {
