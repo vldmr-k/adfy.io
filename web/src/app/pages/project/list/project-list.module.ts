@@ -8,6 +8,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ProjectEffects } from '@store/effects';
 import { ProjectItemModule } from './project-item/project-item.module';
+import { TuiInputColorModule } from '@taiga-ui/addon-editor';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ProjectItemModule } from './project-item/project-item.module';
     TuiButtonModule,
     TuiLoaderModule,
     TuiTagModule,
+    TuiInputColorModule,
     ProjectItemModule,
     EffectsModule.forFeature([ProjectEffects])
   ],

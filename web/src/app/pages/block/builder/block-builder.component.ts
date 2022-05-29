@@ -20,6 +20,10 @@ export class BlockBuilderComponent implements OnInit {
         type: "boolean",
         title: "Email",
       },
+      url: {
+        type: "string",
+        title: "Url",
+      },
       rememberMe: {
         type: "boolean",
         title: "rememberMe",
@@ -28,15 +32,20 @@ export class BlockBuilderComponent implements OnInit {
         type: "string",
         title: "Color",
         widget: "color"
-      }
-    }
+      },
+    },
+    required: ['name', 'email']
   };
 
-  myModel = {name: "test", "url": "http://ukr.net", email: true, rememberMe: false}
+  myModel = {name: "test", "url": "http://ukr.net", email: true, rememberMe: false, color: "#ccc"}
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  printData() {
+    return JSON.stringify(this.myModel)
   }
 
 }

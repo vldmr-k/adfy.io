@@ -12,7 +12,7 @@ import { AdfyWidgetRegistry } from './widgets/defaultwidgetregistry';
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiInputModule } from '@taiga-ui/kit';
 import { TuiHintModule, TuiLabelModule, TuiTooltipModule } from '@taiga-ui/core';
 import { CheckboxWidget } from './widgets/checkbox/checkbox.widget';
-import { TuiColorPickerModule } from '@taiga-ui/addon-editor';
+import { TuiInputColorModule } from '@taiga-ui/addon-editor';
 import { ColorWidget } from './widgets/color/color.widget';
 
 const moduleProviders = [
@@ -34,7 +34,7 @@ const moduleProviders = [
     TuiTooltipModule,
     TuiHintModule,
     TuiCheckboxLabeledModule,
-    TuiColorPickerModule
+    TuiInputColorModule
   ],
   declarations: [
     StringWidget,

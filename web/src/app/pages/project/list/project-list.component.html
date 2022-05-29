@@ -3,6 +3,8 @@
     <span class="tui-text_h4">Projects</span>
   </div>
   <div class="container adfy-content">
+
+
     <div class="tui-row" *ngIf="list$ | async as projects else loading ">
 
       <ng-container *ngFor="let project of projects; index as i">

@@ -9,6 +9,7 @@ import { Project } from '@store/models/index'
 import { IdRequest } from '@grpc/project/service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'adfy-project-list',
   templateUrl: './project-list.component.html',
@@ -16,6 +17,7 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectListComponent {
+
 
   list$ = this.store.select(project.selectList)
 
