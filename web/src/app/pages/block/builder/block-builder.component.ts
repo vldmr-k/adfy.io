@@ -28,24 +28,40 @@ export class BlockBuilderComponent implements OnInit {
         type: "boolean",
         title: "rememberMe",
       },
-      color: {
-        type: "string",
-        title: "Color",
-        widget: "color"
-      },
+      "colors": {
+        "type": "array",
+        "description": "Colors",
+        "index": "i",
+        "items": {
+          "type": "string",
+          "description": "Color $i",
+          "widget": {
+            "id": "color"
+          }
+        }
+      }
     },
     required: ['name', 'email']
   };
 
-  myModel = {name: "test", "url": "http://ukr.net", email: true, rememberMe: false, color: "#ccc"}
+  myModel = {"name":"test","url":"http://ukr.net","email":true,"rememberMe":false,"colors":["rgba(126, 58, 58, 1)","rgba(109, 24, 24, 1)","rgba(195, 181, 181, 1)"]}
 
-  constructor() { }
+
+
 
   ngOnInit(): void {
   }
 
   printData() {
     return JSON.stringify(this.myModel)
+  }
+
+  onChangeForm(value: any) {
+    console.log("onChangeForm", value);
+  }
+
+  onModelChangeForm(value: any) {
+    console.log("onModelChangeForm", value);
   }
 
 }

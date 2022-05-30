@@ -7,7 +7,7 @@ import { ControlWidget } from 'ngx-schema-form';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
 
-  <div class="tui-form__row">
+  <div class="tui-space_vertical-4">
 
     <tui-checkbox-labeled [formControl]="control">
       {{ schema.title }}

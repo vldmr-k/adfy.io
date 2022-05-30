@@ -10,10 +10,11 @@ import { StringWidget } from './widgets/string/string.widget';
 import { SchemaFormModule, WidgetRegistry } from 'ngx-schema-form';
 import { AdfyWidgetRegistry } from './widgets/defaultwidgetregistry';
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiInputModule } from '@taiga-ui/kit';
-import { TuiHintModule, TuiLabelModule, TuiTooltipModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiHintModule, TuiLabelModule, TuiTooltipModule } from '@taiga-ui/core';
 import { CheckboxWidget } from './widgets/checkbox/checkbox.widget';
 import { TuiInputColorModule } from '@taiga-ui/addon-editor';
 import { ColorWidget } from './widgets/color/color.widget';
+import { ArrayWidget } from './widgets/array/array.widget';
 
 const moduleProviders = [
   {
@@ -29,6 +30,7 @@ const moduleProviders = [
     FormsModule,
     ReactiveFormsModule,
     TuiInputModule,
+    TuiButtonModule,
     TuiLabelModule,
     TuiCheckboxModule,
     TuiTooltipModule,
@@ -39,7 +41,8 @@ const moduleProviders = [
   declarations: [
     StringWidget,
     CheckboxWidget,
-    ColorWidget
+    ColorWidget,
+    ArrayWidget
   ],
   entryComponents: [
     StringWidget,
@@ -49,7 +52,8 @@ const moduleProviders = [
   exports: [
     StringWidget,
     CheckboxWidget,
-    ColorWidget
+    ColorWidget,
+    ArrayWidget
   ]
 })
 

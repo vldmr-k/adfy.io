@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BlockBuilderComponent } from './block-builder.component';
 
@@ -19,7 +19,7 @@ import { AdfySchemaFormModule } from '@lib/ngx-schema-form/adfy-schema-form.modu
   imports: [
     CommonModule,
     SchemaFormModule.forRoot(),
-    AdfySchemaFormModule.forRoot()
+    AdfySchemaFormModule.forRoot(),
   ],
   exports: [
     BlockBuilderComponent
@@ -27,4 +27,4 @@ import { AdfySchemaFormModule } from '@lib/ngx-schema-form/adfy-schema-form.modu
   providers: [{ provide: WidgetRegistry, useClass: AdfyWidgetRegistry }],
 
 })
-export class BlockBuilderModule { }
+export class BlockBuilderModule {}
