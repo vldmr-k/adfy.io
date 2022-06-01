@@ -10,11 +10,14 @@ import { StringWidget } from './widgets/string/string.widget';
 import { SchemaFormModule, WidgetRegistry } from 'ngx-schema-form';
 import { AdfyWidgetRegistry } from './widgets/defaultwidgetregistry';
 import { TuiCheckboxLabeledModule, TuiCheckboxModule, TuiInputModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiHintModule, TuiLabelModule, TuiTooltipModule } from '@taiga-ui/core';
+import { TuiAlertModule, TuiButtonModule, TuiDialogModule, TuiHintModule, TuiLabelModule, TuiTooltipModule } from '@taiga-ui/core';
 import { CheckboxWidget } from './widgets/checkbox/checkbox.widget';
 import { TuiInputColorModule } from '@taiga-ui/addon-editor';
 import { ColorWidget } from './widgets/color/color.widget';
 import { ArrayWidget } from './widgets/array/array.widget';
+import { FilemanagerWidget } from './widgets/file/filemanager.widget';
+import { FileManagerModule } from '@file-manager/filemanager.module';
+import { FILEMANAGER_PROVIDER } from '@file-manager/filemanager.service';
 
 const moduleProviders = [
   {
@@ -36,13 +39,18 @@ const moduleProviders = [
     TuiTooltipModule,
     TuiHintModule,
     TuiCheckboxLabeledModule,
-    TuiInputColorModule
+    TuiInputColorModule,
+    TuiAlertModule,
+
+    FileManagerModule,
+    TuiDialogModule
   ],
   declarations: [
     StringWidget,
     CheckboxWidget,
     ColorWidget,
-    ArrayWidget
+    ArrayWidget,
+    FilemanagerWidget
   ],
   entryComponents: [
     StringWidget,
@@ -54,6 +62,9 @@ const moduleProviders = [
     CheckboxWidget,
     ColorWidget,
     ArrayWidget
+  ],
+  providers: [
+
   ]
 })
 

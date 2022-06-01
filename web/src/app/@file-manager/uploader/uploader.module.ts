@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UploaderComponent } from './uploader.component';
-import { TuiInputFilesModule } from '@taiga-ui/kit';
+import { TuiFilesModule, TuiInputFilesModule } from '@taiga-ui/kit';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -10,7 +12,10 @@ import { TuiInputFilesModule } from '@taiga-ui/kit';
   ],
   imports: [
     CommonModule,
-    TuiInputFilesModule
+    FormsModule,
+    ReactiveFormsModule,
+    TuiInputFilesModule,
+    TuiFilesModule
   ],
   exports: [
     UploaderComponent

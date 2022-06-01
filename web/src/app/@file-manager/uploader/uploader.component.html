@@ -1,56 +1,21 @@
-<tui-input-files>
-  <tui-file
-      *ngFor="let file of files"
-      state="normal"
-      [file]="file"
-  ></tui-file>
+<tui-input-files
+	    accept="image/*"
+	    [multiple]="true"
+      [formControl]="control"
+	    (reject)="onReject($event)"
+	></tui-input-files>
 
-  <tui-file
-      *ngFor="let file of rejectedFiles"
-      state="error"
-      [file]="file"
-  ></tui-file>
+	<tui-files class="tui-space_top-1">
+    <tui-file
+        *ngFor="let file of control.valueChanges | async"
+        [file]="file"
+        (removed)="removeFile(file)"
+    ></tui-file>
 
-  <tui-file
-      *ngIf="loadingFile && !isCypress"
-      state="loading"
-      [file]="loadingFile"
-      (removed)="removeLoading()"
-  ></tui-file>
-</tui-input-files>
-
-<h4>With link</h4>
-<tui-input-files>
-  <tui-file
-      *tuiItem
-      state="normal"
-      [file]="fileWithLink"
-  ></tui-file>
-</tui-input-files>
-
-<h4>With deleted state</h4>
-<tui-input-files>
-  <tui-file
-      *ngFor="let file of removedFiles"
-      state="deleted"
-      size="l"
-      [file]="file"
-  >
-      <button
-          tuiLink
-          (click)="restore(file)"
-      >
-          Restore
-      </button>
-  </tui-file>
-  <tui-file
-      *ngFor="let file of restoredFiles"
-      state="normal"
-      size="l"
-      [file]="file"
-      [leftContent]="icon"
-      (removed)="remove(file)"
-  ></tui-file>
-</tui-input-files>
-
-<ng-template #icon><tui-svg src="tuiIconFileLarge"></tui-svg></ng-template>
+    <tui-file
+        *ngFor="let file of rejectedFiles"
+        state="error"
+        [file]="file"
+        (removed)="clearRejected(file)"
+    ></tui-file>
+</tui-files>

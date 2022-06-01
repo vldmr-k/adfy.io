@@ -1,17 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, ChangeDetectionStrategy, Inject, OnInit } from '@angular/core';
+import {POLYMORPHEUS_CONTEXT} from '@tinkoff/ng-polymorpheus';
+import { FileManagerOptions } from './filemanager-options';
+import {TuiDialog} from '@taiga-ui/cdk';
+import { TuiDialogContext } from '@taiga-ui/core';
 
 @Component({
   selector: 'adfy-filemanager',
   templateUrl: './filemanager.component.html',
-  styleUrls: ['./filemanager.component.less']
+  styleUrls: ['./filemanager.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileManagerComponent implements OnInit {
+export class FileManagerComponent {
 
+  constructor(
+    @Inject(POLYMORPHEUS_CONTEXT) readonly context: TuiDialogContext<string, string>,
+  ) { }
 
-  constructor() { }
+  get data(): string {
+    return this.context.data;
+}
 
-  ngOnInit(): void {
+  onSelected(file: string): void {
+    this.context.completeWith(file);
   }
 
 }

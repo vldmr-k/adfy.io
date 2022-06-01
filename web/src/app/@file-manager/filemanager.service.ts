@@ -10,11 +10,13 @@ import { FileManagerComponent } from './filemanager.component';
 })
 export class FileManagerService extends AbstractTuiDialogService<FileManagerOptions> {
   readonly defaultOptions = {
-    heading: 'Are you sure?',
-    buttons: ['Yes', 'No'],
+    heading: 'FileManager',
+    dismissible: true,
+	  label: 'Heading',
   } as const;
 
   readonly component = new PolymorpheusComponent(FileManagerComponent);
+
 }
 
 // Add this provider to app module

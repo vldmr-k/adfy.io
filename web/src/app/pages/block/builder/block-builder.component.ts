@@ -28,6 +28,11 @@ export class BlockBuilderComponent implements OnInit {
         type: "boolean",
         title: "rememberMe",
       },
+      slider: {
+        type: "string",
+        title: "Slider Image",
+        widget: "filemanager"
+      },
       "colors": {
         "type": "array",
         "description": "Colors",

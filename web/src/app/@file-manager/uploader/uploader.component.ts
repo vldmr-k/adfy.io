@@ -12,56 +12,21 @@ import {TuiFileLike} from '@taiga-ui/kit';
 export class UploaderComponent {
 
   readonly control = new FormControl();
+  rejectedFiles: readonly TuiFileLike[] = [];
 
-  readonly files: readonly TuiFileLike[] = [
-      {
-          name: 'Loaded.txt',
-      },
-      {
-          name: 'A file with a very very long title to check that it can be cut correctly.txt',
-      },
-  ];
-
-  loadingFile: TuiFileLike | null = {
-      name: 'Loading file.txt',
-  };
-
-  readonly rejectedFiles: readonly TuiFileLike[] = [
-      {
-          name: 'File with an error.txt',
-          content: 'Something went wrong this time',
-      },
-  ];
-
-  readonly fileWithLink: TuiFileLike = {
-      name: 'with link.txt',
-      src: 'https://tools.ietf.org/html/rfc675',
-  };
-
-  removedFiles = [this.loadingFile as TuiFileLike];
-  restoredFiles: TuiFileLike[] = [];
-
-  constructor(@Inject(TUI_IS_CYPRESS) readonly isCypress: boolean) {}
-
-  removeLoading(): void {
-      this.loadingFile = null;
+  onReject(files: TuiFileLike | readonly TuiFileLike[]): void {
+      this.rejectedFiles = [...this.rejectedFiles, ...(files as TuiFileLike[])];
   }
 
-  restore(file: TuiFileLike | null): void {
-      if (!file) {
-          return;
-      }
-
-      this.restoredFiles = [...this.restoredFiles, file];
-      this.removedFiles = this.removedFiles.filter(
-          removed => file.name !== removed?.name,
+  removeFile({name}: File): void {
+      this.control.setValue(
+          this.control.value.filter((current: File) => current.name !== name),
       );
   }
 
-  remove(file: TuiFileLike): void {
-      this.removedFiles = [...this.removedFiles, file];
-      this.restoredFiles = this.restoredFiles.filter(
-          restored => file.name !== restored?.name,
+  clearRejected({name}: TuiFileLike): void {
+      this.rejectedFiles = this.rejectedFiles.filter(
+          rejected => rejected.name !== name,
       );
   }
 

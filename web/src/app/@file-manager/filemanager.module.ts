@@ -6,6 +6,8 @@ import {TuiInputFilesModule} from '@taiga-ui/kit';
 import { FileManagerUploaderModule } from './uploader/uploader.module';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { FILEMANAGER_PROVIDER } from './filemanager.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TuiDialogModule } from '@taiga-ui/core';
 
 
 
@@ -15,10 +17,13 @@ import { FILEMANAGER_PROVIDER } from './filemanager.service';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     PolymorpheusModule,
     ListModule,
     TuiInputFilesModule,
     FileManagerUploaderModule,
+    TuiDialogModule
   ],
   providers: [FILEMANAGER_PROVIDER],
   exports: [
