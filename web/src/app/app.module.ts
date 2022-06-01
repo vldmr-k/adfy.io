@@ -24,6 +24,7 @@ import { of } from "rxjs";
 import { ProjectServiceClient } from "@grpc/project/service.client";
 import { ProjectEffects, UserEffects } from "@store/effects";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { FileManagerModule } from "@file-manager/filemanager.module";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
     StoreModule.forRoot({}),
     EffectsModule.forRoot([UserEffects, ProjectEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true }),
+    FileManagerModule
   ],
   providers: [
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },

@@ -40,7 +40,10 @@
       ],
       "@lib/*": [
         "lib/*"
-      ]
+      ],
+      "@file-manager/*": [
+        "app/@file-manager/*"
+      ],
     },
   },
   "angularCompilerOptions": {
