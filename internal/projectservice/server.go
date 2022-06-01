@@ -25,57 +25,67 @@ type ProjectService struct {
 	projectFactory    *ProjectFactory
 }
 
-func (s *ProjectService) CreateProject(ctx context.Context, req *pb.CreateRequest) (resp *pb.CreateResponse, err error) {
+func (s *ProjectService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetResponse, err error) {
+	project, err := s.projectRepository.Find(ctx, req.Id)
+
+	if err != nil {
+		return nil, twirp.InternalError(err.Error())
+	}
+
+	return &pb.GetResponse{
+		Project: project.GrpcResponse(),
+	}, nil
+}
+
+func (s *ProjectService) Create(ctx context.Context, req *pb.CreateRequest) (resp *pb.CreateResponse, err error) {
 
 	if validate := req.ValidateAll(); validate != nil {
-
 		var mapError = map[string]string{}
 		for _, e := range validate.(pb.CreateRequestMultiError) {
 			d := e.(pb.CreateRequestValidationError)
 			mapError[d.Field()] = d.Reason()
 		}
-
 		return nil, pkgerr.InvalidRequestError(mapError)
 	}
 
-	var project = &Project{
-		Name:        req.Name,
-		Domain:      req.Domain,
-		Description: req.Description,
-	}
+	usr := s.authContext.GetAuthUser(ctx)
+	var project = s.projectFactory.CreateByRequest(usr, req)
 
-	s.projectRepository.Create(ctx, project)
+	err = s.projectRepository.Create(ctx, project)
 
 	return &pb.CreateResponse{
 		Project: project.GrpcResponse(),
-	}, nil
+	}, err
 }
 
-func (s *ProjectService) GetProject(ctx context.Context, req *pb.IdRequest) (resp *pb.GetProjectResponse, err error) {
+func (s *ProjectService) Update(ctx context.Context, req *pb.UpdateRequest) (resp *pb.UpdateResponse, err error) {
 	project, err := s.projectRepository.Find(ctx, req.Id)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
 
-	return &pb.GetProjectResponse{
-		Project: project.GrpcResponse(),
-	}, nil
-}
-
-func (s *ProjectService) EditProject(ctx context.Context, req *pb.EditRequest) (resp *pb.EditResponse, err error) {
-	project, err := s.projectRepository.Find(ctx, req.Id)
-
-	if err != nil {
-		return nil, twirp.InternalError(err.Error())
+	if validate := req.ValidateAll(); validate != nil {
+		var mapError = map[string]string{}
+		for _, e := range validate.(pb.UpdateRequestMultiError) {
+			d := e.(pb.UpdateRequestValidationError)
+			mapError[d.Field()] = d.Reason()
+		}
+		return nil, pkgerr.InvalidRequestError(mapError)
 	}
 
-	return &pb.EditResponse{
+	project.Name = req.Name
+	project.Domain = req.Domain
+	project.Description = req.Description
+
+	s.projectRepository.Save(ctx, project)
+
+	return &pb.UpdateResponse{
 		Project: project.GrpcResponse(),
 	}, nil
 }
 
-func (s *ProjectService) AllProject(ctx context.Context, req *gprotobuf.Empty) (resp *pb.AllProjectResponse, err error) {
+func (s *ProjectService) All(ctx context.Context, req *gprotobuf.Empty) (resp *pb.AllResponse, err error) {
 	items, err := s.projectRepository.All(ctx)
 
 	if err != nil {
@@ -88,20 +98,19 @@ func (s *ProjectService) AllProject(ctx context.Context, req *gprotobuf.Empty) (
 		projects = append(projects, item.GrpcResponse())
 	}
 
-	return &pb.AllProjectResponse{
+	return &pb.AllResponse{
 		Projects: projects,
 	}, nil
 }
 
-func (s *ProjectService) DeleteProject(ctx context.Context, req *pb.IdRequest) (resp *gprotobuf.Empty, err error) {
-	usr := s.authContext.GetAuthUser(ctx)
+func (s *ProjectService) Delete(ctx context.Context, req *pb.IdRequest) (resp *gprotobuf.Empty, err error) {
 	project, err := s.projectRepository.Find(ctx, req.Id)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
 
-	err = s.projectRepository.Delete(usr, project)
+	err = s.projectRepository.Delete(ctx, project)
 
 	return &gprotobuf.Empty{}, err
 }

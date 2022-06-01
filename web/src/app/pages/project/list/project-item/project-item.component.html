@@ -1,0 +1,36 @@
+<tui-island [size]="'l'" [hoverable]="true" [textAlign]="'left'" class="adfy-project-item tui-space_bottom-9" >
+  <div class="tui-island__content" (click)="onClickCardAction($event, project)">
+    <figure class="tui-island__figure" (tuiActiveZoneChange)="onActiveZone($event)">
+      <button tuiLink [tuiDropdownContent]="dropdownContent" [tuiDropdown]="menuState"
+        (click)="onMenuClick($event)"
+        (tuiObscured)="onObscured(false)"
+        >
+        <tui-svg src="tuiIconMoreVer" class="icon"></tui-svg>
+      </button>
+    </figure>
+    <div>
+      <div class="tui-island__title">
+        {{ project.name }}
+      </div>
+      <div class="tui-island__category">Domains</div>
+      <tui-tag *ngFor="let domain of project.domain" [size]="'s'" [value]="domain"></tui-tag>
+    </div>
+  </div>
+</tui-island>
+
+<ng-template #icon>
+  <tui-svg src="tuiIconMoreVer"></tui-svg>
+</ng-template>
+
+<ng-template #dropdownContent>
+  <tui-opt-group>
+    <tui-data-list>
+      <button tuiOption (click)="onUpdateProject($event, project)">
+        Edit
+      </button>
+      <button tuiOption (click)="onDeleteProject($event, project)">
+        Delete
+      </button>
+    </tui-data-list>
+  </tui-opt-group>
+</ng-template>

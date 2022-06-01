@@ -21,7 +21,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/placeCreateResponse"
+              "$ref": "#/definitions/rpcplaceCreateResponse"
             }
           }
         },
@@ -31,7 +31,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/placeCreateRequest"
+              "$ref": "#/definitions/rpcplaceCreateRequest"
             }
           }
         ],
@@ -57,7 +57,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/placeIdRequest"
+              "$ref": "#/definitions/rpcplaceIdRequest"
             }
           }
         ],
@@ -109,7 +109,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/placeIdRequest"
+              "$ref": "#/definitions/rpcplaceIdRequest"
             }
           }
         ],
@@ -146,25 +146,6 @@
     }
   },
   "definitions": {
-    "placeCreateRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "project": {
-          "type": "string"
-        }
-      }
-    },
-    "placeCreateResponse": {
-      "type": "object",
-      "properties": {
-        "place": {
-          "$ref": "#/definitions/placePlace"
-        }
-      }
-    },
     "placeEditRequest": {
       "type": "object",
       "properties": {
@@ -211,28 +192,69 @@
         }
       }
     },
-    "placeIdRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        }
-      }
-    },
     "placePlace": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string"
         },
-        "project": {
+        "name": {
           "type": "string"
         },
-        "immutable": {
-          "type": "boolean",
-          "format": "boolean"
+        "project": {
+          "$ref": "#/definitions/projectProject"
+        },
+        "securityKey": {
+          "type": "string"
+        }
+      }
+    },
+    "projectProject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string"
         },
         "htmlCode": {
+          "type": "string"
+        }
+      }
+    },
+    "rpcplaceCreateRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        }
+      }
+    },
+    "rpcplaceCreateResponse": {
+      "type": "object",
+      "properties": {
+        "place": {
+          "$ref": "#/definitions/placePlace"
+        }
+      }
+    },
+    "rpcplaceIdRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
           "type": "string"
         }
       }

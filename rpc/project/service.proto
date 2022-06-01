@@ -23,11 +23,11 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 service ProjectService {
 
 
-  rpc CreateProject(CreateRequest) returns (CreateResponse);
-  rpc GetProject(IdRequest) returns (GetProjectResponse);
-  rpc AllProject(google.protobuf.Empty) returns (AllProjectResponse);
-  rpc EditProject(EditRequest) returns (EditResponse);
-  rpc DeleteProject(IdRequest) returns (google.protobuf.Empty);
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Get(IdRequest) returns (GetResponse);
+  rpc All(google.protobuf.Empty) returns (AllResponse);
+  rpc Update(UpdateRequest) returns (UpdateResponse);
+  rpc Delete(IdRequest) returns (google.protobuf.Empty);
 
 }
 
@@ -44,7 +44,7 @@ message CreateResponse {
   Project project = 1;
 }
 
-message EditRequest {
+message UpdateRequest {
     string id = 1 [(validate.rules).string.uuid = true];
     string name = 2 [(validate.rules).string = {min_len: 3, max_len: 50}];
     repeated string domain = 3 [
@@ -54,12 +54,12 @@ message EditRequest {
     string description = 4;
 }
 
-message EditResponse {
+message UpdateResponse {
   Project project = 1;
 }
 
 
-message GetProjectResponse {
+message GetResponse {
   Project project = 1;
 }
 
@@ -67,7 +67,7 @@ message IdRequest {
   string id = 1;
 }
 
-message AllProjectResponse {
+message AllResponse {
   repeated Project projects = 1;
 }
 

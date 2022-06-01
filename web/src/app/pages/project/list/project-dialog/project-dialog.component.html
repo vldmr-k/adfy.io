@@ -1,0 +1,32 @@
+<form class="form" [formGroup]="form" (submit)="onSubmit()">
+  <div class="tui-form__row">
+    <label tuiLabel label="Name">
+      <tui-input tuiAutoFocus formControlName="name">
+        <input tuiTextfield type="name">
+
+        Name&nbsp;<span class="tui-required"></span>
+      </tui-input>
+
+      <tui-field-error formControlName="name"></tui-field-error>
+    </label>
+  </div>
+
+  <div class="tui-form__row">
+    <label tuiLabel label="Allow Domains">
+      <tui-input-tag formControlName="domain" [tuiTextfieldSize]="'s'"
+        tuiHintContent="Set only domains whithout http(s):// and www. For example  adfy.io, google.com, twitter.com">
+        Domains&nbsp;<span class="tui-required"></span>
+      </tui-input-tag>
+
+      <tui-field-error formControlName="domain"></tui-field-error>
+
+    </label>
+  </div>
+
+
+  <div class="tui-form__row">
+    <button class="tui-space_right-3 tui-space_bottom-3" tuiButton type="submit" size="m" [disabled]="!hasErrors">
+      Save
+    </button>
+  </div>
+</form>

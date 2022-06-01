@@ -81,7 +81,7 @@ func (j *JWT) ParseToken(token string) (*AuthUser, error) {
 	}
 
 	return &AuthUser{
-		ID:    uuid,
+		ID:    uuid.String(),
 		Email: email.(string),
 		Name:  name.(string),
 	}, nil

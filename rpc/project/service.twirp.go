@@ -35,15 +35,15 @@ const _ = twirp.TwirpPackageMinVersion_8_1_0
 // ========================
 
 type ProjectService interface {
-	CreateProject(context.Context, *CreateRequest) (*CreateResponse, error)
+	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 
-	GetProject(context.Context, *IdRequest) (*GetProjectResponse, error)
+	Get(context.Context, *IdRequest) (*GetResponse, error)
 
-	AllProject(context.Context, *google_protobuf5.Empty) (*AllProjectResponse, error)
+	All(context.Context, *google_protobuf5.Empty) (*AllResponse, error)
 
-	EditProject(context.Context, *EditRequest) (*EditResponse, error)
+	Update(context.Context, *UpdateRequest) (*UpdateResponse, error)
 
-	DeleteProject(context.Context, *IdRequest) (*google_protobuf5.Empty, error)
+	Delete(context.Context, *IdRequest) (*google_protobuf5.Empty, error)
 }
 
 // ==============================
@@ -81,11 +81,11 @@ func NewProjectServiceProtobufClient(baseURL string, client HTTPClient, opts ...
 	serviceURL := sanitizeBaseURL(baseURL)
 	serviceURL += baseServicePath(pathPrefix, "adfy.io.rpc.project", "ProjectService")
 	urls := [5]string{
-		serviceURL + "CreateProject",
-		serviceURL + "GetProject",
-		serviceURL + "AllProject",
-		serviceURL + "EditProject",
-		serviceURL + "DeleteProject",
+		serviceURL + "Create",
+		serviceURL + "Get",
+		serviceURL + "All",
+		serviceURL + "Update",
+		serviceURL + "Delete",
 	}
 
 	return &projectServiceProtobufClient{
@@ -96,11 +96,11 @@ func NewProjectServiceProtobufClient(baseURL string, client HTTPClient, opts ...
 	}
 }
 
-func (c *projectServiceProtobufClient) CreateProject(ctx context.Context, in *CreateRequest) (*CreateResponse, error) {
+func (c *projectServiceProtobufClient) Create(ctx context.Context, in *CreateRequest) (*CreateResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "CreateProject")
-	caller := c.callCreateProject
+	ctx = ctxsetters.WithMethodName(ctx, "Create")
+	caller := c.callCreate
 	if c.interceptor != nil {
 		caller = func(ctx context.Context, req *CreateRequest) (*CreateResponse, error) {
 			resp, err := c.interceptor(
@@ -109,7 +109,7 @@ func (c *projectServiceProtobufClient) CreateProject(ctx context.Context, in *Cr
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*CreateRequest) when calling interceptor")
 					}
-					return c.callCreateProject(ctx, typedReq)
+					return c.callCreate(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
@@ -125,7 +125,7 @@ func (c *projectServiceProtobufClient) CreateProject(ctx context.Context, in *Cr
 	return caller(ctx, in)
 }
 
-func (c *projectServiceProtobufClient) callCreateProject(ctx context.Context, in *CreateRequest) (*CreateResponse, error) {
+func (c *projectServiceProtobufClient) callCreate(ctx context.Context, in *CreateRequest) (*CreateResponse, error) {
 	out := new(CreateResponse)
 	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[0], in, out)
 	if err != nil {
@@ -142,26 +142,26 @@ func (c *projectServiceProtobufClient) callCreateProject(ctx context.Context, in
 	return out, nil
 }
 
-func (c *projectServiceProtobufClient) GetProject(ctx context.Context, in *IdRequest) (*GetProjectResponse, error) {
+func (c *projectServiceProtobufClient) Get(ctx context.Context, in *IdRequest) (*GetResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "GetProject")
-	caller := c.callGetProject
+	ctx = ctxsetters.WithMethodName(ctx, "Get")
+	caller := c.callGet
 	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *IdRequest) (*GetProjectResponse, error) {
+		caller = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
 			resp, err := c.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*IdRequest)
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
 					}
-					return c.callGetProject(ctx, typedReq)
+					return c.callGet(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*GetProjectResponse)
+				typedResp, ok := resp.(*GetResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*GetProjectResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -171,8 +171,8 @@ func (c *projectServiceProtobufClient) GetProject(ctx context.Context, in *IdReq
 	return caller(ctx, in)
 }
 
-func (c *projectServiceProtobufClient) callGetProject(ctx context.Context, in *IdRequest) (*GetProjectResponse, error) {
-	out := new(GetProjectResponse)
+func (c *projectServiceProtobufClient) callGet(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	out := new(GetResponse)
 	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[1], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
@@ -188,26 +188,26 @@ func (c *projectServiceProtobufClient) callGetProject(ctx context.Context, in *I
 	return out, nil
 }
 
-func (c *projectServiceProtobufClient) AllProject(ctx context.Context, in *google_protobuf5.Empty) (*AllProjectResponse, error) {
+func (c *projectServiceProtobufClient) All(ctx context.Context, in *google_protobuf5.Empty) (*AllResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "AllProject")
-	caller := c.callAllProject
+	ctx = ctxsetters.WithMethodName(ctx, "All")
+	caller := c.callAll
 	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *google_protobuf5.Empty) (*AllProjectResponse, error) {
+		caller = func(ctx context.Context, req *google_protobuf5.Empty) (*AllResponse, error) {
 			resp, err := c.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*google_protobuf5.Empty)
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*google_protobuf5.Empty) when calling interceptor")
 					}
-					return c.callAllProject(ctx, typedReq)
+					return c.callAll(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*AllProjectResponse)
+				typedResp, ok := resp.(*AllResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*AllProjectResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*AllResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -217,8 +217,8 @@ func (c *projectServiceProtobufClient) AllProject(ctx context.Context, in *googl
 	return caller(ctx, in)
 }
 
-func (c *projectServiceProtobufClient) callAllProject(ctx context.Context, in *google_protobuf5.Empty) (*AllProjectResponse, error) {
-	out := new(AllProjectResponse)
+func (c *projectServiceProtobufClient) callAll(ctx context.Context, in *google_protobuf5.Empty) (*AllResponse, error) {
+	out := new(AllResponse)
 	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[2], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
@@ -234,26 +234,26 @@ func (c *projectServiceProtobufClient) callAllProject(ctx context.Context, in *g
 	return out, nil
 }
 
-func (c *projectServiceProtobufClient) EditProject(ctx context.Context, in *EditRequest) (*EditResponse, error) {
+func (c *projectServiceProtobufClient) Update(ctx context.Context, in *UpdateRequest) (*UpdateResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "EditProject")
-	caller := c.callEditProject
+	ctx = ctxsetters.WithMethodName(ctx, "Update")
+	caller := c.callUpdate
 	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *EditRequest) (*EditResponse, error) {
+		caller = func(ctx context.Context, req *UpdateRequest) (*UpdateResponse, error) {
 			resp, err := c.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
-					typedReq, ok := req.(*EditRequest)
+					typedReq, ok := req.(*UpdateRequest)
 					if !ok {
-						return nil, twirp.InternalError("failed type assertion req.(*EditRequest) when calling interceptor")
+						return nil, twirp.InternalError("failed type assertion req.(*UpdateRequest) when calling interceptor")
 					}
-					return c.callEditProject(ctx, typedReq)
+					return c.callUpdate(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*EditResponse)
+				typedResp, ok := resp.(*UpdateResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*EditResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*UpdateResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -263,8 +263,8 @@ func (c *projectServiceProtobufClient) EditProject(ctx context.Context, in *Edit
 	return caller(ctx, in)
 }
 
-func (c *projectServiceProtobufClient) callEditProject(ctx context.Context, in *EditRequest) (*EditResponse, error) {
-	out := new(EditResponse)
+func (c *projectServiceProtobufClient) callUpdate(ctx context.Context, in *UpdateRequest) (*UpdateResponse, error) {
+	out := new(UpdateResponse)
 	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[3], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
@@ -280,11 +280,11 @@ func (c *projectServiceProtobufClient) callEditProject(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *projectServiceProtobufClient) DeleteProject(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
+func (c *projectServiceProtobufClient) Delete(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "DeleteProject")
-	caller := c.callDeleteProject
+	ctx = ctxsetters.WithMethodName(ctx, "Delete")
+	caller := c.callDelete
 	if c.interceptor != nil {
 		caller = func(ctx context.Context, req *IdRequest) (*google_protobuf5.Empty, error) {
 			resp, err := c.interceptor(
@@ -293,7 +293,7 @@ func (c *projectServiceProtobufClient) DeleteProject(ctx context.Context, in *Id
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
 					}
-					return c.callDeleteProject(ctx, typedReq)
+					return c.callDelete(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
@@ -309,7 +309,7 @@ func (c *projectServiceProtobufClient) DeleteProject(ctx context.Context, in *Id
 	return caller(ctx, in)
 }
 
-func (c *projectServiceProtobufClient) callDeleteProject(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
+func (c *projectServiceProtobufClient) callDelete(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
 	out := new(google_protobuf5.Empty)
 	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[4], in, out)
 	if err != nil {
@@ -361,11 +361,11 @@ func NewProjectServiceJSONClient(baseURL string, client HTTPClient, opts ...twir
 	serviceURL := sanitizeBaseURL(baseURL)
 	serviceURL += baseServicePath(pathPrefix, "adfy.io.rpc.project", "ProjectService")
 	urls := [5]string{
-		serviceURL + "CreateProject",
-		serviceURL + "GetProject",
-		serviceURL + "AllProject",
-		serviceURL + "EditProject",
-		serviceURL + "DeleteProject",
+		serviceURL + "Create",
+		serviceURL + "Get",
+		serviceURL + "All",
+		serviceURL + "Update",
+		serviceURL + "Delete",
 	}
 
 	return &projectServiceJSONClient{
@@ -376,11 +376,11 @@ func NewProjectServiceJSONClient(baseURL string, client HTTPClient, opts ...twir
 	}
 }
 
-func (c *projectServiceJSONClient) CreateProject(ctx context.Context, in *CreateRequest) (*CreateResponse, error) {
+func (c *projectServiceJSONClient) Create(ctx context.Context, in *CreateRequest) (*CreateResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "CreateProject")
-	caller := c.callCreateProject
+	ctx = ctxsetters.WithMethodName(ctx, "Create")
+	caller := c.callCreate
 	if c.interceptor != nil {
 		caller = func(ctx context.Context, req *CreateRequest) (*CreateResponse, error) {
 			resp, err := c.interceptor(
@@ -389,7 +389,7 @@ func (c *projectServiceJSONClient) CreateProject(ctx context.Context, in *Create
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*CreateRequest) when calling interceptor")
 					}
-					return c.callCreateProject(ctx, typedReq)
+					return c.callCreate(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
@@ -405,7 +405,7 @@ func (c *projectServiceJSONClient) CreateProject(ctx context.Context, in *Create
 	return caller(ctx, in)
 }
 
-func (c *projectServiceJSONClient) callCreateProject(ctx context.Context, in *CreateRequest) (*CreateResponse, error) {
+func (c *projectServiceJSONClient) callCreate(ctx context.Context, in *CreateRequest) (*CreateResponse, error) {
 	out := new(CreateResponse)
 	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[0], in, out)
 	if err != nil {
@@ -422,26 +422,26 @@ func (c *projectServiceJSONClient) callCreateProject(ctx context.Context, in *Cr
 	return out, nil
 }
 
-func (c *projectServiceJSONClient) GetProject(ctx context.Context, in *IdRequest) (*GetProjectResponse, error) {
+func (c *projectServiceJSONClient) Get(ctx context.Context, in *IdRequest) (*GetResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "GetProject")
-	caller := c.callGetProject
+	ctx = ctxsetters.WithMethodName(ctx, "Get")
+	caller := c.callGet
 	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *IdRequest) (*GetProjectResponse, error) {
+		caller = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
 			resp, err := c.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*IdRequest)
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
 					}
-					return c.callGetProject(ctx, typedReq)
+					return c.callGet(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*GetProjectResponse)
+				typedResp, ok := resp.(*GetResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*GetProjectResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -451,8 +451,8 @@ func (c *projectServiceJSONClient) GetProject(ctx context.Context, in *IdRequest
 	return caller(ctx, in)
 }
 
-func (c *projectServiceJSONClient) callGetProject(ctx context.Context, in *IdRequest) (*GetProjectResponse, error) {
-	out := new(GetProjectResponse)
+func (c *projectServiceJSONClient) callGet(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	out := new(GetResponse)
 	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[1], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
@@ -468,26 +468,26 @@ func (c *projectServiceJSONClient) callGetProject(ctx context.Context, in *IdReq
 	return out, nil
 }
 
-func (c *projectServiceJSONClient) AllProject(ctx context.Context, in *google_protobuf5.Empty) (*AllProjectResponse, error) {
+func (c *projectServiceJSONClient) All(ctx context.Context, in *google_protobuf5.Empty) (*AllResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "AllProject")
-	caller := c.callAllProject
+	ctx = ctxsetters.WithMethodName(ctx, "All")
+	caller := c.callAll
 	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *google_protobuf5.Empty) (*AllProjectResponse, error) {
+		caller = func(ctx context.Context, req *google_protobuf5.Empty) (*AllResponse, error) {
 			resp, err := c.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*google_protobuf5.Empty)
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*google_protobuf5.Empty) when calling interceptor")
 					}
-					return c.callAllProject(ctx, typedReq)
+					return c.callAll(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*AllProjectResponse)
+				typedResp, ok := resp.(*AllResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*AllProjectResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*AllResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -497,8 +497,8 @@ func (c *projectServiceJSONClient) AllProject(ctx context.Context, in *google_pr
 	return caller(ctx, in)
 }
 
-func (c *projectServiceJSONClient) callAllProject(ctx context.Context, in *google_protobuf5.Empty) (*AllProjectResponse, error) {
-	out := new(AllProjectResponse)
+func (c *projectServiceJSONClient) callAll(ctx context.Context, in *google_protobuf5.Empty) (*AllResponse, error) {
+	out := new(AllResponse)
 	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[2], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
@@ -514,26 +514,26 @@ func (c *projectServiceJSONClient) callAllProject(ctx context.Context, in *googl
 	return out, nil
 }
 
-func (c *projectServiceJSONClient) EditProject(ctx context.Context, in *EditRequest) (*EditResponse, error) {
+func (c *projectServiceJSONClient) Update(ctx context.Context, in *UpdateRequest) (*UpdateResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "EditProject")
-	caller := c.callEditProject
+	ctx = ctxsetters.WithMethodName(ctx, "Update")
+	caller := c.callUpdate
 	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *EditRequest) (*EditResponse, error) {
+		caller = func(ctx context.Context, req *UpdateRequest) (*UpdateResponse, error) {
 			resp, err := c.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
-					typedReq, ok := req.(*EditRequest)
+					typedReq, ok := req.(*UpdateRequest)
 					if !ok {
-						return nil, twirp.InternalError("failed type assertion req.(*EditRequest) when calling interceptor")
+						return nil, twirp.InternalError("failed type assertion req.(*UpdateRequest) when calling interceptor")
 					}
-					return c.callEditProject(ctx, typedReq)
+					return c.callUpdate(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*EditResponse)
+				typedResp, ok := resp.(*UpdateResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*EditResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*UpdateResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -543,8 +543,8 @@ func (c *projectServiceJSONClient) EditProject(ctx context.Context, in *EditRequ
 	return caller(ctx, in)
 }
 
-func (c *projectServiceJSONClient) callEditProject(ctx context.Context, in *EditRequest) (*EditResponse, error) {
-	out := new(EditResponse)
+func (c *projectServiceJSONClient) callUpdate(ctx context.Context, in *UpdateRequest) (*UpdateResponse, error) {
+	out := new(UpdateResponse)
 	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[3], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
@@ -560,11 +560,11 @@ func (c *projectServiceJSONClient) callEditProject(ctx context.Context, in *Edit
 	return out, nil
 }
 
-func (c *projectServiceJSONClient) DeleteProject(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
+func (c *projectServiceJSONClient) Delete(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.project")
 	ctx = ctxsetters.WithServiceName(ctx, "ProjectService")
-	ctx = ctxsetters.WithMethodName(ctx, "DeleteProject")
-	caller := c.callDeleteProject
+	ctx = ctxsetters.WithMethodName(ctx, "Delete")
+	caller := c.callDelete
 	if c.interceptor != nil {
 		caller = func(ctx context.Context, req *IdRequest) (*google_protobuf5.Empty, error) {
 			resp, err := c.interceptor(
@@ -573,7 +573,7 @@ func (c *projectServiceJSONClient) DeleteProject(ctx context.Context, in *IdRequ
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
 					}
-					return c.callDeleteProject(ctx, typedReq)
+					return c.callDelete(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
@@ -589,7 +589,7 @@ func (c *projectServiceJSONClient) DeleteProject(ctx context.Context, in *IdRequ
 	return caller(ctx, in)
 }
 
-func (c *projectServiceJSONClient) callDeleteProject(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
+func (c *projectServiceJSONClient) callDelete(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
 	out := new(google_protobuf5.Empty)
 	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[4], in, out)
 	if err != nil {
@@ -703,20 +703,20 @@ func (s *projectServiceServer) ServeHTTP(resp http.ResponseWriter, req *http.Req
 	}
 
 	switch method {
-	case "CreateProject":
-		s.serveCreateProject(ctx, resp, req)
+	case "Create":
+		s.serveCreate(ctx, resp, req)
 		return
-	case "GetProject":
-		s.serveGetProject(ctx, resp, req)
+	case "Get":
+		s.serveGet(ctx, resp, req)
 		return
-	case "AllProject":
-		s.serveAllProject(ctx, resp, req)
+	case "All":
+		s.serveAll(ctx, resp, req)
 		return
-	case "EditProject":
-		s.serveEditProject(ctx, resp, req)
+	case "Update":
+		s.serveUpdate(ctx, resp, req)
 		return
-	case "DeleteProject":
-		s.serveDeleteProject(ctx, resp, req)
+	case "Delete":
+		s.serveDelete(ctx, resp, req)
 		return
 	default:
 		msg := fmt.Sprintf("no handler for path %q", req.URL.Path)
@@ -725,7 +725,7 @@ func (s *projectServiceServer) ServeHTTP(resp http.ResponseWriter, req *http.Req
 	}
 }
 
-func (s *projectServiceServer) serveCreateProject(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveCreate(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	header := req.Header.Get("Content-Type")
 	i := strings.Index(header, ";")
 	if i == -1 {
@@ -733,9 +733,9 @@ func (s *projectServiceServer) serveCreateProject(ctx context.Context, resp http
 	}
 	switch strings.TrimSpace(strings.ToLower(header[:i])) {
 	case "application/json":
-		s.serveCreateProjectJSON(ctx, resp, req)
+		s.serveCreateJSON(ctx, resp, req)
 	case "application/protobuf":
-		s.serveCreateProjectProtobuf(ctx, resp, req)
+		s.serveCreateProtobuf(ctx, resp, req)
 	default:
 		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
 		twerr := badRouteError(msg, req.Method, req.URL.Path)
@@ -743,9 +743,9 @@ func (s *projectServiceServer) serveCreateProject(ctx context.Context, resp http
 	}
 }
 
-func (s *projectServiceServer) serveCreateProjectJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveCreateJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "CreateProject")
+	ctx = ctxsetters.WithMethodName(ctx, "Create")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -765,7 +765,7 @@ func (s *projectServiceServer) serveCreateProjectJSON(ctx context.Context, resp 
 		return
 	}
 
-	handler := s.ProjectService.CreateProject
+	handler := s.ProjectService.Create
 	if s.interceptor != nil {
 		handler = func(ctx context.Context, req *CreateRequest) (*CreateResponse, error) {
 			resp, err := s.interceptor(
@@ -774,7 +774,7 @@ func (s *projectServiceServer) serveCreateProjectJSON(ctx context.Context, resp 
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*CreateRequest) when calling interceptor")
 					}
-					return s.ProjectService.CreateProject(ctx, typedReq)
+					return s.ProjectService.Create(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
@@ -800,7 +800,7 @@ func (s *projectServiceServer) serveCreateProjectJSON(ctx context.Context, resp 
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *CreateResponse and nil error while calling CreateProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *CreateResponse and nil error while calling Create. nil responses are not supported"))
 		return
 	}
 
@@ -826,9 +826,9 @@ func (s *projectServiceServer) serveCreateProjectJSON(ctx context.Context, resp 
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *projectServiceServer) serveCreateProjectProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveCreateProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "CreateProject")
+	ctx = ctxsetters.WithMethodName(ctx, "Create")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -846,7 +846,7 @@ func (s *projectServiceServer) serveCreateProjectProtobuf(ctx context.Context, r
 		return
 	}
 
-	handler := s.ProjectService.CreateProject
+	handler := s.ProjectService.Create
 	if s.interceptor != nil {
 		handler = func(ctx context.Context, req *CreateRequest) (*CreateResponse, error) {
 			resp, err := s.interceptor(
@@ -855,7 +855,7 @@ func (s *projectServiceServer) serveCreateProjectProtobuf(ctx context.Context, r
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*CreateRequest) when calling interceptor")
 					}
-					return s.ProjectService.CreateProject(ctx, typedReq)
+					return s.ProjectService.Create(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
@@ -881,7 +881,7 @@ func (s *projectServiceServer) serveCreateProjectProtobuf(ctx context.Context, r
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *CreateResponse and nil error while calling CreateProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *CreateResponse and nil error while calling Create. nil responses are not supported"))
 		return
 	}
 
@@ -905,7 +905,7 @@ func (s *projectServiceServer) serveCreateProjectProtobuf(ctx context.Context, r
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *projectServiceServer) serveGetProject(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveGet(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	header := req.Header.Get("Content-Type")
 	i := strings.Index(header, ";")
 	if i == -1 {
@@ -913,9 +913,9 @@ func (s *projectServiceServer) serveGetProject(ctx context.Context, resp http.Re
 	}
 	switch strings.TrimSpace(strings.ToLower(header[:i])) {
 	case "application/json":
-		s.serveGetProjectJSON(ctx, resp, req)
+		s.serveGetJSON(ctx, resp, req)
 	case "application/protobuf":
-		s.serveGetProjectProtobuf(ctx, resp, req)
+		s.serveGetProtobuf(ctx, resp, req)
 	default:
 		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
 		twerr := badRouteError(msg, req.Method, req.URL.Path)
@@ -923,9 +923,9 @@ func (s *projectServiceServer) serveGetProject(ctx context.Context, resp http.Re
 	}
 }
 
-func (s *projectServiceServer) serveGetProjectJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveGetJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "GetProject")
+	ctx = ctxsetters.WithMethodName(ctx, "Get")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -945,22 +945,22 @@ func (s *projectServiceServer) serveGetProjectJSON(ctx context.Context, resp htt
 		return
 	}
 
-	handler := s.ProjectService.GetProject
+	handler := s.ProjectService.Get
 	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *IdRequest) (*GetProjectResponse, error) {
+		handler = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
 			resp, err := s.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*IdRequest)
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
 					}
-					return s.ProjectService.GetProject(ctx, typedReq)
+					return s.ProjectService.Get(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*GetProjectResponse)
+				typedResp, ok := resp.(*GetResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*GetProjectResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -969,7 +969,7 @@ func (s *projectServiceServer) serveGetProjectJSON(ctx context.Context, resp htt
 	}
 
 	// Call service method
-	var respContent *GetProjectResponse
+	var respContent *GetResponse
 	func() {
 		defer ensurePanicResponses(ctx, resp, s.hooks)
 		respContent, err = handler(ctx, reqContent)
@@ -980,7 +980,7 @@ func (s *projectServiceServer) serveGetProjectJSON(ctx context.Context, resp htt
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetProjectResponse and nil error while calling GetProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetResponse and nil error while calling Get. nil responses are not supported"))
 		return
 	}
 
@@ -1006,9 +1006,9 @@ func (s *projectServiceServer) serveGetProjectJSON(ctx context.Context, resp htt
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *projectServiceServer) serveGetProjectProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveGetProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "GetProject")
+	ctx = ctxsetters.WithMethodName(ctx, "Get")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -1026,22 +1026,22 @@ func (s *projectServiceServer) serveGetProjectProtobuf(ctx context.Context, resp
 		return
 	}
 
-	handler := s.ProjectService.GetProject
+	handler := s.ProjectService.Get
 	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *IdRequest) (*GetProjectResponse, error) {
+		handler = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
 			resp, err := s.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*IdRequest)
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
 					}
-					return s.ProjectService.GetProject(ctx, typedReq)
+					return s.ProjectService.Get(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*GetProjectResponse)
+				typedResp, ok := resp.(*GetResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*GetProjectResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -1050,7 +1050,7 @@ func (s *projectServiceServer) serveGetProjectProtobuf(ctx context.Context, resp
 	}
 
 	// Call service method
-	var respContent *GetProjectResponse
+	var respContent *GetResponse
 	func() {
 		defer ensurePanicResponses(ctx, resp, s.hooks)
 		respContent, err = handler(ctx, reqContent)
@@ -1061,7 +1061,7 @@ func (s *projectServiceServer) serveGetProjectProtobuf(ctx context.Context, resp
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetProjectResponse and nil error while calling GetProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetResponse and nil error while calling Get. nil responses are not supported"))
 		return
 	}
 
@@ -1085,7 +1085,7 @@ func (s *projectServiceServer) serveGetProjectProtobuf(ctx context.Context, resp
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *projectServiceServer) serveAllProject(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveAll(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	header := req.Header.Get("Content-Type")
 	i := strings.Index(header, ";")
 	if i == -1 {
@@ -1093,9 +1093,9 @@ func (s *projectServiceServer) serveAllProject(ctx context.Context, resp http.Re
 	}
 	switch strings.TrimSpace(strings.ToLower(header[:i])) {
 	case "application/json":
-		s.serveAllProjectJSON(ctx, resp, req)
+		s.serveAllJSON(ctx, resp, req)
 	case "application/protobuf":
-		s.serveAllProjectProtobuf(ctx, resp, req)
+		s.serveAllProtobuf(ctx, resp, req)
 	default:
 		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
 		twerr := badRouteError(msg, req.Method, req.URL.Path)
@@ -1103,9 +1103,9 @@ func (s *projectServiceServer) serveAllProject(ctx context.Context, resp http.Re
 	}
 }
 
-func (s *projectServiceServer) serveAllProjectJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveAllJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "AllProject")
+	ctx = ctxsetters.WithMethodName(ctx, "All")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -1125,22 +1125,22 @@ func (s *projectServiceServer) serveAllProjectJSON(ctx context.Context, resp htt
 		return
 	}
 
-	handler := s.ProjectService.AllProject
+	handler := s.ProjectService.All
 	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *google_protobuf5.Empty) (*AllProjectResponse, error) {
+		handler = func(ctx context.Context, req *google_protobuf5.Empty) (*AllResponse, error) {
 			resp, err := s.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*google_protobuf5.Empty)
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*google_protobuf5.Empty) when calling interceptor")
 					}
-					return s.ProjectService.AllProject(ctx, typedReq)
+					return s.ProjectService.All(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*AllProjectResponse)
+				typedResp, ok := resp.(*AllResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*AllProjectResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*AllResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -1149,7 +1149,7 @@ func (s *projectServiceServer) serveAllProjectJSON(ctx context.Context, resp htt
 	}
 
 	// Call service method
-	var respContent *AllProjectResponse
+	var respContent *AllResponse
 	func() {
 		defer ensurePanicResponses(ctx, resp, s.hooks)
 		respContent, err = handler(ctx, reqContent)
@@ -1160,7 +1160,7 @@ func (s *projectServiceServer) serveAllProjectJSON(ctx context.Context, resp htt
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *AllProjectResponse and nil error while calling AllProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *AllResponse and nil error while calling All. nil responses are not supported"))
 		return
 	}
 
@@ -1186,9 +1186,9 @@ func (s *projectServiceServer) serveAllProjectJSON(ctx context.Context, resp htt
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *projectServiceServer) serveAllProjectProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveAllProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "AllProject")
+	ctx = ctxsetters.WithMethodName(ctx, "All")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -1206,22 +1206,22 @@ func (s *projectServiceServer) serveAllProjectProtobuf(ctx context.Context, resp
 		return
 	}
 
-	handler := s.ProjectService.AllProject
+	handler := s.ProjectService.All
 	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *google_protobuf5.Empty) (*AllProjectResponse, error) {
+		handler = func(ctx context.Context, req *google_protobuf5.Empty) (*AllResponse, error) {
 			resp, err := s.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*google_protobuf5.Empty)
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*google_protobuf5.Empty) when calling interceptor")
 					}
-					return s.ProjectService.AllProject(ctx, typedReq)
+					return s.ProjectService.All(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*AllProjectResponse)
+				typedResp, ok := resp.(*AllResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*AllProjectResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*AllResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -1230,7 +1230,7 @@ func (s *projectServiceServer) serveAllProjectProtobuf(ctx context.Context, resp
 	}
 
 	// Call service method
-	var respContent *AllProjectResponse
+	var respContent *AllResponse
 	func() {
 		defer ensurePanicResponses(ctx, resp, s.hooks)
 		respContent, err = handler(ctx, reqContent)
@@ -1241,7 +1241,7 @@ func (s *projectServiceServer) serveAllProjectProtobuf(ctx context.Context, resp
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *AllProjectResponse and nil error while calling AllProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *AllResponse and nil error while calling All. nil responses are not supported"))
 		return
 	}
 
@@ -1265,7 +1265,7 @@ func (s *projectServiceServer) serveAllProjectProtobuf(ctx context.Context, resp
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *projectServiceServer) serveEditProject(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveUpdate(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	header := req.Header.Get("Content-Type")
 	i := strings.Index(header, ";")
 	if i == -1 {
@@ -1273,9 +1273,9 @@ func (s *projectServiceServer) serveEditProject(ctx context.Context, resp http.R
 	}
 	switch strings.TrimSpace(strings.ToLower(header[:i])) {
 	case "application/json":
-		s.serveEditProjectJSON(ctx, resp, req)
+		s.serveUpdateJSON(ctx, resp, req)
 	case "application/protobuf":
-		s.serveEditProjectProtobuf(ctx, resp, req)
+		s.serveUpdateProtobuf(ctx, resp, req)
 	default:
 		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
 		twerr := badRouteError(msg, req.Method, req.URL.Path)
@@ -1283,9 +1283,9 @@ func (s *projectServiceServer) serveEditProject(ctx context.Context, resp http.R
 	}
 }
 
-func (s *projectServiceServer) serveEditProjectJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveUpdateJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "EditProject")
+	ctx = ctxsetters.WithMethodName(ctx, "Update")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -1298,29 +1298,29 @@ func (s *projectServiceServer) serveEditProjectJSON(ctx context.Context, resp ht
 		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
 		return
 	}
-	reqContent := new(EditRequest)
+	reqContent := new(UpdateRequest)
 	unmarshaler := protojson.UnmarshalOptions{DiscardUnknown: true}
 	if err = unmarshaler.Unmarshal(rawReqBody, reqContent); err != nil {
 		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
 		return
 	}
 
-	handler := s.ProjectService.EditProject
+	handler := s.ProjectService.Update
 	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *EditRequest) (*EditResponse, error) {
+		handler = func(ctx context.Context, req *UpdateRequest) (*UpdateResponse, error) {
 			resp, err := s.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
-					typedReq, ok := req.(*EditRequest)
+					typedReq, ok := req.(*UpdateRequest)
 					if !ok {
-						return nil, twirp.InternalError("failed type assertion req.(*EditRequest) when calling interceptor")
+						return nil, twirp.InternalError("failed type assertion req.(*UpdateRequest) when calling interceptor")
 					}
-					return s.ProjectService.EditProject(ctx, typedReq)
+					return s.ProjectService.Update(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*EditResponse)
+				typedResp, ok := resp.(*UpdateResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*EditResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*UpdateResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -1329,7 +1329,7 @@ func (s *projectServiceServer) serveEditProjectJSON(ctx context.Context, resp ht
 	}
 
 	// Call service method
-	var respContent *EditResponse
+	var respContent *UpdateResponse
 	func() {
 		defer ensurePanicResponses(ctx, resp, s.hooks)
 		respContent, err = handler(ctx, reqContent)
@@ -1340,7 +1340,7 @@ func (s *projectServiceServer) serveEditProjectJSON(ctx context.Context, resp ht
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *EditResponse and nil error while calling EditProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *UpdateResponse and nil error while calling Update. nil responses are not supported"))
 		return
 	}
 
@@ -1366,9 +1366,9 @@ func (s *projectServiceServer) serveEditProjectJSON(ctx context.Context, resp ht
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *projectServiceServer) serveEditProjectProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveUpdateProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "EditProject")
+	ctx = ctxsetters.WithMethodName(ctx, "Update")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -1380,28 +1380,28 @@ func (s *projectServiceServer) serveEditProjectProtobuf(ctx context.Context, res
 		s.handleRequestBodyError(ctx, resp, "failed to read request body", err)
 		return
 	}
-	reqContent := new(EditRequest)
+	reqContent := new(UpdateRequest)
 	if err = proto.Unmarshal(buf, reqContent); err != nil {
 		s.writeError(ctx, resp, malformedRequestError("the protobuf request could not be decoded"))
 		return
 	}
 
-	handler := s.ProjectService.EditProject
+	handler := s.ProjectService.Update
 	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *EditRequest) (*EditResponse, error) {
+		handler = func(ctx context.Context, req *UpdateRequest) (*UpdateResponse, error) {
 			resp, err := s.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
-					typedReq, ok := req.(*EditRequest)
+					typedReq, ok := req.(*UpdateRequest)
 					if !ok {
-						return nil, twirp.InternalError("failed type assertion req.(*EditRequest) when calling interceptor")
+						return nil, twirp.InternalError("failed type assertion req.(*UpdateRequest) when calling interceptor")
 					}
-					return s.ProjectService.EditProject(ctx, typedReq)
+					return s.ProjectService.Update(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*EditResponse)
+				typedResp, ok := resp.(*UpdateResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*EditResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*UpdateResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -1410,7 +1410,7 @@ func (s *projectServiceServer) serveEditProjectProtobuf(ctx context.Context, res
 	}
 
 	// Call service method
-	var respContent *EditResponse
+	var respContent *UpdateResponse
 	func() {
 		defer ensurePanicResponses(ctx, resp, s.hooks)
 		respContent, err = handler(ctx, reqContent)
@@ -1421,7 +1421,7 @@ func (s *projectServiceServer) serveEditProjectProtobuf(ctx context.Context, res
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *EditResponse and nil error while calling EditProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *UpdateResponse and nil error while calling Update. nil responses are not supported"))
 		return
 	}
 
@@ -1445,7 +1445,7 @@ func (s *projectServiceServer) serveEditProjectProtobuf(ctx context.Context, res
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *projectServiceServer) serveDeleteProject(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveDelete(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	header := req.Header.Get("Content-Type")
 	i := strings.Index(header, ";")
 	if i == -1 {
@@ -1453,9 +1453,9 @@ func (s *projectServiceServer) serveDeleteProject(ctx context.Context, resp http
 	}
 	switch strings.TrimSpace(strings.ToLower(header[:i])) {
 	case "application/json":
-		s.serveDeleteProjectJSON(ctx, resp, req)
+		s.serveDeleteJSON(ctx, resp, req)
 	case "application/protobuf":
-		s.serveDeleteProjectProtobuf(ctx, resp, req)
+		s.serveDeleteProtobuf(ctx, resp, req)
 	default:
 		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
 		twerr := badRouteError(msg, req.Method, req.URL.Path)
@@ -1463,9 +1463,9 @@ func (s *projectServiceServer) serveDeleteProject(ctx context.Context, resp http
 	}
 }
 
-func (s *projectServiceServer) serveDeleteProjectJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveDeleteJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "DeleteProject")
+	ctx = ctxsetters.WithMethodName(ctx, "Delete")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -1485,7 +1485,7 @@ func (s *projectServiceServer) serveDeleteProjectJSON(ctx context.Context, resp 
 		return
 	}
 
-	handler := s.ProjectService.DeleteProject
+	handler := s.ProjectService.Delete
 	if s.interceptor != nil {
 		handler = func(ctx context.Context, req *IdRequest) (*google_protobuf5.Empty, error) {
 			resp, err := s.interceptor(
@@ -1494,7 +1494,7 @@ func (s *projectServiceServer) serveDeleteProjectJSON(ctx context.Context, resp 
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
 					}
-					return s.ProjectService.DeleteProject(ctx, typedReq)
+					return s.ProjectService.Delete(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
@@ -1520,7 +1520,7 @@ func (s *projectServiceServer) serveDeleteProjectJSON(ctx context.Context, resp 
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *google_protobuf5.Empty and nil error while calling DeleteProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *google_protobuf5.Empty and nil error while calling Delete. nil responses are not supported"))
 		return
 	}
 
@@ -1546,9 +1546,9 @@ func (s *projectServiceServer) serveDeleteProjectJSON(ctx context.Context, resp 
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *projectServiceServer) serveDeleteProjectProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+func (s *projectServiceServer) serveDeleteProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "DeleteProject")
+	ctx = ctxsetters.WithMethodName(ctx, "Delete")
 	ctx, err = callRequestRouted(ctx, s.hooks)
 	if err != nil {
 		s.writeError(ctx, resp, err)
@@ -1566,7 +1566,7 @@ func (s *projectServiceServer) serveDeleteProjectProtobuf(ctx context.Context, r
 		return
 	}
 
-	handler := s.ProjectService.DeleteProject
+	handler := s.ProjectService.Delete
 	if s.interceptor != nil {
 		handler = func(ctx context.Context, req *IdRequest) (*google_protobuf5.Empty, error) {
 			resp, err := s.interceptor(
@@ -1575,7 +1575,7 @@ func (s *projectServiceServer) serveDeleteProjectProtobuf(ctx context.Context, r
 					if !ok {
 						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
 					}
-					return s.ProjectService.DeleteProject(ctx, typedReq)
+					return s.ProjectService.Delete(ctx, typedReq)
 				},
 			)(ctx, req)
 			if resp != nil {
@@ -1601,7 +1601,7 @@ func (s *projectServiceServer) serveDeleteProjectProtobuf(ctx context.Context, r
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *google_protobuf5.Empty and nil error while calling DeleteProject. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *google_protobuf5.Empty and nil error while calling Delete. nil responses are not supported"))
 		return
 	}
 
@@ -2203,43 +2203,42 @@ func callClientError(ctx context.Context, h *twirp.ClientHooks, err twirp.Error)
 }
 
 var twirpFileDescriptor0 = []byte{
-	// 593 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x54, 0x5d, 0x4f, 0xd4, 0x4c,
-	0x14, 0xce, 0xb4, 0x7c, 0xed, 0xe1, 0x85, 0xbc, 0x8e, 0x11, 0x6b, 0x51, 0x53, 0xeb, 0x85, 0x68,
-	0xa4, 0xa3, 0xab, 0x31, 0x46, 0x2f, 0xcc, 0x16, 0x10, 0x31, 0x8a, 0xa4, 0x68, 0x62, 0xbc, 0x2b,
-	0xed, 0x50, 0x46, 0xdb, 0x4e, 0x9d, 0xce, 0x42, 0x88, 0x57, 0xc6, 0x7f, 0x80, 0x77, 0xfe, 0x07,
-	0x13, 0x7f, 0xdf, 0x5e, 0x99, 0x6d, 0x67, 0x76, 0x17, 0x2c, 0xac, 0x86, 0xab, 0xce, 0x9c, 0xf3,
-	0x9c, 0x8f, 0xe7, 0x39, 0x3d, 0x03, 0x97, 0x0a, 0xc1, 0x3f, 0xd2, 0x48, 0x92, 0x92, 0x8a, 0x7d,
-	0x16, 0x51, 0xaf, 0x10, 0x5c, 0x72, 0x7c, 0x31, 0x8c, 0x77, 0x0f, 0x3d, 0xc6, 0x3d, 0x51, 0x44,
-	0x9e, 0x82, 0xd8, 0x97, 0xf7, 0xc3, 0x94, 0xc5, 0xa1, 0xa4, 0x44, 0x1f, 0x6a, 0xb4, 0x7d, 0xb7,
-	0xfa, 0x44, 0xcb, 0x09, 0xcd, 0x97, 0xcb, 0x83, 0x30, 0x49, 0xa8, 0x20, 0xbc, 0x90, 0x8c, 0xe7,
-	0x25, 0x09, 0xf3, 0x9c, 0xcb, 0xb0, 0x3a, 0x2b, 0xf4, 0x62, 0xc2, 0x79, 0x92, 0x52, 0x52, 0xdd,
-	0x76, 0xba, 0xbb, 0x84, 0x66, 0x85, 0x3c, 0xac, 0x9d, 0xee, 0x17, 0x98, 0x5b, 0x11, 0x34, 0x94,
-	0x34, 0xa0, 0x9f, 0xbb, 0xb4, 0x94, 0xf8, 0x1a, 0x4c, 0xe4, 0x61, 0x46, 0x2d, 0xe4, 0xa0, 0xa5,
-	0x96, 0xdf, 0xea, 0xf9, 0x53, 0x62, 0xe2, 0x7f, 0xd3, 0x6a, 0x07, 0x95, 0x19, 0xdf, 0x86, 0xa9,
-	0x98, 0x67, 0x21, 0xcb, 0x2d, 0xc3, 0x31, 0x97, 0x5a, 0xfe, 0x85, 0x01, 0xa0, 0xe7, 0x4f, 0x1e,
-	0x21, 0xc3, 0x42, 0x81, 0x02, 0x60, 0x07, 0x66, 0x63, 0x5a, 0x46, 0x82, 0x55, 0x9d, 0x59, 0x66,
-	0x3f, 0x61, 0x30, 0x6a, 0x72, 0x5f, 0xc0, 0xbc, 0x2e, 0x5e, 0x16, 0x3c, 0x2f, 0x29, 0x7e, 0x04,
-	0xd3, 0x8a, 0x7d, 0xd5, 0xc0, 0x6c, 0xfb, 0xaa, 0xd7, 0xa0, 0x8c, 0xb7, 0x55, 0x7f, 0x03, 0x0d,
-	0x76, 0xbf, 0x23, 0x98, 0x5d, 0x8b, 0x99, 0xd4, 0x2c, 0x2c, 0x30, 0x58, 0xac, 0x38, 0xcc, 0xf4,
-	0xfc, 0x49, 0x61, 0xfe, 0x42, 0x28, 0x30, 0x58, 0x3c, 0xe0, 0x67, 0x8c, 0xe3, 0x67, 0xfe, 0x23,
-	0xbf, 0x89, 0x3f, 0xf9, 0x3d, 0x87, 0xff, 0xea, 0xa6, 0xce, 0xc9, 0xee, 0x15, 0xe0, 0x75, 0x2a,
-	0xb5, 0xf9, 0xbc, 0xd9, 0x16, 0xa1, 0xb5, 0x11, 0x6b, 0xa1, 0xe6, 0x87, 0x42, 0xf5, 0xe5, 0x71,
-	0x37, 0x01, 0x77, 0xd2, 0xf4, 0x64, 0xa9, 0xc7, 0x30, 0xa3, 0xa2, 0x4b, 0x0b, 0x39, 0xe6, 0xd8,
-	0x5a, 0x03, 0xb4, 0xfb, 0x0d, 0xc1, 0xb4, 0xb2, 0x9e, 0xac, 0x85, 0xf1, 0xe8, 0x28, 0x94, 0xfe,
-	0x0b, 0xc7, 0xf5, 0xff, 0x7b, 0xb1, 0xb1, 0x0d, 0x33, 0x7b, 0x32, 0x4b, 0x57, 0x78, 0x4c, 0xad,
-	0xc9, 0xca, 0x3d, 0xb8, 0xb7, 0x7f, 0x9a, 0x30, 0xaf, 0xba, 0xd8, 0xae, 0xf7, 0x0e, 0xbf, 0xd7,
-	0x3f, 0xbe, 0xee, 0xce, 0x6d, 0x64, 0x74, 0x6c, 0x39, 0xec, 0x9b, 0x67, 0x62, 0x94, 0x58, 0xef,
-	0x00, 0x86, 0xd3, 0xc2, 0xd7, 0x1b, 0x43, 0x06, 0x03, 0xb0, 0x6f, 0x35, 0xfa, 0x1b, 0xc6, 0xfd,
-	0x1a, 0x60, 0x38, 0x19, 0xbc, 0xe0, 0xd5, 0x5b, 0xed, 0xe9, 0xad, 0xf6, 0xd6, 0xfa, 0x5b, 0x7d,
-	0x4a, 0xba, 0x86, 0x91, 0x06, 0xf5, 0xc2, 0xe8, 0x7c, 0x4e, 0x63, 0xdc, 0xc8, 0x4a, 0xd9, 0x37,
-	0xce, 0x40, 0xa8, 0x9c, 0xeb, 0x30, 0xb7, 0x4a, 0x53, 0x3a, 0xd4, 0x74, 0x1c, 0xf9, 0x53, 0x58,
-	0xf8, 0x3f, 0xd0, 0x07, 0xfd, 0x22, 0x12, 0x51, 0x44, 0x44, 0x45, 0x1e, 0x75, 0xbe, 0x22, 0xfc,
-	0x14, 0x1e, 0x76, 0x6a, 0x97, 0xa3, 0xca, 0x38, 0x6a, 0xa6, 0xce, 0xdb, 0x03, 0x26, 0x0a, 0xf2,
-	0x72, 0xfb, 0xcd, 0xa6, 0xd3, 0xd9, 0xda, 0x70, 0x56, 0x79, 0xd4, 0xcd, 0x68, 0x5e, 0xbf, 0x86,
-	0x6d, 0xf3, 0xbe, 0x77, 0xef, 0x0e, 0x32, 0xc4, 0x33, 0xb8, 0xa2, 0xe3, 0x13, 0x26, 0xf7, 0xba,
-	0x3b, 0x8e, 0xa0, 0x05, 0x2f, 0x99, 0xe4, 0xe2, 0x10, 0xbb, 0x7b, 0x52, 0x16, 0xe5, 0x13, 0x42,
-	0x6a, 0x97, 0x17, 0xf1, 0x8c, 0xec, 0xa7, 0x71, 0x26, 0x96, 0x3f, 0x11, 0xd5, 0xd0, 0xce, 0x54,
-	0xd5, 0xec, 0x83, 0xdf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x7b, 0xe6, 0x89, 0xf4, 0xcb, 0x05, 0x00,
-	0x00,
+	// 583 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x54, 0xcf, 0x6f, 0xd3, 0x30,
+	0x14, 0x96, 0x93, 0x2d, 0x6b, 0x5d, 0xad, 0x02, 0x23, 0x46, 0xe8, 0x00, 0x45, 0xe1, 0x32, 0x10,
+	0x8d, 0xa1, 0x20, 0x84, 0xe0, 0x30, 0x9a, 0x6d, 0x2a, 0xe3, 0x00, 0x5b, 0x06, 0x17, 0x6e, 0x69,
+	0xf2, 0x96, 0x06, 0x92, 0x38, 0x38, 0x6e, 0xa7, 0x8a, 0x13, 0xf0, 0x1f, 0x4c, 0xe2, 0xc2, 0x5f,
+	0xc1, 0xdf, 0xd7, 0x13, 0x6a, 0xe2, 0x84, 0x76, 0x6a, 0x29, 0x68, 0x27, 0xff, 0x78, 0x9f, 0xfd,
+	0xbe, 0xef, 0x7b, 0x7e, 0xc6, 0xd7, 0x53, 0xce, 0x3e, 0x82, 0x27, 0x68, 0x06, 0x7c, 0x14, 0x7a,
+	0x60, 0xa5, 0x9c, 0x09, 0x46, 0xae, 0xb9, 0xfe, 0xe9, 0xd8, 0x0a, 0x99, 0xc5, 0x53, 0xcf, 0x92,
+	0x90, 0xd6, 0x8d, 0x91, 0x1b, 0x85, 0xbe, 0x2b, 0x80, 0x96, 0x93, 0x02, 0xdd, 0x7a, 0x90, 0x0f,
+	0x5e, 0x3b, 0x80, 0xa4, 0x9d, 0x9d, 0xb9, 0x41, 0x00, 0x9c, 0xb2, 0x54, 0x84, 0x2c, 0xc9, 0xa8,
+	0x9b, 0x24, 0x4c, 0xb8, 0xf9, 0x5c, 0xa2, 0xb7, 0x03, 0xc6, 0x82, 0x08, 0x68, 0xbe, 0xea, 0x0f,
+	0x4f, 0x29, 0xc4, 0xa9, 0x18, 0x17, 0x41, 0xf3, 0x0b, 0xde, 0xdc, 0xe3, 0xe0, 0x0a, 0x70, 0xe0,
+	0xf3, 0x10, 0x32, 0x41, 0x6e, 0xe3, 0xb5, 0xc4, 0x8d, 0x41, 0x47, 0x06, 0xda, 0xa9, 0xdb, 0xf5,
+	0x89, 0xad, 0xf1, 0xb5, 0x2b, 0xaa, 0xde, 0x71, 0xf2, 0x6d, 0x72, 0x0f, 0x6b, 0x3e, 0x8b, 0xdd,
+	0x30, 0xd1, 0x15, 0x43, 0xdd, 0xa9, 0xdb, 0x57, 0x2b, 0xc0, 0xc4, 0x5e, 0x3f, 0x47, 0x8a, 0x8e,
+	0x1c, 0x09, 0x20, 0x06, 0x6e, 0xf8, 0x90, 0x79, 0x3c, 0xcc, 0x99, 0xe9, 0xea, 0xf4, 0x42, 0x67,
+	0x76, 0xcb, 0x7c, 0x85, 0x9b, 0x65, 0xf2, 0x2c, 0x65, 0x49, 0x06, 0xe4, 0x29, 0xde, 0x90, 0xea,
+	0x73, 0x02, 0x8d, 0xce, 0x2d, 0x6b, 0x81, 0x33, 0xd6, 0x51, 0x31, 0x3a, 0x25, 0xd8, 0xfc, 0x81,
+	0xf0, 0xe6, 0xfb, 0xd4, 0x9f, 0xd1, 0xa1, 0x63, 0x25, 0xf4, 0xa5, 0x8a, 0xda, 0xc4, 0x5e, 0xe7,
+	0xea, 0x2f, 0x84, 0x1c, 0x25, 0xf4, 0x2b, 0x85, 0xca, 0x2a, 0x85, 0xea, 0x7f, 0x2a, 0x5c, 0x5b,
+	0xa8, 0xb0, 0xa4, 0x75, 0x49, 0x85, 0x07, 0xb8, 0xd1, 0x03, 0x71, 0xe9, 0x6b, 0xb6, 0x71, 0xfd,
+	0xd0, 0x2f, 0x3d, 0x6a, 0xfe, 0xf1, 0x68, 0xea, 0x8c, 0xd9, 0xc3, 0x8d, 0x6e, 0x14, 0x55, 0x39,
+	0x9e, 0xe1, 0x9a, 0x3c, 0x96, 0xe9, 0xc8, 0x50, 0x57, 0x26, 0xa9, 0xd0, 0xe6, 0x77, 0x84, 0x37,
+	0xe4, 0xee, 0xc5, 0x24, 0x84, 0xcc, 0xda, 0x2f, 0x3d, 0xdf, 0x9a, 0xf7, 0xfc, 0xdf, 0x0d, 0x26,
+	0x2d, 0x5c, 0x1b, 0x88, 0x38, 0xda, 0x63, 0x3e, 0xe8, 0xeb, 0x79, 0xb8, 0x5a, 0x77, 0xbe, 0xa9,
+	0xb8, 0x29, 0x59, 0x9c, 0x14, 0xdd, 0x46, 0x8e, 0xb1, 0x56, 0xbc, 0x38, 0x62, 0x2e, 0x94, 0x32,
+	0xd7, 0x0b, 0xad, 0xbb, 0x7f, 0xc5, 0x48, 0x97, 0x7a, 0x58, 0xed, 0x81, 0x20, 0x77, 0x16, 0x62,
+	0x2b, 0xaf, 0x5b, 0xc6, 0xc2, 0xf8, 0x6c, 0x49, 0x77, 0xb1, 0xda, 0x8d, 0x22, 0xb2, 0x65, 0x15,
+	0xfd, 0x6a, 0x95, 0xfd, 0x6a, 0x1d, 0x4c, 0xfb, 0x75, 0xc9, 0x05, 0xb3, 0xf5, 0x3a, 0xc6, 0x5a,
+	0xf1, 0xd8, 0x96, 0x88, 0x9b, 0x6b, 0x90, 0x25, 0xe2, 0x2e, 0xbc, 0xd6, 0x97, 0x58, 0xdb, 0x87,
+	0x08, 0x04, 0xac, 0xd4, 0xb7, 0x84, 0xb6, 0xfd, 0x13, 0x7d, 0x28, 0x3f, 0x37, 0xca, 0x53, 0x8f,
+	0xca, 0x93, 0xe7, 0xdd, 0xaf, 0x88, 0xbc, 0xc0, 0x4f, 0xba, 0x45, 0xc8, 0x90, 0x75, 0x32, 0x64,
+	0xa1, 0x8c, 0x77, 0x67, 0x21, 0x4f, 0xe9, 0xeb, 0x93, 0xb7, 0x6f, 0x8c, 0xee, 0xd1, 0xa1, 0xb1,
+	0xcf, 0xbc, 0x61, 0x0c, 0x49, 0xf1, 0xb1, 0x75, 0xd4, 0x47, 0xd6, 0xc3, 0xfb, 0x48, 0xe1, 0xbb,
+	0xf8, 0x66, 0x79, 0x3e, 0x08, 0xc5, 0x60, 0xd8, 0x37, 0x38, 0xa4, 0x2c, 0x0b, 0x05, 0xe3, 0x63,
+	0x62, 0x0e, 0x84, 0x48, 0xb3, 0xe7, 0x94, 0x16, 0x21, 0xcb, 0x63, 0x31, 0x1d, 0x45, 0x7e, 0xcc,
+	0xdb, 0x9f, 0xa8, 0x24, 0xd4, 0xd7, 0x72, 0xb2, 0x8f, 0x7f, 0x07, 0x00, 0x00, 0xff, 0xff, 0x00,
+	0xf4, 0xa1, 0x81, 0x96, 0x05, 0x00, 0x00,
 }

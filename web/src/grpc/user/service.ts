@@ -59,6 +59,15 @@ export interface SignInResponse {
  */
 export interface MeResponse {
     /**
+     * @generated from protobuf field: adfy.io.rpc.user.User user = 1;
+     */
+    user?: User;
+}
+/**
+ * @generated from protobuf message adfy.io.rpc.user.User
+ */
+export interface User {
+    /**
      * @generated from protobuf field: string id = 1;
      */
     id: string;
@@ -127,9 +136,7 @@ export const SignInResponse = new SignInResponse$Type();
 class MeResponse$Type extends MessageType<MeResponse> {
     constructor() {
         super("adfy.io.rpc.user.MeResponse", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 1, name: "user", kind: "message", T: () => User }
         ]);
     }
 }
@@ -137,6 +144,20 @@ class MeResponse$Type extends MessageType<MeResponse> {
  * @generated MessageType for protobuf message adfy.io.rpc.user.MeResponse
  */
 export const MeResponse = new MeResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class User$Type extends MessageType<User> {
+    constructor() {
+        super("adfy.io.rpc.user.User", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "email", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message adfy.io.rpc.user.User
+ */
+export const User = new User$Type();
 /**
  * @generated ServiceType for protobuf service adfy.io.rpc.user.UserService
  */

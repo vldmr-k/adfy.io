@@ -1,35 +1,32 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TuiInputModule, TuiInputTagModule, TuiIslandModule } from '@taiga-ui/kit';
-import { TuiButtonModule, TuiDialogModule, TuiErrorModule } from '@taiga-ui/core';
+import { TuiInputModule, TuiInputTagModule, TuiIslandModule, TuiTagModule } from '@taiga-ui/kit';
+import { TuiButtonModule, TuiLoaderModule, TuiSvgModule } from '@taiga-ui/core';
 import { ProjectListComponent } from './project-list.component';
-import { ProjectDialogComponent } from './components/project-dialog/project-dialog.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiValidatorModule } from '@taiga-ui/cdk';
+import { ProjectDialogModule } from './project-dialog/project-dialog.module';
+import { Store, StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { ProjectEffects } from '@store/effects';
+import { ProjectItemModule } from './project-item/project-item.module';
+import { TuiInputColorModule } from '@taiga-ui/addon-editor';
 
 @NgModule({
   declarations: [
-    ProjectListComponent,
-    ProjectDialogComponent
+    ProjectListComponent
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
+    ProjectDialogModule,
     TuiIslandModule,
     TuiButtonModule,
-    TuiIslandModule,
-    TuiDialogModule,
-    TuiInputModule,
-    TuiValidatorModule,
-    TuiErrorModule,
-    TuiInputTagModule
+    TuiLoaderModule,
+    TuiTagModule,
+    TuiInputColorModule,
+    ProjectItemModule,
+    EffectsModule.forFeature([ProjectEffects])
   ],
   exports: [
-    ProjectListComponent
-  ],
-  entryComponents: [
-    ProjectListComponent
+    ProjectListComponent,
   ]
 })
 export class ProjectListModule { }

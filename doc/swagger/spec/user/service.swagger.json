@@ -97,14 +97,8 @@
     "userMeResponse": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
+        "user": {
+          "$ref": "#/definitions/userUser"
         }
       }
     },
@@ -149,6 +143,20 @@
       "type": "object",
       "properties": {
         "token": {
+          "type": "string"
+        }
+      }
+    },
+    "userUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
           "type": "string"
         }
       }

@@ -1,0 +1,54 @@
+syntax = "proto3";
+package adfy.io.rpc.template;
+
+import "validate/validate.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "adfy.io/rpc/template";
+
+
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "Adfy.io Template Service Twirp/JSON API Documentation";
+        version: "1.0";
+    };
+    external_docs: {
+        url: "https://github.com/vldmr-k/adfy.io";
+        description: "Adfy.io github repository";
+    };
+    schemes: HTTPS;
+};
+
+
+service TemplateService {
+
+  rpc Get(IdRequest) returns (GetResponse);
+  rpc List(google.protobuf.Empty) returns (ListResponse);
+}
+
+
+message ListResponse {
+  repeated Template templates = 1;
+}
+
+message IdRequest {
+  string id = 1;
+}
+
+
+message GetResponse {
+  Template template = 1;
+}
+
+
+message Template {
+  string id = 1;
+  string name = 2;
+  string component = 3;
+  string formSchema = 4;
+  string sampleData = 5;
+}
+
+

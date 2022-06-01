@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectUser } from '@store/reducers/user.reducer';
-import { User } from "@store/models/user.model"
+import { User } from "@store/models/index"
 import { map } from 'rxjs/operators';
 import { TuiDialogService } from '@taiga-ui/core';
 import { TUI_ARROW } from '@taiga-ui/kit';

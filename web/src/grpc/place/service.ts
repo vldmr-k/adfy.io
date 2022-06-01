@@ -2,6 +2,7 @@
 import { Empty } from "../google/protobuf/empty";
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { Project } from "../project/service";
 /**
  * @generated from protobuf message adfy.io.rpc.place.CreateRequest
  */
@@ -91,17 +92,17 @@ export interface Place {
      */
     id: string;
     /**
-     * @generated from protobuf field: string project = 2;
+     * @generated from protobuf field: string name = 2;
      */
-    project: string;
+    name: string;
     /**
-     * @generated from protobuf field: bool immutable = 3;
+     * @generated from protobuf field: adfy.io.rpc.project.Project project = 3;
      */
-    immutable: boolean;
+    project?: Project;
     /**
-     * @generated from protobuf field: string htmlCode = 4;
+     * @generated from protobuf field: string securityKey = 4;
      */
-    htmlCode: string;
+    securityKey: string;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class CreateRequest$Type extends MessageType<CreateRequest> {
@@ -206,9 +207,9 @@ class Place$Type extends MessageType<Place> {
     constructor() {
         super("adfy.io.rpc.place.Place", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "project", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "immutable", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
-            { no: 4, name: "htmlCode", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "project", kind: "message", T: () => Project },
+            { no: 4, name: "securityKey", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

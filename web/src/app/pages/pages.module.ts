@@ -11,6 +11,7 @@ import { TUI_DOC_LOGO } from '@taiga-ui/addon-doc';
 import {LOGO_CONTENT} from './_layout/navbar/logo/logo.component';
 import { PagesLayoutModule } from './_layout/pages-layout.module';
 import { NavbarModule } from './_layout/navbar/navbar.module';
+import { projectFeature } from '@store/reducers/project.reducer';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ import { NavbarModule } from './_layout/navbar/navbar.module';
     PagesLayoutModule,
     NavbarModule,
 
-    StoreModule.forFeature(userFeature),
+    StoreModule.forFeature(userFeature)
   ],
   declarations: [
     PagesLayoutComponent,

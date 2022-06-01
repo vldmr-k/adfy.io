@@ -3,7 +3,7 @@
 services:
   Config:
     type: "*adfy.io/pkg/config.Config"
-    returns: config.NewConfig("./../..")
+    returns: config.NewConfig(${CONFIG_PATH})
   Db:
     type: "*adfy.io/pkg/db.Db"
     returns: "db.NewDb(@{Config})"
@@ -23,14 +23,13 @@ services:
 
   UserService:
     type: "*adfy.io/internal/userservice.UserService"
-    returns: "userservice.NewUserService(@{JWT}, @{Secure}, @{UserRepository}, @{AuthContext})"
+    returns: "userservice.NewUserService(@{JWT}, @{Secure}, @{UserRepository}, @{AuthContext}, @{UserTransormer})"
   UserRepository:
     type: "*adfy.io/internal/userservice.UserRepository"
     returns: "userservice.NewUserRepository(@{Orm})"
-  UserServiceServer:
-    type: adfy.io/rpc/user.TwirpServer
-    returns: user.NewUserServiceServer(@{UserService}, @{VerifyJWTHook}.WithJWTAuth("SignIn", "SignUp"))
-
+  UserTransormer:
+    type: "*adfy.io/internal/userservice.Transformer"
+    returns: "userservice.NewTransformer()"
 
   ProjectService:
     type: "*adfy.io/internal/projectservice.ProjectService"
@@ -41,11 +40,37 @@ services:
   ProjectRepository:
     type: "*adfy.io/internal/projectservice.ProjectRepository"
     returns: "projectservice.NewProjectRepository(@{Orm}, @{AuthContext})"
-  ProjectServiceServer:
-    type: "adfy.io/rpc/project.TwirpServer"
-    returns: "project.NewProjectServiceServer(@{ProjectService}, @{VerifyJWTHook}.WithJWTAuth())"
 
+
+  TemplateService:
+    type: "*adfy.io/internal/templateservice.TemplateService"
+    returns: "templateservice.NewTemplateService(@{TemplateRepository}, @{AuthContext}, @{TemplateTransofrmer})"
+  TemplateRepository:
+    type: "*adfy.io/internal/templateservice.TemplateRepository"
+    returns: "templateservice.NewTemplateRepository(@{Orm})"
+  TemplateTransofrmer:
+    type: "*adfy.io/internal/templateservice.Transformer"
+    returns: "templateservice.NewTransformer()"
+  TemplateHandler:
+    type: "*adfy.io/internal/handler.TemplateHandler"
+    returns: "handler.NewTemplateHandler(@{TemplateRepository})"
 
   AuthContext:
     type: "*adfy.io/pkg/ctx.AuthContext"
     returns: "ctx.NewAuthContext()"
+
+  NewS3Client:
+    type: "*adfy.io/pkg/s3.S3Client"
+    returns: "s3.NewS3Client(@{Config})"
+
+
+
+  UserTwirpHandler:
+    type: adfy.io/rpc/user.TwirpServer
+    returns: user.NewUserServiceServer(@{UserService}, @{VerifyJWTHook}.WithJWTAuth("SignIn", "SignUp"))
+  TemplateTwirpHandler:
+    type: "adfy.io/rpc/template.TwirpServer"
+    returns: "template.NewTemplateServiceServer(@{TemplateService}, @{VerifyJWTHook}.WithJWTAuth())"
+  ProjectTwirpHandler:
+    type: "adfy.io/rpc/project.TwirpServer"
+    returns: "project.NewProjectServiceServer(@{ProjectService}, @{VerifyJWTHook}.WithJWTAuth())"

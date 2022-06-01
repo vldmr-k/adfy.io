@@ -1,14 +1,14 @@
 gen:
-	bin/proto.sh
+	go generate ./...
 
 serve:
-	go run cmd/server/main.go
+	export CONFIG_PATH=. && go run cmd/server/main.go
 
 web:
 	cd web && yarn run start
 
 migrate:
-	go run cmd/db/main.go
+	export CONFIG_PATH=. && go run cmd/db/main.go
 
 swagger:
 	chmod -R +x bin/

@@ -59,6 +59,11 @@ message SignInResponse {
 }
 
 message MeResponse {
+  User user = 1;
+}
+
+
+message User {
     string id = 1;
     string name = 2;
     string email = 3;

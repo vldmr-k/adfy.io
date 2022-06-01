@@ -12,12 +12,13 @@ import (
 	"github.com/twitchtv/twirp"
 )
 
-func NewUserService(jwt *jwt.JWT, secure *secure.Secure, userRepository *UserRepository, authContext *pkgctx.AuthContext) *UserService {
+func NewUserService(jwt *jwt.JWT, secure *secure.Secure, userRepository *UserRepository, authContext *pkgctx.AuthContext, transformer *Transformer) *UserService {
 	return &UserService{
 		JWT:            jwt,
 		Secure:         secure,
 		UserRepository: userRepository,
 		AuthContext:    authContext,
+		Transformer:    transformer,
 	}
 }
 
@@ -26,6 +27,7 @@ type UserService struct {
 	Secure         *secure.Secure
 	UserRepository *UserRepository
 	AuthContext    *pkgctx.AuthContext
+	Transformer    *Transformer
 }
 
 func (s *UserService) SignIn(ctx context.Context, req *pb.SignInRequest) (resp *pb.SignInResponse, err error) {
@@ -90,10 +92,14 @@ func (s *UserService) SignUp(ctx context.Context, req *pb.SignUpRequest) (out *p
 }
 
 func (s *UserService) Me(ctx context.Context, req *gprotobuf.Empty) (out *pb.MeResponse, err error) {
-	user := s.AuthContext.GetAuthUser(ctx)
+	authUser := s.AuthContext.GetAuthUser(ctx)
+	user, err := s.UserRepository.Find(authUser.ID)
+
+	if err != nil {
+		return nil, twirp.NotFoundError(err.Error())
+	}
+
 	return &pb.MeResponse{
-		Id:    user.ID.String(),
-		Email: user.Email,
-		Name:  user.Name,
+		User: s.Transformer.Transofrm(user),
 	}, nil
 }

@@ -1,6 +1,7 @@
 package userservice
 
 import (
+	"adfy.io/internal/mediaservice"
 	projectservice "adfy.io/internal/projectservice"
 	"adfy.io/pkg/db"
 	"adfy.io/pkg/jwt"
@@ -16,15 +17,13 @@ type (
 		EncryptedPassword string `gorm:"type:varchar(128);not null;index"`
 
 		Projects []projectservice.Project `gorm:"foreignKey:OwnerID"`
+		Medias   []mediaservice.Media     `gorm:"foreignKey:OwnerID"`
 	}
 )
 
-func (u *User) Sanitize() {
-	u.EncryptedPassword = "***"
-}
-
 func (u *User) GetAuthUser() *jwt.AuthUser {
 	return &jwt.AuthUser{
+		ID:    u.ID.String(),
 		Email: u.Email,
 		Name:  u.Name,
 	}

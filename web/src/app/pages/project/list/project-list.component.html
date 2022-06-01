@@ -3,15 +3,30 @@
     <span class="tui-text_h4">Projects</span>
   </div>
   <div class="container adfy-content">
-    <div class="tui-row">
+
+
+    <div class="tui-row" *ngIf="list$ | async as projects else loading ">
+
+      <ng-container *ngFor="let project of projects; index as i">
+        <div class="tui-col_md-4">
+          <adfy-project-list-item [project]="project"
+           (deleteAction)="onDeleteProjectAction(project)"
+           (updateAction)="onUpdateProjectDialog(project)"
+           (clickCardAction)="onClickCardAction(project)"
+           >
+          </adfy-project-list-item>
+        </div>
+      </ng-container>
+
       <div class="tui-col_md-4">
-        <tui-island [size]="'l'" [hoverable]="true">
-          <div class="adfy-project-item adfy-project-item__add"  (click)="showProjectDialog()">
-            Create Project <button tuiIconButton type="button" appearance="icon" icon="tuiIconPlus" [size]="'l'"></button>
-          </div>
-        </tui-island>
+        <adfy-project-list-item-dummy (createProjectAction)="addProjectDialog()"></adfy-project-list-item-dummy>
       </div>
     </div>
   </div>
 </div>
 
+
+<ng-template #loading>
+  <tui-loader class="inline-flex tui-space_right-2" [showLoader]="true" [inheritColor]="true" [overlay]="true">
+  </tui-loader>
+</ng-template>

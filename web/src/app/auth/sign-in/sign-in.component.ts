@@ -25,8 +25,6 @@ export class SignInComponent implements OnInit {
    */
   form: FormGroup;
 
-  sinInResponse: Subject<SignInResponse> = new Subject<SignInResponse>();
-
   constructor(
     private fb: FormBuilder,
     private store: Store,
@@ -41,10 +39,8 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.store.pipe(
-      select(selectUser),
-    ).subscribe((user) => {
+    this.store.pipe(select(selectUser))
+    .subscribe((user) => {
       console.log("user", user)
     })
 

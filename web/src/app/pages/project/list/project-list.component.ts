@@ -1,8 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject, Injector } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, Injector } from '@angular/core';
 import { TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
-import { ProjectDialogComponent } from '@pages/project/list/components/project-dialog/project-dialog.component';
-import { EMPTY_STR } from '@core/constant';
+import { ProjectDialogComponent } from '@pages/project/list/project-dialog/project-dialog.component';
+import { Store } from '@ngrx/store';
+import { project } from '@store/reducers/index';
+import { projectActions } from '@store/actions/index';
+import { Project } from '@store/models/index'
+import { IdRequest } from '@grpc/project/service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'adfy-project-list',
@@ -12,25 +18,47 @@ import { EMPTY_STR } from '@core/constant';
 })
 export class ProjectListComponent {
 
-  private readonly dialog = this.dialogService.open<number>(
-    new PolymorpheusComponent(ProjectDialogComponent, this.injector)
-  );
+
+  list$ = this.store.select(project.selectList)
 
   constructor(
     @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
+    @Inject(Router) private readonly router: Router,
     @Inject(Injector) private readonly injector: Injector,
-  ) { }
+    @Inject(Store) private readonly store: Store
+  ) {
+    this.store.dispatch(projectActions.allRequest())
+  }
 
-  showProjectDialog() {
+  addProjectDialog() {
+    this.dialogService
+      .open<unknown>(
+        new PolymorpheusComponent(ProjectDialogComponent, this.injector)
+      ).subscribe()
 
-    this.dialog.subscribe({
-      next: data => {
-        console.info(`Dialog emitted data = ${data}`);
-      },
-      complete: () => {
-        console.info('Dialog closed');
-      },
-    });
+  }
+
+  onClickCardAction(project: Project) {
+      this.router.navigateByUrl(`/account/block/${project.id}/builder`)
+  }
+
+  onDeleteProjectAction(project: Project) {
+    let idRequest: IdRequest = {id: project.id}
+    this.store.dispatch(projectActions.deleteRequest({request: idRequest}))
+    //this.store.dispatch(projectActions.allRequest())
+  }
+
+  onUpdateProjectDialog(project: Project) {
+
+    this.dialogService
+      .open<unknown>(
+        new PolymorpheusComponent(ProjectDialogComponent, this.injector),
+        {
+          data: project
+        }
+      )
+    .subscribe();
+
   }
 
 }

@@ -13,6 +13,11 @@ const routes: Routes = [{
       loadChildren: () => import('@pages/project/project.module')
         .then(m => m.ProjectModule),
     },
+    {
+      path: 'block',
+      loadChildren: () => import('@pages/block/block.module')
+        .then(m => m.BlockModule),
+    },
     { path: '', redirectTo: 'project', pathMatch: 'full',},
   ],
 },

@@ -1,6 +1,6 @@
 import { props, createAction } from '@ngrx/store';
 
-import { User } from '@store/models/user.model';
+import { User } from '@store/models/index';
 
 import * as grpc from '@grpc/user/service';
 

@@ -1,0 +1,33 @@
+.adfy-project-item {
+
+  cursor: pointer;
+  height: calc(var(--tui-height-l) * 2);
+
+  .tui-island__category {
+    margin: 0;
+  }
+
+  .tui-island__figure {
+    display: block;
+  }
+
+  &__add {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  &__del {
+    order: 1;
+    margin: 0 0 0 1rem;
+  }
+
+  &__delete-btn {
+    display: none;
+
+  }
+
+  &:hover &__delete-btn {
+    display: block;
+  }
+}
