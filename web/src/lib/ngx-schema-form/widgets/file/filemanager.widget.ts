@@ -75,7 +75,8 @@ export class FilemanagerWidget extends ControlWidget implements AfterViewInit {
 
     this.dialogService.open<string>
       (new PolymorpheusComponent(FileManagerComponent, this.injector), {
-        data: "from filemanager widget.ts"
+        data: "from filemanager widget.ts",
+        size: "l"
       })
       .subscribe({
         next: data => {

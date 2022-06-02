@@ -22,7 +22,7 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 
 service MediaService {
     rpc Upload(UploadRequest) returns (UploadResponse);
-    rpc Get(IdRequest) returns (GetMediaResponse);
+    rpc Get(IdRequest) returns (GetResponse);
     rpc Delete(IdRequest) returns (google.protobuf.Empty);
 }
 
@@ -34,7 +34,7 @@ message UploadResponse {
   Media media = 1;
 }
 
-message GetMediaResponse {
+message GetResponse {
   Media media = 1;
 }
 

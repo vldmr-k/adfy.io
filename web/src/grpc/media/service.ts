@@ -21,9 +21,9 @@ export interface UploadResponse {
     media?: Media;
 }
 /**
- * @generated from protobuf message adfy.io.rpc.media.GetMediaResponse
+ * @generated from protobuf message adfy.io.rpc.media.GetResponse
  */
-export interface GetMediaResponse {
+export interface GetResponse {
     /**
      * @generated from protobuf field: adfy.io.rpc.media.Media media = 1;
      */
@@ -113,17 +113,17 @@ class UploadResponse$Type extends MessageType<UploadResponse> {
  */
 export const UploadResponse = new UploadResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetMediaResponse$Type extends MessageType<GetMediaResponse> {
+class GetResponse$Type extends MessageType<GetResponse> {
     constructor() {
-        super("adfy.io.rpc.media.GetMediaResponse", [
+        super("adfy.io.rpc.media.GetResponse", [
             { no: 1, name: "media", kind: "message", T: () => Media }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message adfy.io.rpc.media.GetMediaResponse
+ * @generated MessageType for protobuf message adfy.io.rpc.media.GetResponse
  */
-export const GetMediaResponse = new GetMediaResponse$Type();
+export const GetResponse = new GetResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class IdRequest$Type extends MessageType<IdRequest> {
     constructor() {
@@ -160,6 +160,6 @@ export const Media = new Media$Type();
  */
 export const MediaService = new ServiceType("adfy.io.rpc.media.MediaService", [
     { name: "Upload", options: {}, I: UploadRequest, O: UploadResponse },
-    { name: "Get", options: {}, I: IdRequest, O: GetMediaResponse },
+    { name: "Get", options: {}, I: IdRequest, O: GetResponse },
     { name: "Delete", options: {}, I: IdRequest, O: Empty }
 ]);

@@ -6,7 +6,7 @@ import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { MediaService } from "./service";
 import type { Empty } from "../google/protobuf/empty";
-import type { GetMediaResponse } from "./service";
+import type { GetResponse } from "./service";
 import type { IdRequest } from "./service";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
 import type { UploadResponse } from "./service";
@@ -22,9 +22,9 @@ export interface IMediaServiceClient {
      */
     upload(input: UploadRequest, options?: RpcOptions): UnaryCall<UploadRequest, UploadResponse>;
     /**
-     * @generated from protobuf rpc: Get(adfy.io.rpc.media.IdRequest) returns (adfy.io.rpc.media.GetMediaResponse);
+     * @generated from protobuf rpc: Get(adfy.io.rpc.media.IdRequest) returns (adfy.io.rpc.media.GetResponse);
      */
-    get(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetMediaResponse>;
+    get(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse>;
     /**
      * @generated from protobuf rpc: Delete(adfy.io.rpc.media.IdRequest) returns (google.protobuf.Empty);
      */
@@ -50,11 +50,11 @@ export class MediaServiceClient implements IMediaServiceClient, ServiceInfo {
         return stackIntercept<UploadRequest, UploadResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: Get(adfy.io.rpc.media.IdRequest) returns (adfy.io.rpc.media.GetMediaResponse);
+     * @generated from protobuf rpc: Get(adfy.io.rpc.media.IdRequest) returns (adfy.io.rpc.media.GetResponse);
      */
-    get(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetMediaResponse> {
+    get(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
-        return stackIntercept<IdRequest, GetMediaResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<IdRequest, GetResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: Delete(adfy.io.rpc.media.IdRequest) returns (google.protobuf.Empty);
