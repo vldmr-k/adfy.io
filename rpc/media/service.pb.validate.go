@@ -57,6 +57,8 @@ func (m *UploadRequest) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Name
+
 	// no validation rules for Body
 
 	if len(errors) > 0 {

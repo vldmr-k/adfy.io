@@ -25,6 +25,7 @@ import { ProjectServiceClient } from "@grpc/project/service.client";
 import { ProjectEffects, UserEffects } from "@store/effects";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { FileManagerModule } from "@file-manager/filemanager.module";
+import { MediaServiceClient } from "@grpc/media/service.client";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { FileManagerModule } from "@file-manager/filemanager.module";
     { provide: TUI_LANGUAGE, useValue: of(TUI_ENGLISH_LANGUAGE) },
     UserServiceClient,
     ProjectServiceClient,
+    MediaServiceClient,
     GuestGuard,
     AuthenticateGuard
   ],

@@ -30,10 +30,13 @@ func main() {
 	userServiceHandler := di.GetUserTwirpHandler()
 	projectServiceHandler := di.GetProjectTwirpHandler()
 	templateServiceHandler := di.GetTemplateTwirpHandler()
+	mediaServiceHandler := di.GetMediaTwirpHandler()
+
 	//twirp handler
 	r.PathPrefix(userServiceHandler.PathPrefix()).Handler(userServiceHandler)
 	r.PathPrefix(projectServiceHandler.PathPrefix()).Handler(projectServiceHandler)
 	r.PathPrefix(templateServiceHandler.PathPrefix()).Handler(templateServiceHandler)
+	r.PathPrefix(mediaServiceHandler.PathPrefix()).Handler(mediaServiceHandler)
 
 	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
 
@@ -44,7 +47,7 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-
+	log.Print("http://" + addr)
 	log.Fatal(srv.ListenAndServe())
 
 }

@@ -7,7 +7,11 @@ import { MessageType } from "@protobuf-ts/runtime";
  */
 export interface UploadRequest {
     /**
-     * @generated from protobuf field: bytes body = 1;
+     * @generated from protobuf field: string name = 1;
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: bytes body = 2;
      */
     body: Uint8Array;
 }
@@ -92,7 +96,8 @@ export enum Media_MediaType {
 class UploadRequest$Type extends MessageType<UploadRequest> {
     constructor() {
         super("adfy.io.rpc.media.UploadRequest", [
-            { no: 1, name: "body", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "body", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
 }

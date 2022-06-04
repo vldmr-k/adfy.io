@@ -27,7 +27,8 @@ service MediaService {
 }
 
 message UploadRequest {
-  bytes body = 1;
+  string  name = 1;
+  bytes   body = 2;
 }
 
 message UploadResponse {

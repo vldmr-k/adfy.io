@@ -1,9 +1,14 @@
-import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {TUI_IS_CYPRESS} from '@taiga-ui/cdk';
 import {TuiFileLike} from '@taiga-ui/kit';
 
 import * as grpc from '@grpc/media/service';
+import * as grpcClient from '@grpc/media/service.client';
+
+import { mediaActions } from '@store/actions/index';
+
+import { Store } from '@ngrx/store';
 
 
 @Component({
@@ -11,23 +16,38 @@ import * as grpc from '@grpc/media/service';
   templateUrl: './uploader.component.html',
   styleUrls: ['./uploader.component.less']
 })
-export class UploaderComponent {
+export class UploaderComponent implements OnInit {
 
   readonly control = new FormControl();
   rejectedFiles: readonly TuiFileLike[] = [];
 
-  constructor(@Inject(TUI_IS_CYPRESS) readonly isCypress: boolean) {
+  constructor(
+    @Inject(TUI_IS_CYPRESS) readonly isCypress: boolean,
+    @Inject(Store) private readonly store: Store,
+    @Inject(grpcClient.MediaServiceClient) private readonly mediaServiceClient: grpcClient.MediaServiceClient
+  ) {
+  }
+
+  ngOnInit() {
+    let store = this.store;
+
     this.control.valueChanges.subscribe({
       next: (files) => {
         for(let i in files) {
-          let file = files[i];
+          let file: File = files[i];
 
-          var reader = new FileReader();
-          reader.onload = function(){
-            var arrayBuffer = this.result;
+          if (file) {
+
+            file.arrayBuffer().then(buff => {
+              let request: grpc.UploadRequest = {
+                name: file.name,
+                body: new Uint8Array(buff)
+              }
+
+              this.mediaServiceClient.upload(request)
+
+            })
           }
-
-          reader.readAsArrayBuffer(file);
 
         }
       }
@@ -49,5 +69,7 @@ export class UploaderComponent {
           rejected => rejected.name !== name,
       );
   }
+
+  uploadFiles() {}
 
 }

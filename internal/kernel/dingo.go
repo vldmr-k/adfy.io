@@ -3,6 +3,7 @@ package kernel
 
 import (
 	handler "adfy.io/internal/handler"
+	mediaservice "adfy.io/internal/mediaservice"
 	projectservice "adfy.io/internal/projectservice"
 	templateservice "adfy.io/internal/templateservice"
 	userservice "adfy.io/internal/userservice"
@@ -13,6 +14,7 @@ import (
 	jwt "adfy.io/pkg/jwt"
 	s3 "adfy.io/pkg/s3"
 	secure "adfy.io/pkg/secure"
+	media "adfy.io/rpc/media"
 	project "adfy.io/rpc/project"
 	template "adfy.io/rpc/template"
 	user "adfy.io/rpc/user"
@@ -24,6 +26,11 @@ type Container struct {
 	Config			*config.Config
 	Db			*db.Db
 	JWT			*jwt.JWT
+	MediaFactory		*mediaservice.MediaFactory
+	MediaRepository		*mediaservice.MediaRepository
+	MediaService		*mediaservice.MediaService
+	MediaTransformer	*mediaservice.Transformer
+	MediaTwirpHandler	*media.TwirpServer
 	NewS3Client		*s3.S3Client
 	Orm			*db.Orm
 	ProjectFactory		*projectservice.ProjectFactory
@@ -75,6 +82,41 @@ func (container *Container) GetJWT() *jwt.JWT {
 		container.JWT = service
 	}
 	return container.JWT
+}
+func (container *Container) GetMediaFactory() *mediaservice.MediaFactory {
+	if container.MediaFactory == nil {
+		service := mediaservice.NewMediaFactory()
+		container.MediaFactory = service
+	}
+	return container.MediaFactory
+}
+func (container *Container) GetMediaRepository() *mediaservice.MediaRepository {
+	if container.MediaRepository == nil {
+		service := mediaservice.NewMediaRepository(container.GetOrm(), container.GetAuthContext())
+		container.MediaRepository = service
+	}
+	return container.MediaRepository
+}
+func (container *Container) GetMediaService() *mediaservice.MediaService {
+	if container.MediaService == nil {
+		service := mediaservice.NewMediaService(container.GetMediaRepository(), container.GetMediaFactory(), container.GetMediaTransformer())
+		container.MediaService = service
+	}
+	return container.MediaService
+}
+func (container *Container) GetMediaTransformer() *mediaservice.Transformer {
+	if container.MediaTransformer == nil {
+		service := mediaservice.NewTransformer()
+		container.MediaTransformer = service
+	}
+	return container.MediaTransformer
+}
+func (container *Container) GetMediaTwirpHandler() media.TwirpServer {
+	if container.MediaTwirpHandler == nil {
+		service := media.NewMediaServiceServer(container.GetMediaService(), container.GetVerifyJWTHook().WithJWTAuth())
+		container.MediaTwirpHandler = &service
+	}
+	return *container.MediaTwirpHandler
 }
 func (container *Container) GetNewS3Client() *s3.S3Client {
 	if container.NewS3Client == nil {

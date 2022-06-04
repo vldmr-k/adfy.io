@@ -41,6 +41,19 @@ services:
     type: "*adfy.io/internal/projectservice.ProjectRepository"
     returns: "projectservice.NewProjectRepository(@{Orm}, @{AuthContext})"
 
+  MediaService:
+    type: "*adfy.io/internal/mediaservice.MediaService"
+    returns: "mediaservice.NewMediaService(@{MediaRepository}, @{MediaFactory}, @{MediaTransformer})"
+  MediaFactory:
+    type: "*adfy.io/internal/mediaservice.MediaFactory"
+    returns: "mediaservice.NewMediaFactory()"
+  MediaTransformer:
+    type: "*adfy.io/internal/mediaservice.Transformer"
+    returns: "mediaservice.NewTransformer()"
+  MediaRepository:
+    type: "*adfy.io/internal/mediaservice.MediaRepository"
+    returns: "mediaservice.NewMediaRepository(@{Orm}, @{AuthContext})"
+
 
   TemplateService:
     type: "*adfy.io/internal/templateservice.TemplateService"
@@ -54,6 +67,8 @@ services:
   TemplateHandler:
     type: "*adfy.io/internal/handler.TemplateHandler"
     returns: "handler.NewTemplateHandler(@{TemplateRepository})"
+
+
 
   AuthContext:
     type: "*adfy.io/pkg/ctx.AuthContext"
@@ -74,3 +89,6 @@ services:
   ProjectTwirpHandler:
     type: "adfy.io/rpc/project.TwirpServer"
     returns: "project.NewProjectServiceServer(@{ProjectService}, @{VerifyJWTHook}.WithJWTAuth())"
+  MediaTwirpHandler:
+    type: "adfy.io/rpc/media.TwirpServer"
+    returns: "media.NewMediaServiceServer(@{MediaService}, @{VerifyJWTHook}.WithJWTAuth())"

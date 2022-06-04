@@ -137,6 +137,9 @@
     "mediaUploadRequest": {
       "type": "object",
       "properties": {
+        "name": {
+          "type": "string"
+        },
         "body": {
           "type": "string",
           "format": "byte"
