@@ -9,14 +9,19 @@ import (
 )
 
 type S3Client struct {
-	Media *s3.S3
+	Svc    *s3.S3
+	Bucket string
 }
 
-func NewS3Client(cfg *pkg.Config) *S3Client {
+type S3ClientPool struct {
+	Media S3Client
+}
+
+func NewS3ClientPool(cfg *pkg.Config) *S3ClientPool {
 	session, err := session.NewSessionWithOptions(session.Options{
 		Profile: "default",
 		Config: aws.Config{
-			Region:      aws.String(cfg.S3.Client.Bucket),
+			Region:      aws.String(cfg.S3.Client.Region),
 			Credentials: credentials.NewStaticCredentials(cfg.S3.Client.Key, cfg.S3.Client.Secret, ""),
 		},
 	})
@@ -25,7 +30,7 @@ func NewS3Client(cfg *pkg.Config) *S3Client {
 		panic(err)
 	}
 
-	return &S3Client{
-		Media: s3.New(session),
+	return &S3ClientPool{
+		Media: S3Client{s3.New(session), cfg.S3.Client.Bucket},
 	}
 }

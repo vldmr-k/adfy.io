@@ -53,7 +53,12 @@ services:
   MediaRepository:
     type: "*adfy.io/internal/mediaservice.MediaRepository"
     returns: "mediaservice.NewMediaRepository(@{Orm}, @{AuthContext})"
-
+  MediaFileSystem:
+    type: "*adfy.io/internal/mediaservice.FileSystem"
+    returns: "mediaservice.NewFileSystem(@{AuthContext})"
+  MediaUploader:
+    type: "*adfy.io/internal/mediaservice.MediaUploader"
+    returns: "mediaservice.NewMediaUploader(@{S3ClientPool})"
 
   TemplateService:
     type: "*adfy.io/internal/templateservice.TemplateService"
@@ -74,9 +79,9 @@ services:
     type: "*adfy.io/pkg/ctx.AuthContext"
     returns: "ctx.NewAuthContext()"
 
-  NewS3Client:
-    type: "*adfy.io/pkg/s3.S3Client"
-    returns: "s3.NewS3Client(@{Config})"
+  S3ClientPool:
+    type: "*adfy.io/pkg/s3.S3ClientPool"
+    returns: "s3.NewS3ClientPool(@{Config})"
 
 
 

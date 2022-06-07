@@ -27,16 +27,18 @@ type Container struct {
 	Db			*db.Db
 	JWT			*jwt.JWT
 	MediaFactory		*mediaservice.MediaFactory
+	MediaFileSystem		*mediaservice.FileSystem
 	MediaRepository		*mediaservice.MediaRepository
 	MediaService		*mediaservice.MediaService
 	MediaTransformer	*mediaservice.Transformer
 	MediaTwirpHandler	*media.TwirpServer
-	NewS3Client		*s3.S3Client
+	MediaUploader		*mediaservice.MediaUploader
 	Orm			*db.Orm
 	ProjectFactory		*projectservice.ProjectFactory
 	ProjectRepository	*projectservice.ProjectRepository
 	ProjectService		*projectservice.ProjectService
 	ProjectTwirpHandler	*project.TwirpServer
+	S3ClientPool		*s3.S3ClientPool
 	Secure			*secure.Secure
 	TemplateHandler		*handler.TemplateHandler
 	TemplateRepository	*templateservice.TemplateRepository
@@ -90,6 +92,13 @@ func (container *Container) GetMediaFactory() *mediaservice.MediaFactory {
 	}
 	return container.MediaFactory
 }
+func (container *Container) GetMediaFileSystem() *mediaservice.FileSystem {
+	if container.MediaFileSystem == nil {
+		service := mediaservice.NewFileSystem(container.GetAuthContext())
+		container.MediaFileSystem = service
+	}
+	return container.MediaFileSystem
+}
 func (container *Container) GetMediaRepository() *mediaservice.MediaRepository {
 	if container.MediaRepository == nil {
 		service := mediaservice.NewMediaRepository(container.GetOrm(), container.GetAuthContext())
@@ -118,12 +127,12 @@ func (container *Container) GetMediaTwirpHandler() media.TwirpServer {
 	}
 	return *container.MediaTwirpHandler
 }
-func (container *Container) GetNewS3Client() *s3.S3Client {
-	if container.NewS3Client == nil {
-		service := s3.NewS3Client(container.GetConfig())
-		container.NewS3Client = service
+func (container *Container) GetMediaUploader() *mediaservice.MediaUploader {
+	if container.MediaUploader == nil {
+		service := mediaservice.NewMediaUploader(container.GetS3ClientPool())
+		container.MediaUploader = service
 	}
-	return container.NewS3Client
+	return container.MediaUploader
 }
 func (container *Container) GetOrm() *db.Orm {
 	if container.Orm == nil {
@@ -159,6 +168,13 @@ func (container *Container) GetProjectTwirpHandler() project.TwirpServer {
 		container.ProjectTwirpHandler = &service
 	}
 	return *container.ProjectTwirpHandler
+}
+func (container *Container) GetS3ClientPool() *s3.S3ClientPool {
+	if container.S3ClientPool == nil {
+		service := s3.NewS3ClientPool(container.GetConfig())
+		container.S3ClientPool = service
+	}
+	return container.S3ClientPool
 }
 func (container *Container) GetSecure() *secure.Secure {
 	if container.Secure == nil {

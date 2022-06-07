@@ -59,6 +59,7 @@ type S3 struct {
 
 type S3Client struct {
 	Bucket string `yaml:"bucket"`
+	Region string `yaml:"region"`
 	Key    string `yaml:"key"`
 	Secret string `yaml:"secret"`
 }
