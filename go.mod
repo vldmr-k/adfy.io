@@ -11,6 +11,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
+	github.com/h2non/filetype v1.1.3
 	github.com/lib/pq v1.10.4
 	github.com/spf13/viper v1.10.1
 	github.com/twitchtv/twirp v8.1.1+incompatible

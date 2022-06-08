@@ -25,8 +25,8 @@ func (t *Transformer) Transofrm(media Media) *pb.Media {
 		Url:    media.Path,
 		Mime:   media.MimeType,
 		Size:   int32(media.Size),
-		Width:  media.Width,
-		Height: media.Width,
+		Width:  int32(media.Width),
+		Height: int32(media.Width),
 		Type:   mediaType,
 	}
 }

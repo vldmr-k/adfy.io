@@ -43,7 +43,7 @@ services:
 
   MediaService:
     type: "*adfy.io/internal/mediaservice.MediaService"
-    returns: "mediaservice.NewMediaService(@{MediaRepository}, @{MediaFactory}, @{MediaTransformer})"
+    returns: "mediaservice.NewMediaService(@{MediaRepository}, @{MediaFactory}, @{MediaTransformer}, @{AuthContext}, @{MediaManager})"
   MediaFactory:
     type: "*adfy.io/internal/mediaservice.MediaFactory"
     returns: "mediaservice.NewMediaFactory()"
@@ -53,12 +53,15 @@ services:
   MediaRepository:
     type: "*adfy.io/internal/mediaservice.MediaRepository"
     returns: "mediaservice.NewMediaRepository(@{Orm}, @{AuthContext})"
-  MediaFileSystem:
-    type: "*adfy.io/internal/mediaservice.FileSystem"
-    returns: "mediaservice.NewFileSystem(@{AuthContext})"
+  MediaHelper:
+    type: "*adfy.io/internal/mediaservice.Helper"
+    returns: "mediaservice.NewHelper(@{AuthContext})"
   MediaUploader:
     type: "*adfy.io/internal/mediaservice.MediaUploader"
-    returns: "mediaservice.NewMediaUploader(@{S3ClientPool})"
+    returns: 'mediaservice.NewMediaUploader(@{S3ClientPool})'
+  MediaManager:
+    type: "*adfy.io/internal/mediaservice.MediaManager"
+    returns: "mediaservice.NewMediaManager(@{AuthContext}, @{Orm}, @{MediaUploader}, @{MediaHelper}, @{MediaRepository}, @{MediaFactory})"
 
   TemplateService:
     type: "*adfy.io/internal/templateservice.TemplateService"

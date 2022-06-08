@@ -27,7 +27,8 @@ type Container struct {
 	Db			*db.Db
 	JWT			*jwt.JWT
 	MediaFactory		*mediaservice.MediaFactory
-	MediaFileSystem		*mediaservice.FileSystem
+	MediaHelper		*mediaservice.Helper
+	MediaManager		*mediaservice.MediaManager
 	MediaRepository		*mediaservice.MediaRepository
 	MediaService		*mediaservice.MediaService
 	MediaTransformer	*mediaservice.Transformer
@@ -92,12 +93,19 @@ func (container *Container) GetMediaFactory() *mediaservice.MediaFactory {
 	}
 	return container.MediaFactory
 }
-func (container *Container) GetMediaFileSystem() *mediaservice.FileSystem {
-	if container.MediaFileSystem == nil {
-		service := mediaservice.NewFileSystem(container.GetAuthContext())
-		container.MediaFileSystem = service
+func (container *Container) GetMediaHelper() *mediaservice.Helper {
+	if container.MediaHelper == nil {
+		service := mediaservice.NewHelper(container.GetAuthContext())
+		container.MediaHelper = service
 	}
-	return container.MediaFileSystem
+	return container.MediaHelper
+}
+func (container *Container) GetMediaManager() *mediaservice.MediaManager {
+	if container.MediaManager == nil {
+		service := mediaservice.NewMediaManager(container.GetAuthContext(), container.GetOrm(), container.GetMediaUploader(), container.GetMediaHelper(), container.GetMediaRepository(), container.GetMediaFactory())
+		container.MediaManager = service
+	}
+	return container.MediaManager
 }
 func (container *Container) GetMediaRepository() *mediaservice.MediaRepository {
 	if container.MediaRepository == nil {
@@ -108,7 +116,7 @@ func (container *Container) GetMediaRepository() *mediaservice.MediaRepository {
 }
 func (container *Container) GetMediaService() *mediaservice.MediaService {
 	if container.MediaService == nil {
-		service := mediaservice.NewMediaService(container.GetMediaRepository(), container.GetMediaFactory(), container.GetMediaTransformer())
+		service := mediaservice.NewMediaService(container.GetMediaRepository(), container.GetMediaFactory(), container.GetMediaTransformer(), container.GetAuthContext(), container.GetMediaManager())
 		container.MediaService = service
 	}
 	return container.MediaService
