@@ -52,8 +52,6 @@ export class BlockBuilderComponent implements OnInit {
   myModel = {"name":"test","url":"http://ukr.net","email":true,"rememberMe":false,"colors":["rgba(126, 58, 58, 1)","rgba(109, 24, 24, 1)","rgba(195, 181, 181, 1)"]}
 
 
-
-
   ngOnInit(): void {
   }
 

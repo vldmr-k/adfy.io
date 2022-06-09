@@ -10,6 +10,7 @@
         tuiItem
         *ngFor="let file of control.valueChanges | async"
         [file]="file"
+        
         (removed)="removeFile(file)"
     ></tui-file>
 

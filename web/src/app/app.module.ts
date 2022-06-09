@@ -24,8 +24,9 @@ import { of } from "rxjs";
 import { ProjectServiceClient } from "@grpc/project/service.client";
 import { ProjectEffects, UserEffects } from "@store/effects";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { FileManagerModule } from "@file-manager/filemanager.module";
 import { MediaServiceClient } from "@grpc/media/service.client";
+import { MediaEffects } from "@store/effects/media.effects";
+import { media, project, user} from "@store/reducers"
 
 @NgModule({
   declarations: [
@@ -51,10 +52,13 @@ import { MediaServiceClient } from "@grpc/media/service.client";
       ]
     }),
 
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot([UserEffects, ProjectEffects]),
+    StoreModule.forRoot({
+      ...user.reducer,
+      ...project.reducer,
+      ...media.reducer
+    }),
+    EffectsModule.forRoot([UserEffects, ProjectEffects, MediaEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true }),
-    FileManagerModule
   ],
   providers: [
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },

@@ -34,6 +34,24 @@ func NewMediaService(
 	}
 }
 
+func (s *MediaService) All(ctx context.Context, req *pb.AllRequest) (resp *pb.AllResponse, err error) {
+	items, err := s.mediaRepository.All(ctx)
+
+	if err != nil {
+		return nil, twirp.InternalError(err.Error())
+	}
+
+	var medias []*pb.Media
+
+	for _, item := range items {
+		medias = append(medias, s.transformer.Transofrm(item))
+	}
+
+	return &pb.AllResponse{
+		Medias: medias,
+	}, nil
+}
+
 func (s *MediaService) Upload(ctx context.Context, req *pb.UploadRequest) (resp *pb.UploadResponse, err error) {
 
 	media, err := s.mediaManager.Upload(ctx, req.Body)

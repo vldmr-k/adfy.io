@@ -17,7 +17,6 @@ import { ColorWidget } from './widgets/color/color.widget';
 import { ArrayWidget } from './widgets/array/array.widget';
 import { FilemanagerWidget } from './widgets/file/filemanager.widget';
 import { FileManagerModule } from '@file-manager/filemanager.module';
-import { FILEMANAGER_PROVIDER } from '@file-manager/filemanager.service';
 
 const moduleProviders = [
   {
@@ -41,9 +40,9 @@ const moduleProviders = [
     TuiCheckboxLabeledModule,
     TuiInputColorModule,
     TuiAlertModule,
+    TuiDialogModule,
 
-    FileManagerModule,
-    TuiDialogModule
+    FileManagerModule
   ],
   declarations: [
     StringWidget,

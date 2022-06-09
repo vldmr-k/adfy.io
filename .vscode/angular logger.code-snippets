@@ -1,0 +1,9 @@
+{
+
+  "Log All The Things": {
+    "prefix": "ll",
+    "body": [
+        "Logger.${LEVEL}('${CLASS}', '${METHOD}', `${message}`);"
+    ]
+  }
+}

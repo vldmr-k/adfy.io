@@ -2,31 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="218d0c92-d37f-43d3-b0c2-29975cc503a7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/adfy.com.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/swagger/spec/project/service.swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/doc/swagger/spec/project/service.swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/swagger/spec/user/service.swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/doc/swagger/spec/user/service.swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/projectservice/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/projectservice/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/projectservice/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/projectservice/service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/userservice/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/userservice/service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/place/service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/place/service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/project/service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/project/service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/project/service.pb.validate.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/project/service.pb.validate.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/project/service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/project/service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/project/service.twirp.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/project/service.twirp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/user/service.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/user/service.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/user/service.pb.validate.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/user/service.pb.validate.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/user/service.proto" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/user/service.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpc/user/service.twirp.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpc/user/service.twirp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/modules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/modules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/grpc/project/service.client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/grpc/project/service.client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/grpc/project/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/grpc/project/service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/grpc/user/service.client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/grpc/user/service.client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/grpc/user/service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/grpc/user/service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/@file-manager/uploader/uploader.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/@file-manager/uploader/uploader.component.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,16 +28,6 @@
         <option name="url" value="git@github.com:vldmr-k/adfy.io.git" />
       </UrlAndAccount>
     </option>
-  </component>
-  <component name="GoLibraries">
-    <option name="urls">
-      <list>
-        <option value="file://$PROJECT_DIR$" />
-      </list>
-    </option>
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedIndex" value="1" />
   </component>
   <component name="ProjectId" id="25LQN1HitlmEflpH32OrXL6iRWo" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />

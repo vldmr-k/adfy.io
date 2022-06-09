@@ -3,6 +3,20 @@ import { Empty } from "../google/protobuf/empty";
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 /**
+ * @generated from protobuf message adfy.io.rpc.media.AllRequest
+ */
+export interface AllRequest {
+}
+/**
+ * @generated from protobuf message adfy.io.rpc.media.AllResponse
+ */
+export interface AllResponse {
+    /**
+     * @generated from protobuf field: repeated adfy.io.rpc.media.Media medias = 1;
+     */
+    medias: Media[];
+}
+/**
  * @generated from protobuf message adfy.io.rpc.media.UploadRequest
  */
 export interface UploadRequest {
@@ -93,6 +107,28 @@ export enum Media_MediaType {
     VIDEO = 1
 }
 // @generated message type with reflection information, may provide speed optimized methods
+class AllRequest$Type extends MessageType<AllRequest> {
+    constructor() {
+        super("adfy.io.rpc.media.AllRequest", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message adfy.io.rpc.media.AllRequest
+ */
+export const AllRequest = new AllRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AllResponse$Type extends MessageType<AllResponse> {
+    constructor() {
+        super("adfy.io.rpc.media.AllResponse", [
+            { no: 1, name: "medias", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Media }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message adfy.io.rpc.media.AllResponse
+ */
+export const AllResponse = new AllResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class UploadRequest$Type extends MessageType<UploadRequest> {
     constructor() {
         super("adfy.io.rpc.media.UploadRequest", [
@@ -164,6 +200,7 @@ export const Media = new Media$Type();
  * @generated ServiceType for protobuf service adfy.io.rpc.media.MediaService
  */
 export const MediaService = new ServiceType("adfy.io.rpc.media.MediaService", [
+    { name: "All", options: {}, I: AllRequest, O: AllResponse },
     { name: "Upload", options: {}, I: UploadRequest, O: UploadResponse },
     { name: "Get", options: {}, I: IdRequest, O: GetResponse },
     { name: "Delete", options: {}, I: IdRequest, O: Empty }

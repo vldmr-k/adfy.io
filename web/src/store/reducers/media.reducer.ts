@@ -6,8 +6,9 @@ export const STORE_MEDIA_KEY = 'media';
 import { createReducer, createFeature, on } from '@ngrx/store';
 
 export interface MediaState {
-  media: Media | null,
-  list: Media[] | null,
+  media: Media,
+  list: Media[],
+  selectedMedia: Media,
   error: null,
   loading: boolean
 }
@@ -15,16 +16,21 @@ export interface MediaState {
 export const initialState: MediaState = {
   media: null,
   list: [],
+  selectedMedia: null,
   error: null,
   loading: false,
 };
 
 
 
-export const projectFeature = createFeature({
+export const mediaFeature = createFeature({
   name: STORE_MEDIA_KEY,
   reducer: createReducer(
     initialState,
+
+    on(mediaActions.allRequest, (state) => ({ ...state, loading: true })),
+    on(mediaActions.allSuccess, (state, action) => ({ ...state, list: action.response.medias , loading: false })),
+    on(mediaActions.allError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
     on(mediaActions.uploadRequest, (state) => ({ ...state, loading: true })),
     on(mediaActions.uploadSuccess, (state, action) => ({ ...state, media: action.response.media! , loading: false })),
@@ -38,6 +44,9 @@ export const projectFeature = createFeature({
     on(mediaActions.deleteSuccess, (state, action) => ({ ...state, loading: false })),
     on(mediaActions.deleteError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
+    on(mediaActions.selectedMedia, (state, action) => ({ ...state, selectedMedia: action.media })),
+    on(mediaActions.resetSelectedMedia, (state, action) => ({ ...state, selectedMedia: null }))
+
   ),
 });
 
@@ -49,4 +58,5 @@ export const {
   selectList,
   selectError,
   selectLoading,
-} = projectFeature;
+  selectSelectedMedia,
+} = mediaFeature;

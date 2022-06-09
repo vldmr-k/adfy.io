@@ -26,9 +26,11 @@ import { ControlWidget } from 'ngx-schema-form';
     (change)="onFileChange($event)">
 	<input *ngIf="schema.readOnly" [attr.name]="name" type="hidden" [formControl]="control">
 -->
-  <button tuiButton icon="tuiIconStructureLarge" size="m" (click)="onClick()">
+
+  <button tuiButton icon="tuiIconPicture" size="s" (click)="onClick()">
     File Manager
   </button>
+  <span *ngIf="schema.description" class="formHelp">{{schema.description}}</span>
 </div>`
 })
 export class FilemanagerWidget extends ControlWidget implements AfterViewInit {
@@ -45,6 +47,7 @@ export class FilemanagerWidget extends ControlWidget implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    return;
     // OVERRIDE ControlWidget ngAfterViewInit() as ReactiveForms do not handle
     // file inputs
     const control = this.control;
@@ -75,11 +78,12 @@ export class FilemanagerWidget extends ControlWidget implements AfterViewInit {
 
     this.dialogService.open<string>
       (new PolymorpheusComponent(FileManagerComponent, this.injector), {
-        data: "from filemanager widget.ts",
+        data: this.formProperty.value,
         size: "l"
       })
       .subscribe({
         next: data => {
+            this.formProperty.setValue(data, false);
             console.info(`Dialog emitted data = ${data}`);
         },
     });

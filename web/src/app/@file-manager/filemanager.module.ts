@@ -7,7 +7,9 @@ import { FileManagerUploaderModule } from './uploader/uploader.module';
 import { PolymorpheusModule } from '@tinkoff/ng-polymorpheus';
 import { FILEMANAGER_PROVIDER } from './filemanager.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiDialogModule } from '@taiga-ui/core';
+import { TuiDialogModule, TuiLoaderModule } from '@taiga-ui/core';
+import { mediaFeature } from '@store/reducers/media.reducer';
+import { StoreModule } from '@ngrx/store';
 
 
 
@@ -23,7 +25,9 @@ import { TuiDialogModule } from '@taiga-ui/core';
     ListModule,
     TuiInputFilesModule,
     FileManagerUploaderModule,
-    TuiDialogModule
+    TuiDialogModule,
+    TuiLoaderModule,
+    StoreModule.forFeature(mediaFeature)
   ],
   providers: [FILEMANAGER_PROVIDER],
   exports: [
