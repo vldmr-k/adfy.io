@@ -2,6 +2,7 @@
 package kernel
 
 import (
+	areaservice "adfy.io/internal/areaservice"
 	handler "adfy.io/internal/handler"
 	mediaservice "adfy.io/internal/mediaservice"
 	projectservice "adfy.io/internal/projectservice"
@@ -22,6 +23,8 @@ import (
 )
 
 type Container struct {
+	AreaFactory		*areaservice.AreaFactory
+	AreaTransformer		*areaservice.Transformer
 	AuthContext		*ctx.AuthContext
 	Config			*config.Config
 	Db			*db.Db
@@ -38,6 +41,7 @@ type Container struct {
 	ProjectFactory		*projectservice.ProjectFactory
 	ProjectRepository	*projectservice.ProjectRepository
 	ProjectService		*projectservice.ProjectService
+	ProjectTransformer	*projectservice.Transformer
 	ProjectTwirpHandler	*project.TwirpServer
 	S3ClientPool		*s3.S3ClientPool
 	Secure			*secure.Secure
@@ -57,6 +61,20 @@ var DefaultContainer = NewContainer()
 
 func NewContainer() *Container {
 	return &Container{}
+}
+func (container *Container) GetAreaFactory() *areaservice.AreaFactory {
+	if container.AreaFactory == nil {
+		service := areaservice.NewAreaFactory()
+		container.AreaFactory = service
+	}
+	return container.AreaFactory
+}
+func (container *Container) GetAreaTransformer() *areaservice.Transformer {
+	if container.AreaTransformer == nil {
+		service := areaservice.NewTransformer(container.GetProjectTransformer())
+		container.AreaTransformer = service
+	}
+	return container.AreaTransformer
 }
 func (container *Container) GetAuthContext() *ctx.AuthContext {
 	if container.AuthContext == nil {
@@ -169,6 +187,13 @@ func (container *Container) GetProjectService() *projectservice.ProjectService {
 		container.ProjectService = service
 	}
 	return container.ProjectService
+}
+func (container *Container) GetProjectTransformer() *projectservice.Transformer {
+	if container.ProjectTransformer == nil {
+		service := projectservice.NewTransformer()
+		container.ProjectTransformer = service
+	}
+	return container.ProjectTransformer
 }
 func (container *Container) GetProjectTwirpHandler() project.TwirpServer {
 	if container.ProjectTwirpHandler == nil {

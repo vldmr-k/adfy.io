@@ -68,6 +68,14 @@
     }
   },
   "definitions": {
+    "TemplateTypes": {
+      "type": "string",
+      "enum": [
+        "FLOATING",
+        "STATIC"
+      ],
+      "default": "FLOATING"
+    },
     "templateGetResponse": {
       "type": "object",
       "properties": {
@@ -112,6 +120,9 @@
         },
         "sampleData": {
           "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/TemplateTypes"
         }
       }
     }

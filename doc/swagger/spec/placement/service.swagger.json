@@ -1,0 +1,315 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Adfy.io placement Service Twirp/JSON API Documentation",
+    "version": "1.0"
+  },
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/twirp/adfy.io.rpc.placement.PlacementService/Create": {
+      "post": {
+        "operationId": "Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcplacementCreateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcplacementCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlacementService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.placement.PlacementService/Delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcplacementIdRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlacementService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.placement.PlacementService/Edit": {
+      "post": {
+        "operationId": "Edit",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcplacementEditResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcplacementEditRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlacementService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.placement.PlacementService/Get": {
+      "post": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcplacementGetResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcplacementIdRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlacementService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.placement.PlacementService/GetByProject": {
+      "post": {
+        "operationId": "GetByProject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcplacementGetByProjectResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcplacementGetByProjectRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PlacementService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "TemplateTypes": {
+      "type": "string",
+      "enum": [
+        "FLOATING",
+        "STATIC"
+      ],
+      "default": "FLOATING"
+    },
+    "areaArea": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "projectID": {
+          "type": "string"
+        },
+        "embedCode": {
+          "type": "string"
+        }
+      }
+    },
+    "placementPlacement": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "project": {
+          "$ref": "#/definitions/projectProject"
+        },
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        },
+        "template": {
+          "$ref": "#/definitions/templateTemplate"
+        },
+        "data": {
+          "type": "string"
+        }
+      }
+    },
+    "projectProject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "embedCode": {
+          "type": "string"
+        }
+      }
+    },
+    "rpcplacementCreateRequest": {
+      "type": "object",
+      "properties": {
+        "placment": {
+          "$ref": "#/definitions/placementPlacement"
+        }
+      }
+    },
+    "rpcplacementCreateResponse": {
+      "type": "object",
+      "properties": {
+        "placement": {
+          "$ref": "#/definitions/placementPlacement"
+        }
+      }
+    },
+    "rpcplacementEditRequest": {
+      "type": "object",
+      "properties": {
+        "placement": {
+          "$ref": "#/definitions/placementPlacement"
+        }
+      }
+    },
+    "rpcplacementEditResponse": {
+      "type": "object",
+      "properties": {
+        "placement": {
+          "$ref": "#/definitions/placementPlacement"
+        }
+      }
+    },
+    "rpcplacementGetByProjectRequest": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "$ref": "#/definitions/rpcplacementIdRequest"
+        }
+      }
+    },
+    "rpcplacementGetByProjectResponse": {
+      "type": "object",
+      "properties": {
+        "placements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/placementPlacement"
+          }
+        }
+      }
+    },
+    "rpcplacementGetResponse": {
+      "type": "object",
+      "properties": {
+        "placement": {
+          "$ref": "#/definitions/placementPlacement"
+        }
+      }
+    },
+    "rpcplacementIdRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "templateTemplate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "component": {
+          "type": "string"
+        },
+        "formSchema": {
+          "type": "string"
+        },
+        "sampleData": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/TemplateTypes"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Adfy.io github repository",
+    "url": "https://github.com/vldmr-k/adfy.io"
+  }
+}

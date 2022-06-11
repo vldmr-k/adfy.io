@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Adfy.io Project Service Twirp/JSON API Documentation",
+    "title": "Adfy.io Area Service Twirp/JSON API Documentation",
     "version": "1.0"
   },
   "schemes": [
@@ -14,40 +14,14 @@
     "application/json"
   ],
   "paths": {
-    "/twirp/adfy.io.rpc.project.ProjectService/All": {
-      "post": {
-        "operationId": "All",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/projectAllResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/protobufEmpty"
-            }
-          }
-        ],
-        "tags": [
-          "ProjectService"
-        ]
-      }
-    },
-    "/twirp/adfy.io.rpc.project.ProjectService/Create": {
+    "/twirp/adfy.io.rpc.area.AreaService/Create": {
       "post": {
         "operationId": "Create",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/projectCreateResponse"
+              "$ref": "#/definitions/rpcareaCreateResponse"
             }
           }
         },
@@ -57,16 +31,16 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/projectCreateRequest"
+              "$ref": "#/definitions/rpcareaCreateRequest"
             }
           }
         ],
         "tags": [
-          "ProjectService"
+          "AreaService"
         ]
       }
     },
-    "/twirp/adfy.io.rpc.project.ProjectService/Delete": {
+    "/twirp/adfy.io.rpc.area.AreaService/Delete": {
       "post": {
         "operationId": "Delete",
         "responses": {
@@ -83,23 +57,49 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/projectIdRequest"
+              "$ref": "#/definitions/rpcareaIdRequest"
             }
           }
         ],
         "tags": [
-          "ProjectService"
+          "AreaService"
         ]
       }
     },
-    "/twirp/adfy.io.rpc.project.ProjectService/Get": {
+    "/twirp/adfy.io.rpc.area.AreaService/Edit": {
+      "post": {
+        "operationId": "Edit",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/areaEditResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/areaEditRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AreaService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.area.AreaService/Get": {
       "post": {
         "operationId": "Get",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/projectGetResponse"
+              "$ref": "#/definitions/rpcareaGetResponse"
             }
           }
         },
@@ -109,23 +109,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/projectIdRequest"
+              "$ref": "#/definitions/rpcareaIdRequest"
             }
           }
         ],
         "tags": [
-          "ProjectService"
+          "AreaService"
         ]
       }
     },
-    "/twirp/adfy.io.rpc.project.ProjectService/Update": {
+    "/twirp/adfy.io.rpc.area.AreaService/GetByProject": {
       "post": {
-        "operationId": "Update",
+        "operationId": "GetByProject",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/projectUpdateResponse"
+              "$ref": "#/definitions/areaGetByProjectResponse"
             }
           }
         },
@@ -135,70 +135,18 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/projectUpdateRequest"
+              "$ref": "#/definitions/areaGetByProjectRequest"
             }
           }
         ],
         "tags": [
-          "ProjectService"
+          "AreaService"
         ]
       }
     }
   },
   "definitions": {
-    "projectAllResponse": {
-      "type": "object",
-      "properties": {
-        "projects": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/projectProject"
-          }
-        }
-      }
-    },
-    "projectCreateRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "domain": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "description": {
-          "type": "string"
-        }
-      }
-    },
-    "projectCreateResponse": {
-      "type": "object",
-      "properties": {
-        "project": {
-          "$ref": "#/definitions/projectProject"
-        }
-      }
-    },
-    "projectGetResponse": {
-      "type": "object",
-      "properties": {
-        "project": {
-          "$ref": "#/definitions/projectProject"
-        }
-      }
-    },
-    "projectIdRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        }
-      }
-    },
-    "projectProject": {
+    "areaArea": {
       "type": "object",
       "properties": {
         "id": {
@@ -207,13 +155,7 @@
         "name": {
           "type": "string"
         },
-        "domain": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "description": {
+        "projectID": {
           "type": "string"
         },
         "embedCode": {
@@ -221,31 +163,76 @@
         }
       }
     },
-    "projectUpdateRequest": {
+    "areaEditRequest": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "$ref": "#/definitions/rpcareaIdRequest"
         },
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        }
+      }
+    },
+    "areaEditResponse": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        }
+      }
+    },
+    "areaGetByProjectRequest": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "$ref": "#/definitions/rpcareaIdRequest"
+        }
+      }
+    },
+    "areaGetByProjectResponse": {
+      "type": "object",
+      "properties": {
+        "areas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/areaArea"
+          }
+        }
+      }
+    },
+    "rpcareaCreateRequest": {
+      "type": "object",
+      "properties": {
         "name": {
           "type": "string"
         },
-        "domain": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "description": {
+        "projectId": {
           "type": "string"
         }
       }
     },
-    "projectUpdateResponse": {
+    "rpcareaCreateResponse": {
       "type": "object",
       "properties": {
-        "project": {
-          "$ref": "#/definitions/projectProject"
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        }
+      }
+    },
+    "rpcareaGetResponse": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        }
+      }
+    },
+    "rpcareaIdRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
         }
       }
     }

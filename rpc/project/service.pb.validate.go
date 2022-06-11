@@ -71,6 +71,17 @@ func (m *CreateRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if len(m.GetDomain()) < 1 {
+		err := CreateRequestValidationError{
+			field:  "Domain",
+			reason: "value must contain at least 1 item(s)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	_CreateRequest_Domain_Unique := make(map[string]struct{}, len(m.GetDomain()))
 
 	for idx, item := range m.GetDomain() {
@@ -339,6 +350,17 @@ func (m *UpdateRequest) validate(all bool) error {
 		err := UpdateRequestValidationError{
 			field:  "Name",
 			reason: "value length must be between 3 and 50 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(m.GetDomain()) < 1 {
+		err := UpdateRequestValidationError{
+			field:  "Domain",
+			reason: "value must contain at least 1 item(s)",
 		}
 		if !all {
 			return err
@@ -973,7 +995,7 @@ func (m *Project) validate(all bool) error {
 
 	// no validation rules for Description
 
-	// no validation rules for HtmlCode
+	// no validation rules for EmbedCode
 
 	if len(errors) > 0 {
 		return ProjectMultiError(errors)

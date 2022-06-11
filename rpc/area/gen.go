@@ -11,7 +11,7 @@
 // express or implied. See the License for the specific language governing
 // permissions and limitations under the License.
 
-package place
+package area
 
 // Go generate directives are a convenient way to describe compilation of proto
 // files. They let users run 'go generate ./...', no Makefile necessary.
@@ -24,4 +24,4 @@ package place
 // It is also used to tell protoc where to put output generated files, through
 // --twirp_out and --go_out.
 
-//go:generate bash ./../../bin/protogen.sh place/service.proto
+//go:generate bash ./../../bin/protogen.sh area/service.proto

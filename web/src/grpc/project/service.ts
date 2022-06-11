@@ -106,16 +106,16 @@ export interface Project {
      */
     description: string;
     /**
-     * @generated from protobuf field: string htmlCode = 5;
+     * @generated from protobuf field: string embedCode = 5;
      */
-    htmlCode: string;
+    embedCode: string;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class CreateRequest$Type extends MessageType<CreateRequest> {
     constructor() {
         super("adfy.io.rpc.project.CreateRequest", [
             { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "50" } } } },
-            { no: 2, name: "domain", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { repeated: { unique: true } } } },
+            { no: 2, name: "domain", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { repeated: { minItems: "1", unique: true } } } },
             { no: 3, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
@@ -142,7 +142,7 @@ class UpdateRequest$Type extends MessageType<UpdateRequest> {
         super("adfy.io.rpc.project.UpdateRequest", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "50" } } } },
-            { no: 3, name: "domain", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { repeated: { unique: true } } } },
+            { no: 3, name: "domain", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { repeated: { minItems: "1", unique: true } } } },
             { no: 4, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
@@ -207,7 +207,7 @@ class Project$Type extends MessageType<Project> {
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "domain", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "description", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "htmlCode", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "embedCode", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

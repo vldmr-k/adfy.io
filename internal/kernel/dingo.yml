@@ -19,8 +19,11 @@ services:
   VerifyJWTHook:
     type: "*adfy.io/pkg/hook.VerifyJWTHook"
     returns: "hook.NewVerifyJWTHook(@{JWT})"
+  BaseRepository:
+    type: "adfy.io/pkg/db.BaseRepository"
+    returns: "db.BaseRepository(@{AuthContext})"
 
-
+  #User
   UserService:
     type: "*adfy.io/internal/userservice.UserService"
     returns: "userservice.NewUserService(@{JWT}, @{Secure}, @{UserRepository}, @{AuthContext}, @{UserTransormer})"
@@ -31,6 +34,7 @@ services:
     type: "*adfy.io/internal/userservice.Transformer"
     returns: "userservice.NewTransformer()"
 
+  #Project
   ProjectService:
     type: "*adfy.io/internal/projectservice.ProjectService"
     returns: "projectservice.NewProjectService(@{ProjectRepository}, @{AuthContext}, @{ProjectFactory})"
@@ -40,7 +44,11 @@ services:
   ProjectRepository:
     type: "*adfy.io/internal/projectservice.ProjectRepository"
     returns: "projectservice.NewProjectRepository(@{Orm}, @{AuthContext})"
+  ProjectTransformer:
+    type: "*adfy.io/internal/projectservice.Transformer"
+    returns: "projectservice.NewTransformer()"
 
+  #Media
   MediaService:
     type: "*adfy.io/internal/mediaservice.MediaService"
     returns: "mediaservice.NewMediaService(@{MediaRepository}, @{MediaFactory}, @{MediaTransformer}, @{AuthContext}, @{MediaManager})"
@@ -63,6 +71,7 @@ services:
     type: "*adfy.io/internal/mediaservice.MediaManager"
     returns: "mediaservice.NewMediaManager(@{AuthContext}, @{Orm}, @{MediaUploader}, @{MediaHelper}, @{MediaRepository}, @{MediaFactory})"
 
+  #Template
   TemplateService:
     type: "*adfy.io/internal/templateservice.TemplateService"
     returns: "templateservice.NewTemplateService(@{TemplateRepository}, @{AuthContext}, @{TemplateTransofrmer})"
@@ -75,6 +84,20 @@ services:
   TemplateHandler:
     type: "*adfy.io/internal/handler.TemplateHandler"
     returns: "handler.NewTemplateHandler(@{TemplateRepository})"
+
+  #Area
+  AreaService:
+    type: "*adfy.io/internal/areaservice.AreaService"
+    returns: "areaservice.NewAreaService(@{AreaRepository}, @{AuthContext}, @{AreaFactory}, @{AreaTransformer})"
+  AreaFactory:
+    type: "*adfy.io/internal/areaservice.AreaFactory"
+    returns: "areaservice.NewAreaFactory()"
+  AreaRepository:
+    type: "*adfy.io/internal/areaservice.AreaRepository"
+    returns: "areaservice.NewAreaRepository(@{BaseRepository}, @{Orm})"
+  AreaTransformer:
+    type: "*adfy.io/internal/areaservice.Transformer"
+    returns: "areaservice.NewTransformer(@{ProjectTransformer})"
 
 
 
@@ -100,3 +123,6 @@ services:
   MediaTwirpHandler:
     type: "adfy.io/rpc/media.TwirpServer"
     returns: "media.NewMediaServiceServer(@{MediaService}, @{VerifyJWTHook}.WithJWTAuth())"
+  AreaTwirmHandler:
+    type: "adfy.io/rpc/area.TwirpServer"
+    returns: "area.NewAreaServiceServer(@{AreaService}, @{VerifyJWTHook}.WithJWTAuth())"

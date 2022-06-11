@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	"adfy.io/internal/areaservice"
 	"adfy.io/internal/kernel"
 	"adfy.io/internal/mediaservice"
-	"adfy.io/internal/placeservice"
+	"adfy.io/internal/placementservice"
 	"adfy.io/internal/projectservice"
 	"adfy.io/internal/templateservice"
 	"adfy.io/internal/userservice"
@@ -30,8 +31,10 @@ func main() {
 
 	orm.AutoMigrate(&userservice.User{})
 	orm.AutoMigrate(&projectservice.Project{})
-	orm.AutoMigrate(&placeservice.Place{})
+	orm.AutoMigrate(&areaservice.Area{})
+	orm.AutoMigrate(&areaservice.Area{})
 	orm.AutoMigrate(&templateservice.Template{})
+	orm.AutoMigrate(&placementservice.Placement{})
 	orm.AutoMigrate(&mediaservice.Media{})
 
 	fmt.Println("Done!")

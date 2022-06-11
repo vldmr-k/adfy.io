@@ -1,6 +1,6 @@
 syntax = "proto3";
-package adfy.io.rpc.place;
-option go_package = "adfy.io/rpc/place";
+package adfy.io.rpc.area;
+option go_package = "adfy.io/rpc/area";
 
 import "project/service.proto";
 import "validate/validate.proto";
@@ -11,7 +11,7 @@ import "google/protobuf/empty.proto";
 
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
     info: {
-        title: "Adfy.io Place Service Twirp/JSON API Documentation";
+        title: "Adfy.io Area Service Twirp/JSON API Documentation";
         version: "1.0";
     };
     external_docs: {
@@ -22,9 +22,9 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 };
 
 
-service PlaceService {
+service AreaService {
     rpc Create(CreateRequest) returns (CreateResponse);
-    rpc Get(IdRequest) returns (GetPlaceResponse);
+    rpc Get(IdRequest) returns (GetResponse);
     rpc GetByProject(GetByProjectRequest) returns(GetByProjectResponse);
     rpc Edit(EditRequest) returns (EditResponse);
     rpc Delete(IdRequest) returns (google.protobuf.Empty);
@@ -32,41 +32,41 @@ service PlaceService {
 
 message CreateRequest {
   string name = 1 [(validate.rules).string = {min_len: 3, max_len: 50}]; //required
-  string project = 2 [(validate.rules).string.uuid = true];
+  string projectId = 2 [(validate.rules).string.uuid = true];
 }
 
 message CreateResponse {
-  Place place = 1;
+  Area area = 1;
 }
 
 message EditRequest {
-    string id = 1 [(validate.rules).string.uuid = true];
-    string name = 2 [(validate.rules).string = {min_len: 3, max_len: 50}];
+    IdRequest id = 1;
+    Area area = 2;
 }
 
 message EditResponse {
-  Place place = 1;
+  Area area = 1;
 }
 
 message IdRequest {
-  string id = 1;
+  string id = 1 [(validate.rules).string.uuid = true];
 }
 
 message GetByProjectRequest {
-  string projectId = 1;
+  IdRequest project = 1;
 }
 
 message GetByProjectResponse {
-  repeated Place places = 1;
+  repeated Area areas = 1;
 }
 
-message GetPlaceResponse {
-  Place place = 1;
+message GetResponse {
+  Area area = 1;
 }
 
-message Place {
-  string id = 1;
-  string name = 2;
-  project.Project project = 3;
-  string securityKey = 4;
+message Area {
+  string id = 1 [(validate.rules).string.uuid = true];
+  string name = 2 [(validate.rules).string = {min_len: 3, max_len: 128}];
+  string projectId = 4  [(validate.rules).string.uuid = true];
+  string embedCode = 5;
 }

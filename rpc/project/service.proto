@@ -35,7 +35,8 @@ message CreateRequest {
     string name = 1 [(validate.rules).string = {min_len: 3, max_len: 50}]; //required
     repeated string domain = 2 [
       (validate.rules).string = {min_len: 3, max_len: 50},
-      (validate.rules).repeated.unique = true
+      (validate.rules).repeated.unique = true,
+      (validate.rules).repeated.min_items = 1
     ]; //required
     string description = 3;
 }
@@ -49,7 +50,8 @@ message UpdateRequest {
     string name = 2 [(validate.rules).string = {min_len: 3, max_len: 50}];
     repeated string domain = 3 [
       (validate.rules).string = {min_len: 3, max_len: 50},
-      (validate.rules).repeated.unique = true
+      (validate.rules).repeated.unique = true,
+      (validate.rules).repeated.min_items = 1
     ]; //required
     string description = 4;
 }
@@ -77,5 +79,5 @@ message Project {
   string name = 2;
   repeated string domain = 3;
   string description = 4;
-  string htmlCode = 5;
+  string embedCode = 5;
 }

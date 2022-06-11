@@ -21,10 +21,6 @@ type ProjectRepository struct {
 	AuthContext *pkgctx.AuthContext
 }
 
-func (u *ProjectRepository) authUser(ctx context.Context) *jwt.AuthUser {
-	return u.AuthContext.GetAuthUser(ctx)
-}
-
 // Find Project By ID
 func (r *ProjectRepository) Find(ctx context.Context, id string) (*Project, error) {
 	usr := r.authUser(ctx)
@@ -60,6 +56,10 @@ func (r *ProjectRepository) Delete(ctx context.Context, project *Project) error 
 	usr := r.authUser(ctx)
 	result := r.Orm.Scopes(ownerScope(usr)).Delete(project, "id = ?", project.ID)
 	return result.Error
+}
+
+func (u *ProjectRepository) authUser(ctx context.Context) *jwt.AuthUser {
+	return u.AuthContext.GetAuthUser(ctx)
 }
 
 func ownerScope(usr *jwt.AuthUser) func(db *gorm.DB) *gorm.DB {
