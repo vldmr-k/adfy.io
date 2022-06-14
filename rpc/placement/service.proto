@@ -29,7 +29,7 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 service PlacementService {
     rpc Create(CreateRequest) returns (CreateResponse);
     rpc Get(IdRequest) returns (GetResponse);
-    rpc GetByProject(GetByProjectRequest) returns(GetByProjectResponse);
+    rpc GetAllByProject(GetAllByProjectRequest) returns(GetAllByProjectResponse);
     rpc Edit(EditRequest) returns (EditResponse);
     rpc Delete(IdRequest) returns (google.protobuf.Empty);
 }
@@ -54,11 +54,11 @@ message IdRequest {
   string id = 1 [(validate.rules).string.uuid = true];
 }
 
-message GetByProjectRequest {
+message GetAllByProjectRequest {
   IdRequest project = 1;
 }
 
-message GetByProjectResponse {
+message GetAllByProjectResponse {
   repeated Placement placements = 1;
 }
 

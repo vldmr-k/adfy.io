@@ -1,0 +1,7 @@
+FROM golang:latest
+RUN mkdir /app
+
+RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+
+ADD . /app/
+WORKDIR /app

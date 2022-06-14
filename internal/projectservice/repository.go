@@ -3,22 +3,19 @@ package projectservice
 import (
 	"context"
 
-	pkgctx "adfy.io/pkg/ctx"
 	"adfy.io/pkg/db"
 	"adfy.io/pkg/jwt"
 	"gorm.io/gorm"
 )
 
-func NewProjectRepository(orm *db.Orm, authContext *pkgctx.AuthContext) *ProjectRepository {
+func NewProjectRepository(baseRepository db.BaseRepository) *ProjectRepository {
 	return &ProjectRepository{
-		Orm:         orm,
-		AuthContext: authContext,
+		BaseRepository: baseRepository,
 	}
 }
 
 type ProjectRepository struct {
-	Orm         *db.Orm
-	AuthContext *pkgctx.AuthContext
+	db.BaseRepository
 }
 
 // Find Project By ID

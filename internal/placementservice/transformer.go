@@ -8,15 +8,15 @@ import (
 )
 
 type Transformer struct {
-	projectTransformer  projectservice.Transformer
-	areaTransformer     areaservice.Transformer
-	templateTransformer templateservice.Transformer
+	projectTransformer  *projectservice.Transformer
+	areaTransformer     *areaservice.Transformer
+	templateTransformer *templateservice.Transformer
 }
 
 func NewTransformer(
-	projectTransformer projectservice.Transformer,
-	areaTransformer areaservice.Transformer,
-	templateTransformer templateservice.Transformer,
+	projectTransformer *projectservice.Transformer,
+	areaTransformer *areaservice.Transformer,
+	templateTransformer *templateservice.Transformer,
 ) *Transformer {
 	return &Transformer{
 		projectTransformer:  projectTransformer,
@@ -25,7 +25,7 @@ func NewTransformer(
 	}
 }
 
-func (t *Transformer) Transofrm(placement Placement) *pb.Placement {
+func (t *Transformer) Transofrm(placement *Placement) *pb.Placement {
 	return &pb.Placement{
 		Id:      placement.ID.String(),
 		Name:    placement.Name,

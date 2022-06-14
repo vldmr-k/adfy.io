@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  rollup:
+    build:
+      context: .
+      dockerfile: jsbuilder/docker/Dockerfile
+    image: nodejs
+    container_name: adfy.rollup
+    ports:
+      - "3050:3000"
+    volumes:
+      - ./jsbuilder:/app
+    command: node /app/server.js
+
+  web:
+    build:
+      context: .
+      dockerfile: web/docker/Dockerfile
+    image: nodejs
+    container_name: adfy.web
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./web:/app
+    command: npm start
+    links:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: adfy.backend
+    environment:
+      - CONFIG_PATH=.
+    depends_on:
+      - rollup
+      - db
+    links:
+      - rollup
+      - db
+    ports:
+      - "4080:4080"
+    volumes:
+      - ./:/app
+      - node_modules:/app/web/node_modules
+      - vendor:/app/vendor
+    command: air -c /app/.air.toml
+
+  db:
+    image: postgres:14.3
+    container_name: adfy.db
+    env_file:
+      - ./docker/env/db.env
+    volumes:
+      - ./docker/data/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  node_modules:
+  vendor:

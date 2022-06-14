@@ -1,10 +1,7 @@
-package main
+package server
 
 import (
 	"fmt"
-	"log"
-	"net/http"
-	"time"
 
 	"adfy.io/internal/kernel"
 
@@ -13,7 +10,7 @@ import (
 	mw "adfy.io/pkg/mw"
 )
 
-func main() {
+func NewServer() (router *mux.Router, addr string) {
 	r := mux.NewRouter().StrictSlash(true)
 
 	di := kernel.DefaultContainer
@@ -31,23 +28,16 @@ func main() {
 	projectServiceHandler := di.GetProjectTwirpHandler()
 	templateServiceHandler := di.GetTemplateTwirpHandler()
 	mediaServiceHandler := di.GetMediaTwirpHandler()
+	areaServiceHandler := di.GetAreaTwirpHandler()
 
 	//twirp handler
 	r.PathPrefix(userServiceHandler.PathPrefix()).Handler(userServiceHandler)
 	r.PathPrefix(projectServiceHandler.PathPrefix()).Handler(projectServiceHandler)
 	r.PathPrefix(templateServiceHandler.PathPrefix()).Handler(templateServiceHandler)
 	r.PathPrefix(mediaServiceHandler.PathPrefix()).Handler(mediaServiceHandler)
+	r.PathPrefix(areaServiceHandler.PathPrefix()).Handler(areaServiceHandler)
 
-	addr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
+	addr = fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
 
-	srv := &http.Server{
-		Handler: r,
-		Addr:    addr,
-		// Good practice: enforce timeouts for servers you create!
-		WriteTimeout: 15 * time.Second,
-		ReadTimeout:  15 * time.Second,
-	}
-	log.Print("http://" + addr)
-	log.Fatal(srv.ListenAndServe())
-
+	return r, addr
 }

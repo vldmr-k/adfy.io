@@ -118,14 +118,14 @@
         ]
       }
     },
-    "/twirp/adfy.io.rpc.placement.PlacementService/GetByProject": {
+    "/twirp/adfy.io.rpc.placement.PlacementService/GetAllByProject": {
       "post": {
-        "operationId": "GetByProject",
+        "operationId": "GetAllByProject",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcplacementGetByProjectResponse"
+              "$ref": "#/definitions/placementGetAllByProjectResponse"
             }
           }
         },
@@ -135,7 +135,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/rpcplacementGetByProjectRequest"
+              "$ref": "#/definitions/placementGetAllByProjectRequest"
             }
           }
         ],
@@ -146,6 +146,14 @@
     }
   },
   "definitions": {
+    "AreaPositions": {
+      "type": "string",
+      "enum": [
+        "FLOAT",
+        "STATIC"
+      ],
+      "default": "FLOAT"
+    },
     "TemplateTypes": {
       "type": "string",
       "enum": [
@@ -163,11 +171,37 @@
         "name": {
           "type": "string"
         },
-        "projectID": {
+        "projectId": {
           "type": "string"
+        },
+        "position": {
+          "$ref": "#/definitions/AreaPositions"
+        },
+        "immutable": {
+          "type": "boolean",
+          "format": "boolean"
         },
         "embedCode": {
           "type": "string"
+        }
+      }
+    },
+    "placementGetAllByProjectRequest": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "$ref": "#/definitions/rpcplacementIdRequest"
+        }
+      }
+    },
+    "placementGetAllByProjectResponse": {
+      "type": "object",
+      "properties": {
+        "placements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/placementPlacement"
+          }
         }
       }
     },
@@ -246,25 +280,6 @@
       "properties": {
         "placement": {
           "$ref": "#/definitions/placementPlacement"
-        }
-      }
-    },
-    "rpcplacementGetByProjectRequest": {
-      "type": "object",
-      "properties": {
-        "project": {
-          "$ref": "#/definitions/rpcplacementIdRequest"
-        }
-      }
-    },
-    "rpcplacementGetByProjectResponse": {
-      "type": "object",
-      "properties": {
-        "placements": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/placementPlacement"
-          }
         }
       }
     },

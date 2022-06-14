@@ -4,7 +4,7 @@ services:
   nodejs:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile
     image: nodejs
     container_name: adfy_js_builder
     restart: unless-stopped

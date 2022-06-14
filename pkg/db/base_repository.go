@@ -9,11 +9,12 @@ import (
 )
 
 type BaseRepository struct {
-	AuthContext ctx.AuthContext
+	AuthContext *ctx.AuthContext
+	Orm         *Orm
 }
 
-func NewBaseRepository(AuthContext ctx.AuthContext) BaseRepository {
-	return BaseRepository{AuthContext}
+func NewBaseRepository(AuthContext *ctx.AuthContext, Orm *Orm) BaseRepository {
+	return BaseRepository{AuthContext, Orm}
 }
 
 func (b *BaseRepository) AuthUser(ctx context.Context) *jwt.AuthUser {

@@ -13,9 +13,8 @@ type AreaRepository struct {
 	Orm *db.Orm
 }
 
-func NewAreaRepository(baseRepository db.BaseRepository, orm *db.Orm) *AreaRepository {
+func NewAreaRepository(baseRepository db.BaseRepository) *AreaRepository {
 	return &AreaRepository{
-		Orm:            orm,
 		BaseRepository: baseRepository,
 	}
 }

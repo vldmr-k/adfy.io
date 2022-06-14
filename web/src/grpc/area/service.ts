@@ -29,9 +29,9 @@ export interface CreateResponse {
  */
 export interface EditRequest {
     /**
-     * @generated from protobuf field: adfy.io.rpc.area.IdRequest id = 1;
+     * @generated from protobuf field: string areaId = 1;
      */
-    id?: IdRequest;
+    areaId: string;
     /**
      * @generated from protobuf field: adfy.io.rpc.area.Area area = 2;
      */
@@ -95,13 +95,34 @@ export interface Area {
      */
     name: string;
     /**
-     * @generated from protobuf field: string projectID = 4;
+     * @generated from protobuf field: string projectId = 4;
      */
-    projectID: string;
+    projectId: string;
     /**
-     * @generated from protobuf field: string embedCode = 5;
+     * @generated from protobuf field: adfy.io.rpc.area.Area.Positions position = 5;
+     */
+    position: Area_Positions;
+    /**
+     * @generated from protobuf field: bool immutable = 6;
+     */
+    immutable: boolean;
+    /**
+     * @generated from protobuf field: string embedCode = 7;
      */
     embedCode: string;
+}
+/**
+ * @generated from protobuf enum adfy.io.rpc.area.Area.Positions
+ */
+export enum Area_Positions {
+    /**
+     * @generated from protobuf enum value: FLOAT = 0;
+     */
+    FLOAT = 0,
+    /**
+     * @generated from protobuf enum value: STATIC = 1;
+     */
+    STATIC = 1
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class CreateRequest$Type extends MessageType<CreateRequest> {
@@ -132,7 +153,7 @@ export const CreateResponse = new CreateResponse$Type();
 class EditRequest$Type extends MessageType<EditRequest> {
     constructor() {
         super("adfy.io.rpc.area.EditRequest", [
-            { no: 1, name: "id", kind: "message", T: () => IdRequest },
+            { no: 1, name: "areaId", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "area", kind: "message", T: () => Area }
         ]);
     }
@@ -207,8 +228,10 @@ class Area$Type extends MessageType<Area> {
         super("adfy.io.rpc.area.Area", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
-            { no: 4, name: "projectID", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
-            { no: 5, name: "embedCode", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 4, name: "projectId", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { uuid: true } } } },
+            { no: 5, name: "position", kind: "enum", T: () => ["adfy.io.rpc.area.Area.Positions", Area_Positions] },
+            { no: 6, name: "immutable", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 7, name: "embedCode", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
 }

@@ -146,6 +146,14 @@
     }
   },
   "definitions": {
+    "AreaPositions": {
+      "type": "string",
+      "enum": [
+        "FLOAT",
+        "STATIC"
+      ],
+      "default": "FLOAT"
+    },
     "areaArea": {
       "type": "object",
       "properties": {
@@ -155,8 +163,15 @@
         "name": {
           "type": "string"
         },
-        "projectID": {
+        "projectId": {
           "type": "string"
+        },
+        "position": {
+          "$ref": "#/definitions/AreaPositions"
+        },
+        "immutable": {
+          "type": "boolean",
+          "format": "boolean"
         },
         "embedCode": {
           "type": "string"
@@ -166,8 +181,8 @@
     "areaEditRequest": {
       "type": "object",
       "properties": {
-        "id": {
-          "$ref": "#/definitions/rpcareaIdRequest"
+        "areaId": {
+          "type": "string"
         },
         "area": {
           "$ref": "#/definitions/areaArea"

@@ -2,14 +2,14 @@ package templateservice
 
 import "adfy.io/pkg/db"
 
-func NewTemplateRepository(orm *db.Orm) *TemplateRepository {
+func NewTemplateRepository(baseRepository db.BaseRepository) *TemplateRepository {
 	return &TemplateRepository{
-		Orm: orm,
+		BaseRepository: baseRepository,
 	}
 }
 
 type TemplateRepository struct {
-	Orm *db.Orm
+	db.BaseRepository
 }
 
 // Find All Template

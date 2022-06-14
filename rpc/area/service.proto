@@ -40,7 +40,7 @@ message CreateResponse {
 }
 
 message EditRequest {
-    IdRequest id = 1;
+    string areaId = 1 [(validate.rules).string.uuid = true];
     Area area = 2;
 }
 
@@ -68,5 +68,13 @@ message Area {
   string id = 1 [(validate.rules).string.uuid = true];
   string name = 2 [(validate.rules).string = {min_len: 3, max_len: 128}];
   string projectId = 4  [(validate.rules).string.uuid = true];
-  string embedCode = 5;
+
+  enum Positions {
+    FLOAT = 0;
+    STATIC = 1;
+  }
+
+  Positions position = 5;
+  bool immutable = 6;
+  string embedCode = 7;
 }

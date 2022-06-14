@@ -5,11 +5,10 @@ import (
 	pb "adfy.io/rpc/placement"
 )
 
+type PlacementFactory struct{}
+
 func NewPlacementFactory() *PlacementFactory {
 	return &PlacementFactory{}
-}
-
-type PlacementFactory struct {
 }
 
 //Init Placement Model
@@ -26,9 +25,9 @@ func (p *PlacementFactory) CreateByUser(usr *jwt.AuthUser) *Placement {
 //Init Project Model by pb.CreateRequest
 func (p *PlacementFactory) CreateByRequest(usr *jwt.AuthUser, req *pb.CreateRequest) *Placement {
 	placement := p.CreateByUser(usr)
-	placement.ProjectID = req.Project.Id
-	placement.AreaID = req.Area.Id
-	placement.TemplateID = req.Template.Id
-
+	placement.ProjectID = req.Placment.Project.Id
+	placement.AreaID = req.Placment.Area.Id
+	placement.TemplateID = req.Placment.Template.Id
+	placement.Data = req.Placment.Data
 	return placement
 }

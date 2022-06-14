@@ -8,8 +8,8 @@ import { PlacementService } from "./service";
 import type { Empty } from "../google/protobuf/empty";
 import type { EditResponse } from "./service";
 import type { EditRequest } from "./service";
-import type { GetByProjectResponse } from "./service";
-import type { GetByProjectRequest } from "./service";
+import type { GetAllByProjectResponse } from "./service";
+import type { GetAllByProjectRequest } from "./service";
 import type { GetResponse } from "./service";
 import type { IdRequest } from "./service";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -30,9 +30,9 @@ export interface IPlacementServiceClient {
      */
     get(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse>;
     /**
-     * @generated from protobuf rpc: GetByProject(adfy.io.rpc.placement.GetByProjectRequest) returns (adfy.io.rpc.placement.GetByProjectResponse);
+     * @generated from protobuf rpc: GetAllByProject(adfy.io.rpc.placement.GetAllByProjectRequest) returns (adfy.io.rpc.placement.GetAllByProjectResponse);
      */
-    getByProject(input: GetByProjectRequest, options?: RpcOptions): UnaryCall<GetByProjectRequest, GetByProjectResponse>;
+    getAllByProject(input: GetAllByProjectRequest, options?: RpcOptions): UnaryCall<GetAllByProjectRequest, GetAllByProjectResponse>;
     /**
      * @generated from protobuf rpc: Edit(adfy.io.rpc.placement.EditRequest) returns (adfy.io.rpc.placement.EditResponse);
      */
@@ -69,11 +69,11 @@ export class PlacementServiceClient implements IPlacementServiceClient, ServiceI
         return stackIntercept<IdRequest, GetResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: GetByProject(adfy.io.rpc.placement.GetByProjectRequest) returns (adfy.io.rpc.placement.GetByProjectResponse);
+     * @generated from protobuf rpc: GetAllByProject(adfy.io.rpc.placement.GetAllByProjectRequest) returns (adfy.io.rpc.placement.GetAllByProjectResponse);
      */
-    getByProject(input: GetByProjectRequest, options?: RpcOptions): UnaryCall<GetByProjectRequest, GetByProjectResponse> {
+    getAllByProject(input: GetAllByProjectRequest, options?: RpcOptions): UnaryCall<GetAllByProjectRequest, GetAllByProjectResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetByProjectRequest, GetByProjectResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<GetAllByProjectRequest, GetAllByProjectResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: Edit(adfy.io.rpc.placement.EditRequest) returns (adfy.io.rpc.placement.EditResponse);

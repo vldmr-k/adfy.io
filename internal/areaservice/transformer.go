@@ -6,11 +6,11 @@ import (
 )
 
 type Transformer struct {
-	projectTransformer projectservice.Transformer
+	projectTransformer *projectservice.Transformer
 }
 
 func NewTransformer(
-	projectTransformer projectservice.Transformer,
+	projectTransformer *projectservice.Transformer,
 ) *Transformer {
 	return &Transformer{
 		projectTransformer: projectTransformer,
@@ -21,6 +21,6 @@ func (t *Transformer) Transofrm(area Area) *pb.Area {
 	return &pb.Area{
 		Id:        area.ID.String(),
 		Name:      area.Name,
-		ProjectID: area.ProjectID,
+		ProjectId: area.ProjectID,
 	}
 }

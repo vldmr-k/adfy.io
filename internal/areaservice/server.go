@@ -2,20 +2,38 @@ package areaservice
 
 import (
 	"context"
+	"fmt"
 
 	"adfy.io/internal/projectservice"
 	pkgctx "adfy.io/pkg/ctx"
 	pkgerr "adfy.io/pkg/err"
 	pb "adfy.io/rpc/area"
+	gprotobuf "github.com/golang/protobuf/ptypes/empty"
 	"github.com/twitchtv/twirp"
 )
 
 type AreaService struct {
-	areaRepository    AreaRepository
-	projectRepository projectservice.ProjectRepository
-	authContext       pkgctx.AuthContext
-	areaFactory       AreaFactory
-	transformer       Transformer
+	areaRepository    *AreaRepository
+	projectRepository *projectservice.ProjectRepository
+	authContext       *pkgctx.AuthContext
+	areaFactory       *AreaFactory
+	transformer       *Transformer
+}
+
+func NewAreaService(
+	areaRepository *AreaRepository,
+	projectRepository *projectservice.ProjectRepository,
+	authContext *pkgctx.AuthContext,
+	areaFactory *AreaFactory,
+	transformer *Transformer,
+) *AreaService {
+	return &AreaService{
+		areaRepository:    areaRepository,
+		projectRepository: projectRepository,
+		authContext:       authContext,
+		areaFactory:       areaFactory,
+		transformer:       transformer,
+	}
 }
 
 func (a *AreaService) Create(ctx context.Context, req *pb.CreateRequest) (resp *pb.CreateResponse, err error) {
@@ -49,6 +67,9 @@ func (a *AreaService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetR
 
 func (a *AreaService) GetByProject(ctx context.Context, req *pb.GetByProjectRequest) (resp *pb.GetByProjectResponse, err error) {
 	project, err := a.projectRepository.Find(ctx, req.Project.Id)
+	if err != nil {
+		return nil, twirp.NotFoundError(fmt.Sprintf("Project %s not found", req.Project.Id))
+	}
 	items, err := a.areaRepository.GetByProject(ctx, project)
 
 	if err != nil {
@@ -64,4 +85,31 @@ func (a *AreaService) GetByProject(ctx context.Context, req *pb.GetByProjectRequ
 	return &pb.GetByProjectResponse{
 		Areas: areas,
 	}, err
+}
+
+func (a *AreaService) Edit(ctx context.Context, req *pb.EditRequest) (resp *pb.EditResponse, err error) {
+	area, err := a.areaRepository.Find(ctx, req.AreaId)
+
+	if err != nil {
+		return nil, twirp.NotFoundError(fmt.Sprintf("Area %s not found", req.AreaId))
+	}
+
+	area.Name = req.Area.Name
+	area.Position = int32(req.Area.Position)
+
+	return &pb.EditResponse{
+		Area: a.transformer.Transofrm(*area),
+	}, err
+}
+
+func (a *AreaService) Delete(ctx context.Context, req *pb.IdRequest) (resp *gprotobuf.Empty, err error) {
+	area, err := a.areaRepository.Find(ctx, req.Id)
+
+	if err != nil {
+		return nil, twirp.NotFoundError(fmt.Sprintf("Area %s not found", req.Id))
+	}
+
+	err = a.areaRepository.Delete(ctx, area)
+
+	return &gprotobuf.Empty{}, err
 }

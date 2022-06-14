@@ -320,33 +320,16 @@ func (m *EditRequest) validate(all bool) error {
 
 	var errors []error
 
-	if all {
-		switch v := interface{}(m.GetId()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, EditRequestValidationError{
-					field:  "Id",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, EditRequestValidationError{
-					field:  "Id",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
+	if err := m._validateUuid(m.GetAreaId()); err != nil {
+		err = EditRequestValidationError{
+			field:  "AreaId",
+			reason: "value must be a valid UUID",
+			cause:  err,
 		}
-	} else if v, ok := interface{}(m.GetId()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return EditRequestValidationError{
-				field:  "Id",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
+		if !all {
+			return err
 		}
+		errors = append(errors, err)
 	}
 
 	if all {
@@ -380,6 +363,14 @@ func (m *EditRequest) validate(all bool) error {
 
 	if len(errors) > 0 {
 		return EditRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *EditRequest) _validateUuid(uuid string) error {
+	if matched := _service_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -1141,9 +1132,9 @@ func (m *Area) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if err := m._validateUuid(m.GetProjectID()); err != nil {
+	if err := m._validateUuid(m.GetProjectId()); err != nil {
 		err = AreaValidationError{
-			field:  "ProjectID",
+			field:  "ProjectId",
 			reason: "value must be a valid UUID",
 			cause:  err,
 		}
@@ -1152,6 +1143,10 @@ func (m *Area) validate(all bool) error {
 		}
 		errors = append(errors, err)
 	}
+
+	// no validation rules for Position
+
+	// no validation rules for Immutable
 
 	// no validation rules for EmbedCode
 

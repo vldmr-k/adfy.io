@@ -3,21 +3,18 @@ package mediaservice
 import (
 	"context"
 
-	pkgctx "adfy.io/pkg/ctx"
 	"adfy.io/pkg/db"
 	"gorm.io/gorm"
 )
 
-func NewMediaRepository(orm *db.Orm, authContext *pkgctx.AuthContext) *MediaRepository {
+func NewMediaRepository(baseRepository db.BaseRepository) *MediaRepository {
 	return &MediaRepository{
-		Orm:         orm,
-		AuthContext: authContext,
+		BaseRepository: baseRepository,
 	}
 }
 
 type MediaRepository struct {
-	Orm         *db.Orm
-	AuthContext *pkgctx.AuthContext
+	db.BaseRepository
 }
 
 // Find Media By ID
