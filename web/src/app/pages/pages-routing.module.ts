@@ -14,6 +14,10 @@ const routes: Routes = [{
         .then(m => m.ProjectModule),
     },
     {
+      path: 'placement',
+      loadChildren: () => import('@pages/placement/placement.module').then(m => m.PlacementModule)
+    },
+    {
       path: 'block',
       loadChildren: () => import('@pages/block/block.module')
         .then(m => m.BlockModule),

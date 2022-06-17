@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   twirp: {
-    baseUrl: "http://backend:8080/twirp/"
+    baseUrl: "http://localhost:4080/twirp/"
   }
 };
 

@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { PagesLayoutComponent } from '@pages/_layout/pages-layout.component';
 import { ProjectListComponent } from './list/project-list.component';
 
+export const PROJECT_LIST = '/project/list';
+
 const routes: Routes = [
   {
     path: 'list',

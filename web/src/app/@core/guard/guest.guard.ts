@@ -4,6 +4,7 @@ import { AuthService } from '@core/services/auth.service';
 import { TuiAlertService } from '@taiga-ui/core';
 import { UserTokenStorage } from '@core/services/user-token.service';
 import { Logger } from '@core/logger';
+import { PROJECT_LIST } from '@pages/project/project-routing.module';
 
 @Injectable()
 export class GuestGuard implements CanActivate {
@@ -18,12 +19,9 @@ export class GuestGuard implements CanActivate {
 
   canActivate(): boolean {
     if (this.userTokenStorage.isAuthenticated()) {
-      Logger.debug('GuestGuard', 'canActivate', `Use is authenticate`);
-      this.router.navigate(['account']);
+      this.router.navigate([PROJECT_LIST]);
       return false;
     }
-
-    Logger.debug('GuestGuard', 'canActivate', `User is not authenticate`);
 
     return true;
   }
