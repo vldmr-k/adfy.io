@@ -8,7 +8,7 @@ import { NotFoundComponent } from '@pages/_error/not-found.component';
 
 const routes: Routes = [
   {
-    path: 'account',
+    path: '',
     loadChildren: () => import('@pages/pages.module')
           .then(m => m.PagesModule),
     canActivate: [AuthenticateGuard]

@@ -4,14 +4,14 @@ import { NgModule } from '@angular/core';
 import { PagesLayoutComponent } from '@pages/_layout/pages-layout.component';
 import { ProjectListComponent } from './list/project-list.component';
 
-export const PROJECT_LIST = '/project/list';
+export const ROUTE_PROJECT_LIST = 'project/list';
 
 const routes: Routes = [
   {
-    path: 'list',
-    component: ProjectListComponent
-  },
-  { path: '', redirectTo: 'list', pathMatch: 'full'}
+    path: ROUTE_PROJECT_LIST,
+    component: ProjectListComponent,
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

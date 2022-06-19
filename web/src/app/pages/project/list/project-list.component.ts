@@ -8,6 +8,7 @@ import { projectActions } from '@store/actions/index';
 import { Project } from '@store/models/index'
 import { IdRequest } from '@grpc/project/service';
 import { Router } from '@angular/router';
+import { ROUTER_PLACEMENT_ADD } from '@pages/placement/placement-routing.module';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class ProjectListComponent {
   }
 
   onClickCardAction(project: Project) {
-      this.router.navigateByUrl(`/account/block/${project.id}/builder`)
+      this.router.navigate([ROUTER_PLACEMENT_ADD], { queryParams: { project: project.id } })
   }
 
   onDeleteProjectAction(project: Project) {
