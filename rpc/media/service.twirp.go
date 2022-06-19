@@ -35,9 +35,11 @@ const _ = twirp.TwirpPackageMinVersion_8_1_0
 // ======================
 
 type MediaService interface {
+	All(context.Context, *AllRequest) (*AllResponse, error)
+
 	Upload(context.Context, *UploadRequest) (*UploadResponse, error)
 
-	Get(context.Context, *IdRequest) (*GetMediaResponse, error)
+	Get(context.Context, *IdRequest) (*GetResponse, error)
 
 	Delete(context.Context, *IdRequest) (*google_protobuf5.Empty, error)
 }
@@ -48,7 +50,7 @@ type MediaService interface {
 
 type mediaServiceProtobufClient struct {
 	client      HTTPClient
-	urls        [3]string
+	urls        [4]string
 	interceptor twirp.Interceptor
 	opts        twirp.ClientOptions
 }
@@ -76,7 +78,8 @@ func NewMediaServiceProtobufClient(baseURL string, client HTTPClient, opts ...tw
 	// Build method URLs: <baseURL>[<prefix>]/<package>.<Service>/<Method>
 	serviceURL := sanitizeBaseURL(baseURL)
 	serviceURL += baseServicePath(pathPrefix, "adfy.io.rpc.media", "MediaService")
-	urls := [3]string{
+	urls := [4]string{
+		serviceURL + "All",
 		serviceURL + "Upload",
 		serviceURL + "Get",
 		serviceURL + "Delete",
@@ -88,6 +91,52 @@ func NewMediaServiceProtobufClient(baseURL string, client HTTPClient, opts ...tw
 		interceptor: twirp.ChainInterceptors(clientOpts.Interceptors...),
 		opts:        clientOpts,
 	}
+}
+
+func (c *mediaServiceProtobufClient) All(ctx context.Context, in *AllRequest) (*AllResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.media")
+	ctx = ctxsetters.WithServiceName(ctx, "MediaService")
+	ctx = ctxsetters.WithMethodName(ctx, "All")
+	caller := c.callAll
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *AllRequest) (*AllResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*AllRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*AllRequest) when calling interceptor")
+					}
+					return c.callAll(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*AllResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*AllResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *mediaServiceProtobufClient) callAll(ctx context.Context, in *AllRequest) (*AllResponse, error) {
+	out := new(AllResponse)
+	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[0], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
 }
 
 func (c *mediaServiceProtobufClient) Upload(ctx context.Context, in *UploadRequest) (*UploadResponse, error) {
@@ -121,7 +170,7 @@ func (c *mediaServiceProtobufClient) Upload(ctx context.Context, in *UploadReque
 
 func (c *mediaServiceProtobufClient) callUpload(ctx context.Context, in *UploadRequest) (*UploadResponse, error) {
 	out := new(UploadResponse)
-	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[0], in, out)
+	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[1], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -136,13 +185,13 @@ func (c *mediaServiceProtobufClient) callUpload(ctx context.Context, in *UploadR
 	return out, nil
 }
 
-func (c *mediaServiceProtobufClient) Get(ctx context.Context, in *IdRequest) (*GetMediaResponse, error) {
+func (c *mediaServiceProtobufClient) Get(ctx context.Context, in *IdRequest) (*GetResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.media")
 	ctx = ctxsetters.WithServiceName(ctx, "MediaService")
 	ctx = ctxsetters.WithMethodName(ctx, "Get")
 	caller := c.callGet
 	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *IdRequest) (*GetMediaResponse, error) {
+		caller = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
 			resp, err := c.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*IdRequest)
@@ -153,9 +202,9 @@ func (c *mediaServiceProtobufClient) Get(ctx context.Context, in *IdRequest) (*G
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*GetMediaResponse)
+				typedResp, ok := resp.(*GetResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*GetMediaResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -165,9 +214,9 @@ func (c *mediaServiceProtobufClient) Get(ctx context.Context, in *IdRequest) (*G
 	return caller(ctx, in)
 }
 
-func (c *mediaServiceProtobufClient) callGet(ctx context.Context, in *IdRequest) (*GetMediaResponse, error) {
-	out := new(GetMediaResponse)
-	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[1], in, out)
+func (c *mediaServiceProtobufClient) callGet(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	out := new(GetResponse)
+	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[2], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -213,7 +262,7 @@ func (c *mediaServiceProtobufClient) Delete(ctx context.Context, in *IdRequest) 
 
 func (c *mediaServiceProtobufClient) callDelete(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
 	out := new(google_protobuf5.Empty)
-	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[2], in, out)
+	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[3], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -234,7 +283,7 @@ func (c *mediaServiceProtobufClient) callDelete(ctx context.Context, in *IdReque
 
 type mediaServiceJSONClient struct {
 	client      HTTPClient
-	urls        [3]string
+	urls        [4]string
 	interceptor twirp.Interceptor
 	opts        twirp.ClientOptions
 }
@@ -262,7 +311,8 @@ func NewMediaServiceJSONClient(baseURL string, client HTTPClient, opts ...twirp.
 	// Build method URLs: <baseURL>[<prefix>]/<package>.<Service>/<Method>
 	serviceURL := sanitizeBaseURL(baseURL)
 	serviceURL += baseServicePath(pathPrefix, "adfy.io.rpc.media", "MediaService")
-	urls := [3]string{
+	urls := [4]string{
+		serviceURL + "All",
 		serviceURL + "Upload",
 		serviceURL + "Get",
 		serviceURL + "Delete",
@@ -274,6 +324,52 @@ func NewMediaServiceJSONClient(baseURL string, client HTTPClient, opts ...twirp.
 		interceptor: twirp.ChainInterceptors(clientOpts.Interceptors...),
 		opts:        clientOpts,
 	}
+}
+
+func (c *mediaServiceJSONClient) All(ctx context.Context, in *AllRequest) (*AllResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.media")
+	ctx = ctxsetters.WithServiceName(ctx, "MediaService")
+	ctx = ctxsetters.WithMethodName(ctx, "All")
+	caller := c.callAll
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *AllRequest) (*AllResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*AllRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*AllRequest) when calling interceptor")
+					}
+					return c.callAll(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*AllResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*AllResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *mediaServiceJSONClient) callAll(ctx context.Context, in *AllRequest) (*AllResponse, error) {
+	out := new(AllResponse)
+	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[0], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
 }
 
 func (c *mediaServiceJSONClient) Upload(ctx context.Context, in *UploadRequest) (*UploadResponse, error) {
@@ -307,7 +403,7 @@ func (c *mediaServiceJSONClient) Upload(ctx context.Context, in *UploadRequest) 
 
 func (c *mediaServiceJSONClient) callUpload(ctx context.Context, in *UploadRequest) (*UploadResponse, error) {
 	out := new(UploadResponse)
-	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[0], in, out)
+	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[1], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -322,13 +418,13 @@ func (c *mediaServiceJSONClient) callUpload(ctx context.Context, in *UploadReque
 	return out, nil
 }
 
-func (c *mediaServiceJSONClient) Get(ctx context.Context, in *IdRequest) (*GetMediaResponse, error) {
+func (c *mediaServiceJSONClient) Get(ctx context.Context, in *IdRequest) (*GetResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.media")
 	ctx = ctxsetters.WithServiceName(ctx, "MediaService")
 	ctx = ctxsetters.WithMethodName(ctx, "Get")
 	caller := c.callGet
 	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *IdRequest) (*GetMediaResponse, error) {
+		caller = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
 			resp, err := c.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*IdRequest)
@@ -339,9 +435,9 @@ func (c *mediaServiceJSONClient) Get(ctx context.Context, in *IdRequest) (*GetMe
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*GetMediaResponse)
+				typedResp, ok := resp.(*GetResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*GetMediaResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -351,9 +447,9 @@ func (c *mediaServiceJSONClient) Get(ctx context.Context, in *IdRequest) (*GetMe
 	return caller(ctx, in)
 }
 
-func (c *mediaServiceJSONClient) callGet(ctx context.Context, in *IdRequest) (*GetMediaResponse, error) {
-	out := new(GetMediaResponse)
-	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[1], in, out)
+func (c *mediaServiceJSONClient) callGet(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	out := new(GetResponse)
+	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[2], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -399,7 +495,7 @@ func (c *mediaServiceJSONClient) Delete(ctx context.Context, in *IdRequest) (*go
 
 func (c *mediaServiceJSONClient) callDelete(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
 	out := new(google_protobuf5.Empty)
-	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[2], in, out)
+	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[3], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -511,6 +607,9 @@ func (s *mediaServiceServer) ServeHTTP(resp http.ResponseWriter, req *http.Reque
 	}
 
 	switch method {
+	case "All":
+		s.serveAll(ctx, resp, req)
+		return
 	case "Upload":
 		s.serveUpload(ctx, resp, req)
 		return
@@ -525,6 +624,186 @@ func (s *mediaServiceServer) ServeHTTP(resp http.ResponseWriter, req *http.Reque
 		s.writeError(ctx, resp, badRouteError(msg, req.Method, req.URL.Path))
 		return
 	}
+}
+
+func (s *mediaServiceServer) serveAll(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	header := req.Header.Get("Content-Type")
+	i := strings.Index(header, ";")
+	if i == -1 {
+		i = len(header)
+	}
+	switch strings.TrimSpace(strings.ToLower(header[:i])) {
+	case "application/json":
+		s.serveAllJSON(ctx, resp, req)
+	case "application/protobuf":
+		s.serveAllProtobuf(ctx, resp, req)
+	default:
+		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
+		twerr := badRouteError(msg, req.Method, req.URL.Path)
+		s.writeError(ctx, resp, twerr)
+	}
+}
+
+func (s *mediaServiceServer) serveAllJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "All")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	d := json.NewDecoder(req.Body)
+	rawReqBody := json.RawMessage{}
+	if err := d.Decode(&rawReqBody); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+	reqContent := new(AllRequest)
+	unmarshaler := protojson.UnmarshalOptions{DiscardUnknown: true}
+	if err = unmarshaler.Unmarshal(rawReqBody, reqContent); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+
+	handler := s.MediaService.All
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *AllRequest) (*AllResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*AllRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*AllRequest) when calling interceptor")
+					}
+					return s.MediaService.All(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*AllResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*AllResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *AllResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *AllResponse and nil error while calling All. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	marshaler := &protojson.MarshalOptions{UseProtoNames: !s.jsonCamelCase, EmitUnpopulated: !s.jsonSkipDefaults}
+	respBytes, err := marshaler.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal json response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/json")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
+}
+
+func (s *mediaServiceServer) serveAllProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "All")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	buf, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		s.handleRequestBodyError(ctx, resp, "failed to read request body", err)
+		return
+	}
+	reqContent := new(AllRequest)
+	if err = proto.Unmarshal(buf, reqContent); err != nil {
+		s.writeError(ctx, resp, malformedRequestError("the protobuf request could not be decoded"))
+		return
+	}
+
+	handler := s.MediaService.All
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *AllRequest) (*AllResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*AllRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*AllRequest) when calling interceptor")
+					}
+					return s.MediaService.All(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*AllResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*AllResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *AllResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *AllResponse and nil error while calling All. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	respBytes, err := proto.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal proto response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/protobuf")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
 }
 
 func (s *mediaServiceServer) serveUpload(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
@@ -749,7 +1028,7 @@ func (s *mediaServiceServer) serveGetJSON(ctx context.Context, resp http.Respons
 
 	handler := s.MediaService.Get
 	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *IdRequest) (*GetMediaResponse, error) {
+		handler = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
 			resp, err := s.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*IdRequest)
@@ -760,9 +1039,9 @@ func (s *mediaServiceServer) serveGetJSON(ctx context.Context, resp http.Respons
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*GetMediaResponse)
+				typedResp, ok := resp.(*GetResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*GetMediaResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -771,7 +1050,7 @@ func (s *mediaServiceServer) serveGetJSON(ctx context.Context, resp http.Respons
 	}
 
 	// Call service method
-	var respContent *GetMediaResponse
+	var respContent *GetResponse
 	func() {
 		defer ensurePanicResponses(ctx, resp, s.hooks)
 		respContent, err = handler(ctx, reqContent)
@@ -782,7 +1061,7 @@ func (s *mediaServiceServer) serveGetJSON(ctx context.Context, resp http.Respons
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetMediaResponse and nil error while calling Get. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetResponse and nil error while calling Get. nil responses are not supported"))
 		return
 	}
 
@@ -830,7 +1109,7 @@ func (s *mediaServiceServer) serveGetProtobuf(ctx context.Context, resp http.Res
 
 	handler := s.MediaService.Get
 	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *IdRequest) (*GetMediaResponse, error) {
+		handler = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
 			resp, err := s.interceptor(
 				func(ctx context.Context, req interface{}) (interface{}, error) {
 					typedReq, ok := req.(*IdRequest)
@@ -841,9 +1120,9 @@ func (s *mediaServiceServer) serveGetProtobuf(ctx context.Context, resp http.Res
 				},
 			)(ctx, req)
 			if resp != nil {
-				typedResp, ok := resp.(*GetMediaResponse)
+				typedResp, ok := resp.(*GetResponse)
 				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*GetMediaResponse) when calling interceptor")
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
 				}
 				return typedResp, err
 			}
@@ -852,7 +1131,7 @@ func (s *mediaServiceServer) serveGetProtobuf(ctx context.Context, resp http.Res
 	}
 
 	// Call service method
-	var respContent *GetMediaResponse
+	var respContent *GetResponse
 	func() {
 		defer ensurePanicResponses(ctx, resp, s.hooks)
 		respContent, err = handler(ctx, reqContent)
@@ -863,7 +1142,7 @@ func (s *mediaServiceServer) serveGetProtobuf(ctx context.Context, resp http.Res
 		return
 	}
 	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetMediaResponse and nil error while calling Get. nil responses are not supported"))
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetResponse and nil error while calling Get. nil responses are not supported"))
 		return
 	}
 
@@ -1645,39 +1924,42 @@ func callClientError(ctx context.Context, h *twirp.ClientHooks, err twirp.Error)
 }
 
 var twirpFileDescriptor0 = []byte{
-	// 533 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x93, 0xc1, 0x6f, 0xd3, 0x3e,
-	0x14, 0xc7, 0x7f, 0x69, 0x97, 0xfe, 0xa8, 0x19, 0x53, 0x31, 0x30, 0x42, 0xc7, 0x21, 0xcb, 0x2e,
-	0x15, 0xa2, 0x36, 0x14, 0x09, 0x09, 0x0e, 0x40, 0xa7, 0x56, 0xa5, 0x48, 0x65, 0x28, 0x1b, 0x1c,
-	0xb8, 0xa5, 0xc9, 0x5b, 0x62, 0x48, 0x62, 0xe3, 0xb8, 0xad, 0xc2, 0x85, 0xff, 0x01, 0x89, 0xbf,
-	0x91, 0x1b, 0x7f, 0x03, 0x8a, 0x9d, 0x56, 0x1a, 0x2b, 0x20, 0x71, 0x71, 0xbe, 0xfe, 0xbe, 0x8f,
-	0xed, 0xe7, 0xbc, 0x67, 0x74, 0x23, 0x83, 0x88, 0x05, 0xb4, 0x00, 0xb9, 0x64, 0x21, 0x10, 0x21,
-	0xb9, 0xe2, 0xf8, 0x7a, 0x10, 0x9d, 0x97, 0x84, 0x71, 0x22, 0x45, 0x48, 0x34, 0xd0, 0xbd, 0x25,
-	0x24, 0xff, 0x00, 0xa1, 0xba, 0x48, 0x76, 0x6f, 0x2f, 0x83, 0x94, 0x45, 0x81, 0x02, 0xba, 0x16,
-	0x75, 0xe0, 0xbe, 0xfe, 0x84, 0xfd, 0x18, 0xf2, 0x7e, 0xb1, 0x0a, 0xe2, 0x18, 0x24, 0xe5, 0x42,
-	0x31, 0x9e, 0x17, 0x34, 0xc8, 0x73, 0xae, 0x02, 0xad, 0x6b, 0xfa, 0x20, 0xe6, 0x3c, 0x4e, 0x81,
-	0xea, 0xd9, 0x7c, 0x71, 0x4e, 0x21, 0x13, 0xaa, 0x34, 0x41, 0xef, 0x08, 0x5d, 0x7b, 0x2b, 0x52,
-	0x1e, 0x44, 0x3e, 0x7c, 0x5a, 0x40, 0xa1, 0x30, 0x46, 0x3b, 0x73, 0x1e, 0x95, 0x8e, 0xe5, 0x5a,
-	0xbd, 0x5d, 0x5f, 0x6b, 0xef, 0x05, 0xda, 0x5b, 0x43, 0x85, 0xe0, 0x79, 0x01, 0x98, 0x20, 0x5b,
-	0xa7, 0xae, 0xb1, 0xab, 0x03, 0x87, 0x5c, 0xba, 0x14, 0x99, 0x55, 0xa3, 0x6f, 0x30, 0xef, 0x18,
-	0x75, 0x26, 0xa0, 0x8c, 0xf5, 0xaf, 0x7b, 0x1c, 0xa0, 0xf6, 0x74, 0x93, 0xe6, 0x1e, 0x6a, 0xb0,
-	0x48, 0xaf, 0x6c, 0xfb, 0x0d, 0x16, 0x79, 0x3f, 0x2c, 0x64, 0x6b, 0xfa, 0xd7, 0x48, 0x75, 0x21,
-	0x11, 0xa8, 0xc4, 0x69, 0x68, 0x47, 0x6b, 0xdc, 0x41, 0xcd, 0x85, 0x4c, 0x9d, 0xa6, 0xb6, 0x2a,
-	0x59, 0x51, 0x19, 0xcb, 0xc0, 0xd9, 0x31, 0x54, 0xa5, 0x2b, 0xaf, 0x60, 0x9f, 0xc1, 0xb1, 0x5d,
-	0xab, 0x67, 0xfb, 0x5a, 0xe3, 0x9b, 0xc8, 0x5e, 0xb1, 0x48, 0x25, 0x4e, 0x4b, 0x9b, 0x66, 0x82,
-	0xf7, 0x51, 0x2b, 0x01, 0x16, 0x27, 0xca, 0xf9, 0x5f, 0xdb, 0xf5, 0x0c, 0x3f, 0x46, 0x3b, 0xaa,
-	0x14, 0xe0, 0x5c, 0x71, 0xad, 0xde, 0xde, 0xc0, 0xfb, 0xdd, 0x0d, 0xcd, 0x78, 0x56, 0x0a, 0xf0,
-	0x35, 0xef, 0x1d, 0xa2, 0xf6, 0xc6, 0xc2, 0x6d, 0x64, 0x4f, 0x67, 0xc3, 0xc9, 0xb8, 0xf3, 0x5f,
-	0x25, 0xdf, 0x4d, 0x47, 0xe3, 0x93, 0x8e, 0x35, 0xf8, 0x6e, 0xa1, 0x5d, 0xcd, 0x9c, 0x9a, 0x9e,
-	0xc1, 0x33, 0xd4, 0x32, 0x45, 0xc2, 0xee, 0x96, 0x73, 0x2e, 0x14, 0xb9, 0x7b, 0xf8, 0x07, 0xa2,
-	0xae, 0xce, 0x4b, 0xd4, 0x9c, 0x80, 0xc2, 0x77, 0xb7, 0x90, 0x9b, 0x2a, 0x74, 0x8f, 0xb6, 0x44,
-	0x2f, 0xd5, 0xf9, 0x19, 0x6a, 0x8d, 0x20, 0x05, 0x05, 0x7f, 0xd9, 0x6c, 0x9f, 0x98, 0x46, 0x25,
-	0xeb, 0x46, 0x25, 0xe3, 0xaa, 0x51, 0x8f, 0xbf, 0x59, 0xef, 0xd7, 0x6f, 0x86, 0x4a, 0x11, 0x52,
-	0xbd, 0xee, 0xeb, 0xf0, 0x0b, 0x7e, 0x82, 0x06, 0x43, 0xe3, 0xbb, 0xfa, 0x44, 0xb7, 0xfe, 0x15,
-	0xee, 0xd9, 0x8a, 0x49, 0x41, 0x5f, 0x9d, 0x9e, 0xbc, 0x76, 0x87, 0x6f, 0xa6, 0xee, 0x88, 0x87,
-	0x8b, 0x0c, 0x72, 0xf3, 0x2a, 0x06, 0xcd, 0x87, 0xe4, 0xc1, 0x3d, 0xab, 0x21, 0x9f, 0xa3, 0x3b,
-	0xeb, 0xd5, 0x31, 0x53, 0xc9, 0x62, 0xee, 0x4a, 0x10, 0xbc, 0x60, 0x8a, 0xcb, 0x12, 0x7b, 0x89,
-	0x52, 0xa2, 0x78, 0x4a, 0xa9, 0x09, 0x91, 0x90, 0x67, 0x74, 0x99, 0x46, 0x99, 0xec, 0x7f, 0xa4,
-	0x75, 0x2e, 0xf3, 0x96, 0xce, 0xf3, 0xd1, 0xcf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xaa, 0x27, 0x9d,
-	0x94, 0xe6, 0x03, 0x00, 0x00,
+	// 585 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x53, 0xd1, 0x6e, 0xd3, 0x30,
+	0x14, 0x25, 0xed, 0x5a, 0xe8, 0xdd, 0x98, 0x86, 0x81, 0x11, 0x3a, 0x40, 0x5e, 0x9e, 0x2a, 0xc4,
+	0xec, 0x51, 0x24, 0x10, 0x48, 0x30, 0x0a, 0x9d, 0xa6, 0x22, 0x8d, 0xa1, 0x6c, 0xf0, 0xc0, 0x5b,
+	0x9a, 0xdc, 0xa5, 0x86, 0x24, 0x36, 0x8e, 0xbb, 0x29, 0xbc, 0xf0, 0x0f, 0x48, 0xfc, 0x03, 0x5f,
+	0xc7, 0x37, 0xa0, 0x38, 0xe9, 0x60, 0xd0, 0x0d, 0x89, 0x97, 0xe4, 0xf8, 0xdc, 0x73, 0xaf, 0x8f,
+	0xed, 0x7b, 0xe1, 0x6a, 0x8a, 0x91, 0x08, 0x78, 0x8e, 0xfa, 0x48, 0x84, 0xc8, 0x94, 0x96, 0x46,
+	0x92, 0x2b, 0x41, 0x74, 0x58, 0x30, 0x21, 0x99, 0x56, 0x21, 0xb3, 0x82, 0xee, 0x75, 0xa5, 0xe5,
+	0x07, 0x0c, 0xcd, 0x69, 0x65, 0xf7, 0xc6, 0x51, 0x90, 0x88, 0x28, 0x30, 0xc8, 0x67, 0xa0, 0x0e,
+	0xdc, 0xb3, 0xbf, 0x70, 0x23, 0xc6, 0x6c, 0x23, 0x3f, 0x0e, 0xe2, 0x18, 0x35, 0x97, 0xca, 0x08,
+	0x99, 0xe5, 0x3c, 0xc8, 0x32, 0x69, 0x02, 0x8b, 0x6b, 0xf5, 0x5a, 0x2c, 0x65, 0x9c, 0x20, 0xb7,
+	0xab, 0xf1, 0xf4, 0x90, 0x63, 0xaa, 0x4c, 0x51, 0x05, 0xbd, 0x25, 0x80, 0x41, 0x92, 0xf8, 0xf8,
+	0x69, 0x8a, 0xb9, 0xf1, 0xb6, 0x60, 0xd1, 0xae, 0x72, 0x25, 0xb3, 0x1c, 0xc9, 0x26, 0xb4, 0xad,
+	0xc1, 0xdc, 0x75, 0x68, 0xb3, 0xb7, 0xd8, 0x77, 0xd9, 0x5f, 0xde, 0xd9, 0x6e, 0xf9, 0xf5, 0x6b,
+	0x9d, 0xf7, 0x08, 0x2e, 0xbf, 0x55, 0x89, 0x0c, 0xa2, 0xba, 0x22, 0x21, 0xb0, 0x90, 0x05, 0x29,
+	0xba, 0x0e, 0x75, 0x7a, 0x1d, 0xdf, 0xe2, 0x92, 0x1b, 0xcb, 0xa8, 0x70, 0x1b, 0xd4, 0xe9, 0x2d,
+	0xf9, 0x16, 0x7b, 0xcf, 0x61, 0x79, 0x96, 0x58, 0x6f, 0xce, 0xa0, 0x65, 0x8b, 0xda, 0xd4, 0xf3,
+	0xf6, 0xae, 0x64, 0xde, 0x53, 0x58, 0xdc, 0x41, 0xf3, 0xdf, 0xe9, 0x6b, 0xd0, 0x19, 0x9d, 0xb8,
+	0x5e, 0x86, 0x86, 0x88, 0x6a, 0xcf, 0x0d, 0x11, 0x79, 0x3f, 0x1c, 0x68, 0x59, 0xf5, 0x9f, 0x91,
+	0xf2, 0x2c, 0x2a, 0x30, 0x13, 0x7b, 0x96, 0x8e, 0x6f, 0x31, 0x59, 0x81, 0xe6, 0x54, 0x27, 0x6e,
+	0xd3, 0x52, 0x25, 0x2c, 0x55, 0xa9, 0x48, 0xd1, 0x5d, 0xa8, 0x54, 0x25, 0x2e, 0xb9, 0x5c, 0x7c,
+	0x46, 0xb7, 0x45, 0x9d, 0x5e, 0xcb, 0xb7, 0x98, 0x5c, 0x83, 0xd6, 0xb1, 0x88, 0xcc, 0xc4, 0x6d,
+	0x5b, 0xb2, 0x5a, 0x90, 0x55, 0x68, 0x4f, 0x50, 0xc4, 0x13, 0xe3, 0x5e, 0xb4, 0x74, 0xbd, 0x22,
+	0x0f, 0x61, 0xc1, 0x14, 0x0a, 0xdd, 0x4b, 0xd4, 0xe9, 0x2d, 0xf7, 0xbd, 0xb3, 0x4e, 0x58, 0x7d,
+	0x0f, 0x0a, 0x85, 0xbe, 0xd5, 0x7b, 0xeb, 0xd0, 0x39, 0xa1, 0x48, 0x07, 0x5a, 0xa3, 0xdd, 0xc1,
+	0xce, 0xf6, 0xca, 0x85, 0x12, 0xbe, 0x1b, 0x0d, 0xb7, 0xf7, 0x56, 0x9c, 0xfe, 0xf7, 0x06, 0x2c,
+	0x59, 0xcd, 0x7e, 0xd5, 0x91, 0x64, 0x08, 0xcd, 0x41, 0x92, 0x90, 0xdb, 0x73, 0x36, 0xf9, 0xd5,
+	0x3f, 0xdd, 0x3b, 0x67, 0x85, 0xeb, 0x47, 0xd9, 0x85, 0x76, 0xf5, 0xca, 0x84, 0xce, 0x51, 0x9e,
+	0xea, 0x9c, 0xee, 0xfa, 0x39, 0x8a, 0xba, 0xdc, 0x4b, 0x68, 0xee, 0xa0, 0x21, 0xb7, 0xe6, 0x28,
+	0x4f, 0xde, 0x72, 0xae, 0xa7, 0xdf, 0x1b, 0xe5, 0x19, 0xb4, 0x87, 0x98, 0xa0, 0xc1, 0x7f, 0xd4,
+	0x59, 0x65, 0xd5, 0x1c, 0xb1, 0xd9, 0x1c, 0xb1, 0xed, 0x72, 0x8e, 0x5e, 0x7c, 0x73, 0xde, 0xcf,
+	0x46, 0x9a, 0x6b, 0x15, 0x72, 0x9b, 0xf7, 0x75, 0xf0, 0x85, 0x3c, 0x86, 0xfe, 0xa0, 0xe2, 0xa9,
+	0xbd, 0x4a, 0x5a, 0xdf, 0x25, 0x3d, 0x38, 0x16, 0x5a, 0xf1, 0x57, 0xfb, 0x7b, 0xaf, 0xe9, 0xe0,
+	0xcd, 0x88, 0x0e, 0x65, 0x38, 0x4d, 0x31, 0xab, 0x86, 0xb6, 0xdf, 0xbc, 0xcf, 0x36, 0xef, 0x3a,
+	0x0d, 0xbd, 0x05, 0x37, 0x67, 0xd9, 0xb1, 0x30, 0x93, 0xe9, 0x98, 0x6a, 0x54, 0x32, 0x17, 0x46,
+	0xea, 0x82, 0x78, 0x13, 0x63, 0x54, 0xfe, 0x84, 0xf3, 0x2a, 0xc4, 0x42, 0x99, 0xf2, 0xa3, 0x24,
+	0x4a, 0xf5, 0xc6, 0x47, 0x5e, 0x7b, 0x19, 0xb7, 0xad, 0xcf, 0x07, 0x3f, 0x03, 0x00, 0x00, 0xff,
+	0xff, 0x14, 0x7a, 0xe0, 0xf0, 0x85, 0x04, 0x00, 0x00,
 }

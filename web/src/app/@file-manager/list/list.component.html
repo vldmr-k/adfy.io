@@ -1,0 +1,10 @@
+<div class="filemanager-list" *ngIf="list$ | async as mediaList else loading ">
+  <ng-container *ngFor="let media of mediaList; index as i">
+    <adfy-filemanager-item [media]="media"></adfy-filemanager-item>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <tui-loader class="inline-flex tui-space_right-2" [showLoader]="true" [inheritColor]="true" [overlay]="true">
+  </tui-loader>
+</ng-template>

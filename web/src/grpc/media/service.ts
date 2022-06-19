@@ -3,11 +3,29 @@ import { Empty } from "../google/protobuf/empty";
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
 /**
+ * @generated from protobuf message adfy.io.rpc.media.AllRequest
+ */
+export interface AllRequest {
+}
+/**
+ * @generated from protobuf message adfy.io.rpc.media.AllResponse
+ */
+export interface AllResponse {
+    /**
+     * @generated from protobuf field: repeated adfy.io.rpc.media.Media medias = 1;
+     */
+    medias: Media[];
+}
+/**
  * @generated from protobuf message adfy.io.rpc.media.UploadRequest
  */
 export interface UploadRequest {
     /**
-     * @generated from protobuf field: bytes body = 1;
+     * @generated from protobuf field: string name = 1;
+     */
+    name: string;
+    /**
+     * @generated from protobuf field: bytes body = 2;
      */
     body: Uint8Array;
 }
@@ -21,9 +39,9 @@ export interface UploadResponse {
     media?: Media;
 }
 /**
- * @generated from protobuf message adfy.io.rpc.media.GetMediaResponse
+ * @generated from protobuf message adfy.io.rpc.media.GetResponse
  */
-export interface GetMediaResponse {
+export interface GetResponse {
     /**
      * @generated from protobuf field: adfy.io.rpc.media.Media media = 1;
      */
@@ -89,10 +107,33 @@ export enum Media_MediaType {
     VIDEO = 1
 }
 // @generated message type with reflection information, may provide speed optimized methods
+class AllRequest$Type extends MessageType<AllRequest> {
+    constructor() {
+        super("adfy.io.rpc.media.AllRequest", []);
+    }
+}
+/**
+ * @generated MessageType for protobuf message adfy.io.rpc.media.AllRequest
+ */
+export const AllRequest = new AllRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class AllResponse$Type extends MessageType<AllResponse> {
+    constructor() {
+        super("adfy.io.rpc.media.AllResponse", [
+            { no: 1, name: "medias", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Media }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message adfy.io.rpc.media.AllResponse
+ */
+export const AllResponse = new AllResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class UploadRequest$Type extends MessageType<UploadRequest> {
     constructor() {
         super("adfy.io.rpc.media.UploadRequest", [
-            { no: 1, name: "body", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
+            { no: 1, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "body", kind: "scalar", T: 12 /*ScalarType.BYTES*/ }
         ]);
     }
 }
@@ -113,17 +154,17 @@ class UploadResponse$Type extends MessageType<UploadResponse> {
  */
 export const UploadResponse = new UploadResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetMediaResponse$Type extends MessageType<GetMediaResponse> {
+class GetResponse$Type extends MessageType<GetResponse> {
     constructor() {
-        super("adfy.io.rpc.media.GetMediaResponse", [
+        super("adfy.io.rpc.media.GetResponse", [
             { no: 1, name: "media", kind: "message", T: () => Media }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message adfy.io.rpc.media.GetMediaResponse
+ * @generated MessageType for protobuf message adfy.io.rpc.media.GetResponse
  */
-export const GetMediaResponse = new GetMediaResponse$Type();
+export const GetResponse = new GetResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class IdRequest$Type extends MessageType<IdRequest> {
     constructor() {
@@ -159,7 +200,8 @@ export const Media = new Media$Type();
  * @generated ServiceType for protobuf service adfy.io.rpc.media.MediaService
  */
 export const MediaService = new ServiceType("adfy.io.rpc.media.MediaService", [
+    { name: "All", options: {}, I: AllRequest, O: AllResponse },
     { name: "Upload", options: {}, I: UploadRequest, O: UploadResponse },
-    { name: "Get", options: {}, I: IdRequest, O: GetMediaResponse },
+    { name: "Get", options: {}, I: IdRequest, O: GetResponse },
     { name: "Delete", options: {}, I: IdRequest, O: Empty }
 ]);

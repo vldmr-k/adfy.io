@@ -24,6 +24,9 @@ import { of } from "rxjs";
 import { ProjectServiceClient } from "@grpc/project/service.client";
 import { ProjectEffects, UserEffects } from "@store/effects";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { MediaServiceClient } from "@grpc/media/service.client";
+import { MediaEffects } from "@store/effects/media.effects";
+import { media, project, user} from "@store/reducers"
 
 @NgModule({
   declarations: [
@@ -49,15 +52,20 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       ]
     }),
 
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot([UserEffects, ProjectEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true })
+    StoreModule.forRoot({
+      ...user.reducer,
+      ...project.reducer,
+      ...media.reducer
+    }),
+    EffectsModule.forRoot([UserEffects, ProjectEffects, MediaEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true }),
   ],
   providers: [
     { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer },
     { provide: TUI_LANGUAGE, useValue: of(TUI_ENGLISH_LANGUAGE) },
     UserServiceClient,
     ProjectServiceClient,
+    MediaServiceClient,
     GuestGuard,
     AuthenticateGuard
   ],

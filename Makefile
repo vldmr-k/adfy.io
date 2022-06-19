@@ -1,12 +1,6 @@
 gen:
 	go generate ./...
 
-serve:
-	export CONFIG_PATH=. && go run cmd/server/main.go
-
-web:
-	cd web && yarn run start
-
 migrate:
 	export CONFIG_PATH=. && go run cmd/db/main.go
 

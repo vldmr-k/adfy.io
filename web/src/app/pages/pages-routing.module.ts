@@ -9,9 +9,13 @@ const routes: Routes = [{
   component: PagesLayoutComponent,
   children: [
     {
-      path: 'project',
+      path: '',
       loadChildren: () => import('@pages/project/project.module')
         .then(m => m.ProjectModule),
+    },
+    {
+      path: '',
+      loadChildren: () => import('@pages/placement/placement.module').then(m => m.PlacementModule)
     },
     {
       path: 'block',

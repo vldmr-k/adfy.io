@@ -1,0 +1,259 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Adfy.io Area Service Twirp/JSON API Documentation",
+    "version": "1.0"
+  },
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/twirp/adfy.io.rpc.area.AreaService/Create": {
+      "post": {
+        "operationId": "Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcareaCreateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcareaCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AreaService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.area.AreaService/Delete": {
+      "post": {
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcareaIdRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AreaService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.area.AreaService/Edit": {
+      "post": {
+        "operationId": "Edit",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/areaEditResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/areaEditRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AreaService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.area.AreaService/Get": {
+      "post": {
+        "operationId": "Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcareaGetResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rpcareaIdRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AreaService"
+        ]
+      }
+    },
+    "/twirp/adfy.io.rpc.area.AreaService/GetByProject": {
+      "post": {
+        "operationId": "GetByProject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/areaGetByProjectResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/areaGetByProjectRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AreaService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AreaPositions": {
+      "type": "string",
+      "enum": [
+        "FLOAT",
+        "STATIC"
+      ],
+      "default": "FLOAT"
+    },
+    "areaArea": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "projectId": {
+          "type": "string"
+        },
+        "position": {
+          "$ref": "#/definitions/AreaPositions"
+        },
+        "immutable": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "embedCode": {
+          "type": "string"
+        }
+      }
+    },
+    "areaEditRequest": {
+      "type": "object",
+      "properties": {
+        "areaId": {
+          "type": "string"
+        },
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        }
+      }
+    },
+    "areaEditResponse": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        }
+      }
+    },
+    "areaGetByProjectRequest": {
+      "type": "object",
+      "properties": {
+        "project": {
+          "$ref": "#/definitions/rpcareaIdRequest"
+        }
+      }
+    },
+    "areaGetByProjectResponse": {
+      "type": "object",
+      "properties": {
+        "areas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/areaArea"
+          }
+        }
+      }
+    },
+    "rpcareaCreateRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "projectId": {
+          "type": "string"
+        }
+      }
+    },
+    "rpcareaCreateResponse": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        }
+      }
+    },
+    "rpcareaGetResponse": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        }
+      }
+    },
+    "rpcareaIdRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Adfy.io github repository",
+    "url": "https://github.com/vldmr-k/adfy.io"
+  }
+}

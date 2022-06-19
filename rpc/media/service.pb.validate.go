@@ -35,6 +35,238 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on AllRequest with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AllRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AllRequest with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AllRequestMultiError, or
+// nil if none found.
+func (m *AllRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AllRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return AllRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// AllRequestMultiError is an error wrapping multiple validation errors
+// returned by AllRequest.ValidateAll() if the designated constraints aren't met.
+type AllRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AllRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AllRequestMultiError) AllErrors() []error { return m }
+
+// AllRequestValidationError is the validation error returned by
+// AllRequest.Validate if the designated constraints aren't met.
+type AllRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AllRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AllRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AllRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AllRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AllRequestValidationError) ErrorName() string { return "AllRequestValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AllRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAllRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AllRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AllRequestValidationError{}
+
+// Validate checks the field values on AllResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *AllResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on AllResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in AllResponseMultiError, or
+// nil if none found.
+func (m *AllResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *AllResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetMedias() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, AllResponseValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, AllResponseValidationError{
+						field:  fmt.Sprintf("Medias[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return AllResponseValidationError{
+					field:  fmt.Sprintf("Medias[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return AllResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// AllResponseMultiError is an error wrapping multiple validation errors
+// returned by AllResponse.ValidateAll() if the designated constraints aren't met.
+type AllResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m AllResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m AllResponseMultiError) AllErrors() []error { return m }
+
+// AllResponseValidationError is the validation error returned by
+// AllResponse.Validate if the designated constraints aren't met.
+type AllResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e AllResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e AllResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e AllResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e AllResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e AllResponseValidationError) ErrorName() string { return "AllResponseValidationError" }
+
+// Error satisfies the builtin error interface
+func (e AllResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sAllResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = AllResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = AllResponseValidationError{}
+
 // Validate checks the field values on UploadRequest with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -56,6 +288,8 @@ func (m *UploadRequest) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for Name
 
 	// no validation rules for Body
 
@@ -266,22 +500,22 @@ var _ interface {
 	ErrorName() string
 } = UploadResponseValidationError{}
 
-// Validate checks the field values on GetMediaResponse with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *GetMediaResponse) Validate() error {
+// Validate checks the field values on GetResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *GetResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetMediaResponse with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetMediaResponseMultiError, or nil if none found.
-func (m *GetMediaResponse) ValidateAll() error {
+// ValidateAll checks the field values on GetResponse with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in GetResponseMultiError, or
+// nil if none found.
+func (m *GetResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetMediaResponse) validate(all bool) error {
+func (m *GetResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -292,7 +526,7 @@ func (m *GetMediaResponse) validate(all bool) error {
 		switch v := interface{}(m.GetMedia()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GetMediaResponseValidationError{
+				errors = append(errors, GetResponseValidationError{
 					field:  "Media",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -300,7 +534,7 @@ func (m *GetMediaResponse) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, GetMediaResponseValidationError{
+				errors = append(errors, GetResponseValidationError{
 					field:  "Media",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -309,7 +543,7 @@ func (m *GetMediaResponse) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetMedia()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return GetMediaResponseValidationError{
+			return GetResponseValidationError{
 				field:  "Media",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -318,19 +552,18 @@ func (m *GetMediaResponse) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return GetMediaResponseMultiError(errors)
+		return GetResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetMediaResponseMultiError is an error wrapping multiple validation errors
-// returned by GetMediaResponse.ValidateAll() if the designated constraints
-// aren't met.
-type GetMediaResponseMultiError []error
+// GetResponseMultiError is an error wrapping multiple validation errors
+// returned by GetResponse.ValidateAll() if the designated constraints aren't met.
+type GetResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetMediaResponseMultiError) Error() string {
+func (m GetResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -339,11 +572,11 @@ func (m GetMediaResponseMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetMediaResponseMultiError) AllErrors() []error { return m }
+func (m GetResponseMultiError) AllErrors() []error { return m }
 
-// GetMediaResponseValidationError is the validation error returned by
-// GetMediaResponse.Validate if the designated constraints aren't met.
-type GetMediaResponseValidationError struct {
+// GetResponseValidationError is the validation error returned by
+// GetResponse.Validate if the designated constraints aren't met.
+type GetResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -351,22 +584,22 @@ type GetMediaResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetMediaResponseValidationError) Field() string { return e.field }
+func (e GetResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetMediaResponseValidationError) Reason() string { return e.reason }
+func (e GetResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetMediaResponseValidationError) Cause() error { return e.cause }
+func (e GetResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetMediaResponseValidationError) Key() bool { return e.key }
+func (e GetResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetMediaResponseValidationError) ErrorName() string { return "GetMediaResponseValidationError" }
+func (e GetResponseValidationError) ErrorName() string { return "GetResponseValidationError" }
 
 // Error satisfies the builtin error interface
-func (e GetMediaResponseValidationError) Error() string {
+func (e GetResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -378,14 +611,14 @@ func (e GetMediaResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetMediaResponse.%s: %s%s",
+		"invalid %sGetResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetMediaResponseValidationError{}
+var _ error = GetResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -393,7 +626,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetMediaResponseValidationError{}
+} = GetResponseValidationError{}
 
 // Validate checks the field values on IdRequest with the rules defined in the
 // proto definition for this message. If any rules are violated, the first

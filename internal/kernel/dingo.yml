@@ -19,18 +19,22 @@ services:
   VerifyJWTHook:
     type: "*adfy.io/pkg/hook.VerifyJWTHook"
     returns: "hook.NewVerifyJWTHook(@{JWT})"
+  BaseRepository:
+    type: "adfy.io/pkg/db.BaseRepository"
+    returns: "db.NewBaseRepository(@{AuthContext}, @{Orm})"
 
-
+  #User
   UserService:
     type: "*adfy.io/internal/userservice.UserService"
     returns: "userservice.NewUserService(@{JWT}, @{Secure}, @{UserRepository}, @{AuthContext}, @{UserTransormer})"
   UserRepository:
     type: "*adfy.io/internal/userservice.UserRepository"
-    returns: "userservice.NewUserRepository(@{Orm})"
+    returns: "userservice.NewUserRepository(@{BaseRepository})"
   UserTransormer:
     type: "*adfy.io/internal/userservice.Transformer"
     returns: "userservice.NewTransformer()"
 
+  #Project
   ProjectService:
     type: "*adfy.io/internal/projectservice.ProjectService"
     returns: "projectservice.NewProjectService(@{ProjectRepository}, @{AuthContext}, @{ProjectFactory})"
@@ -39,29 +43,84 @@ services:
     returns: "projectservice.NewProjectFactory()"
   ProjectRepository:
     type: "*adfy.io/internal/projectservice.ProjectRepository"
-    returns: "projectservice.NewProjectRepository(@{Orm}, @{AuthContext})"
+    returns: "projectservice.NewProjectRepository(@{BaseRepository})"
+  ProjectTransformer:
+    type: "*adfy.io/internal/projectservice.Transformer"
+    returns: "projectservice.NewTransformer()"
 
+  #Media
+  MediaService:
+    type: "*adfy.io/internal/mediaservice.MediaService"
+    returns: "mediaservice.NewMediaService(@{MediaRepository}, @{MediaFactory}, @{MediaTransformer}, @{AuthContext}, @{MediaManager})"
+  MediaFactory:
+    type: "*adfy.io/internal/mediaservice.MediaFactory"
+    returns: "mediaservice.NewMediaFactory()"
+  MediaTransformer:
+    type: "*adfy.io/internal/mediaservice.Transformer"
+    returns: "mediaservice.NewTransformer()"
+  MediaRepository:
+    type: "*adfy.io/internal/mediaservice.MediaRepository"
+    returns: "mediaservice.NewMediaRepository(@{BaseRepository})"
+  MediaHelper:
+    type: "*adfy.io/internal/mediaservice.Helper"
+    returns: "mediaservice.NewHelper(@{AuthContext})"
+  MediaUploader:
+    type: "*adfy.io/internal/mediaservice.MediaUploader"
+    returns: 'mediaservice.NewMediaUploader(@{S3ClientPool})'
+  MediaManager:
+    type: "*adfy.io/internal/mediaservice.MediaManager"
+    returns: "mediaservice.NewMediaManager(@{AuthContext}, @{Orm}, @{MediaUploader}, @{MediaHelper}, @{MediaRepository}, @{MediaFactory})"
 
+  #Template
   TemplateService:
     type: "*adfy.io/internal/templateservice.TemplateService"
-    returns: "templateservice.NewTemplateService(@{TemplateRepository}, @{AuthContext}, @{TemplateTransofrmer})"
+    returns: "templateservice.NewTemplateService(@{TemplateRepository}, @{AuthContext}, @{TemplateTransformer})"
   TemplateRepository:
     type: "*adfy.io/internal/templateservice.TemplateRepository"
-    returns: "templateservice.NewTemplateRepository(@{Orm})"
-  TemplateTransofrmer:
+    returns: "templateservice.NewTemplateRepository(@{BaseRepository})"
+  TemplateTransformer:
     type: "*adfy.io/internal/templateservice.Transformer"
     returns: "templateservice.NewTransformer()"
   TemplateHandler:
     type: "*adfy.io/internal/handler.TemplateHandler"
     returns: "handler.NewTemplateHandler(@{TemplateRepository})"
 
+  #Area
+  AreaService:
+    type: "*adfy.io/internal/areaservice.AreaService"
+    returns: "areaservice.NewAreaService(@{AreaRepository}, @{ProjectRepository}, @{AuthContext}, @{AreaFactory}, @{AreaTransformer})"
+  AreaFactory:
+    type: "*adfy.io/internal/areaservice.AreaFactory"
+    returns: "areaservice.NewAreaFactory()"
+  AreaRepository:
+    type: "*adfy.io/internal/areaservice.AreaRepository"
+    returns: "areaservice.NewAreaRepository(@{BaseRepository})"
+  AreaTransformer:
+    type: "*adfy.io/internal/areaservice.Transformer"
+    returns: "areaservice.NewTransformer(@{ProjectTransformer})"
+
+  #Placement
+  PlacementService:
+    type: "*adfy.io/internal/placementservice.PlacementService"
+    returns: "placementservice.NewPlacementService(@{PlacementRepository}, @{ProjectRepository}, @{AuthContext}, @{PlacementFactory}, @{PlacementTransformer})"
+  PlacementRepository:
+    type: "*adfy.io/internal/placementservice.PlacementRepository"
+    returns: "placementservice.NewPlacementRepository(@{BaseRepository})"
+  PlacementFactory:
+    type: "*adfy.io/internal/placementservice.PlacementFactory"
+    returns: "placementservice.NewPlacementFactory()"
+  PlacementTransformer:
+    type: "*adfy.io/internal/placementservice.Transformer"
+    returns: "placementservice.NewTransformer(@{ProjectTransformer}, @{AreaTransformer}, @{TemplateTransformer})"
+
+
   AuthContext:
     type: "*adfy.io/pkg/ctx.AuthContext"
     returns: "ctx.NewAuthContext()"
 
-  NewS3Client:
-    type: "*adfy.io/pkg/s3.S3Client"
-    returns: "s3.NewS3Client(@{Config})"
+  S3ClientPool:
+    type: "*adfy.io/pkg/s3.S3ClientPool"
+    returns: "s3.NewS3ClientPool(@{Config})"
 
 
 
@@ -74,3 +133,12 @@ services:
   ProjectTwirpHandler:
     type: "adfy.io/rpc/project.TwirpServer"
     returns: "project.NewProjectServiceServer(@{ProjectService}, @{VerifyJWTHook}.WithJWTAuth())"
+  MediaTwirpHandler:
+    type: "adfy.io/rpc/media.TwirpServer"
+    returns: "media.NewMediaServiceServer(@{MediaService}, @{VerifyJWTHook}.WithJWTAuth())"
+  AreaTwirpHandler:
+    type: "adfy.io/rpc/area.TwirpServer"
+    returns: "area.NewAreaServiceServer(@{AreaService}, @{VerifyJWTHook}.WithJWTAuth())"
+  PlacementTwirpHandler:
+    type: "adfy.io/rpc/placement.TwirpServer"
+    returns: "placement.NewPlacementServiceServer(@{PlacementService}, @{VerifyJWTHook}.WithJWTAuth())"

@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 2432,
+            "driver": "PostgreSQL",
+            "name": "adfy.io",
+            "group": "adfy",
+            "database": "adfy",
+            "username": "postgres",
+            "password": "1"
+        }
+    ]
+}

@@ -11,12 +11,29 @@
       }
     ],
     "configurations": [
+       {
+            "name": "Debug docker backend",
+            "type": "go",
+            "request": "attach",
+            "mode": "remote",
+            "substitutePath": [
+                {
+                    "from": "/home/vldmrk/go/packages/adfy.io",
+                    "to": "/go/src/adfy.io",
+                },
+            ],
+            "port": 2345,
+            "host": "127.0.0.1",
+            "showLog": true,
+            "apiVersion": 2,
+            "trace": "verbose"
+        },
         {
             "name": "go srv",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/cmd/server/main.go",
+            "program": "${workspaceFolder}/main.go",
             "env": {
               "CONFIG_PATH": "${workspaceFolder}"
             }

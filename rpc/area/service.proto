@@ -1,0 +1,80 @@
+syntax = "proto3";
+package adfy.io.rpc.area;
+option go_package = "adfy.io/rpc/area";
+
+import "project/service.proto";
+import "validate/validate.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "google/protobuf/empty.proto";
+
+
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "Adfy.io Area Service Twirp/JSON API Documentation";
+        version: "1.0";
+    };
+    external_docs: {
+        url: "https://github.com/vldmr-k/adfy.io";
+        description: "Adfy.io github repository";
+    };
+    schemes: HTTPS;
+};
+
+
+service AreaService {
+    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Get(IdRequest) returns (GetResponse);
+    rpc GetByProject(GetByProjectRequest) returns(GetByProjectResponse);
+    rpc Edit(EditRequest) returns (EditResponse);
+    rpc Delete(IdRequest) returns (google.protobuf.Empty);
+}
+
+message CreateRequest {
+  string name = 1 [(validate.rules).string = {min_len: 3, max_len: 50}]; //required
+  string projectId = 2 [(validate.rules).string.uuid = true];
+}
+
+message CreateResponse {
+  Area area = 1;
+}
+
+message EditRequest {
+    string areaId = 1 [(validate.rules).string.uuid = true];
+    Area area = 2;
+}
+
+message EditResponse {
+  Area area = 1;
+}
+
+message IdRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+}
+
+message GetByProjectRequest {
+  IdRequest project = 1;
+}
+
+message GetByProjectResponse {
+  repeated Area areas = 1;
+}
+
+message GetResponse {
+  Area area = 1;
+}
+
+message Area {
+  string id = 1 [(validate.rules).string.uuid = true];
+  string name = 2 [(validate.rules).string = {min_len: 3, max_len: 128}];
+  string projectId = 4  [(validate.rules).string.uuid = true];
+
+  enum Positions {
+    FLOAT = 0;
+    STATIC = 1;
+  }
+
+  Positions position = 5;
+  bool immutable = 6;
+  string embedCode = 7;
+}

@@ -216,7 +216,7 @@
         "description": {
           "type": "string"
         },
-        "htmlCode": {
+        "embedCode": {
           "type": "string"
         }
       }

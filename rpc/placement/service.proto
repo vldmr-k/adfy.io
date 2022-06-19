@@ -1,0 +1,76 @@
+syntax = "proto3";
+package adfy.io.rpc.placement;
+option go_package = "adfy.io/rpc/placement";
+
+import "project/service.proto";
+import "area/service.proto";
+import "template/service.proto";
+
+
+import "validate/validate.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "google/protobuf/empty.proto";
+
+
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "Adfy.io placement Service Twirp/JSON API Documentation";
+        version: "1.0";
+    };
+    external_docs: {
+        url: "https://github.com/vldmr-k/adfy.io";
+        description: "Adfy.io github repository";
+    };
+    schemes: HTTPS;
+};
+
+
+service PlacementService {
+    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Get(IdRequest) returns (GetResponse);
+    rpc GetAllByProject(GetAllByProjectRequest) returns(GetAllByProjectResponse);
+    rpc Edit(EditRequest) returns (EditResponse);
+    rpc Delete(IdRequest) returns (google.protobuf.Empty);
+}
+
+message CreateRequest {
+  Placement placment = 1;
+}
+
+message CreateResponse {
+  Placement placement = 1;
+}
+
+message EditRequest {
+  Placement placement = 1;
+}
+
+message EditResponse {
+  Placement placement = 1;
+}
+
+message IdRequest {
+  string id = 1 [(validate.rules).string.uuid = true];
+}
+
+message GetAllByProjectRequest {
+  IdRequest project = 1;
+}
+
+message GetAllByProjectResponse {
+  repeated Placement placements = 1;
+}
+
+message GetResponse {
+  Placement placement = 1;
+}
+
+message Placement {
+  string id = 1;
+  string name = 2 [(validate.rules).string = {min_len: 3, max_len: 128}];
+  project.Project project = 4;
+  area.Area area = 5;
+  template.Template template = 6;
+  string data = 7 [(validate.rules).string = {len: 10}];
+}

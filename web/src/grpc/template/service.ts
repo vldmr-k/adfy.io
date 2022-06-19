@@ -53,6 +53,23 @@ export interface Template {
      * @generated from protobuf field: string sampleData = 5;
      */
     sampleData: string;
+    /**
+     * @generated from protobuf field: adfy.io.rpc.template.Template.Types type = 6;
+     */
+    type: Template_Types;
+}
+/**
+ * @generated from protobuf enum adfy.io.rpc.template.Template.Types
+ */
+export enum Template_Types {
+    /**
+     * @generated from protobuf enum value: FLOATING = 0;
+     */
+    FLOATING = 0,
+    /**
+     * @generated from protobuf enum value: STATIC = 1;
+     */
+    STATIC = 1
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class ListResponse$Type extends MessageType<ListResponse> {
@@ -98,7 +115,8 @@ class Template$Type extends MessageType<Template> {
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "component", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "formSchema", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "sampleData", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "sampleData", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "type", kind: "enum", T: () => ["adfy.io.rpc.template.Template.Types", Template_Types], options: { "validate.rules": { enum: { definedOnly: true } } } }
         ]);
     }
 }

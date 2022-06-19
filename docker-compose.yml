@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  rollup:
+    build:
+      context: .
+      dockerfile: jsbuilder/docker/Dockerfile
+    image: nodejs
+    container_name: adfy.rollup
+    ports:
+      - "3050:3000"
+    volumes:
+      - ./jsbuilder:/app
+    command: node /app/server.js
+
+  web:
+    build:
+      context: .
+      dockerfile: web/docker/Dockerfile
+    image: nodejs
+    container_name: adfy.web
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./web:/app
+    command: npm start
+    links:
+      - backend
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: adfy.backend
+    networks:
+    - adfy_network
+    environment:
+      - CONFIG_PATH=.
+    depends_on:
+      - rollup
+      - db
+    links:
+      - rollup
+      - db
+    ports:
+      - "4080:4080"
+      - "2345:2345"
+    volumes:
+      - ./:/go/src/adfy.io
+      - node_modules:/go/src/adfy.io/web/node_modules
+      - vendor:/go/src/adfy.io/vendor
+    command: air -c /go/src/adfy.io/.air.toml
+
+  db:
+    image: postgres:14.3
+    container_name: adfy.db
+    networks:
+    - adfy_network
+    env_file:
+      - ./docker/env/db.env
+    ports:
+      - "2432:5432"
+    volumes:
+      - ./docker/data/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/data/db:/var/lib/postgresql
+
+volumes:
+  node_modules:
+  vendor:
+
+
+networks:
+  adfy_network:
+    name: adfy_network

@@ -3,26 +3,19 @@ package projectservice
 import (
 	"context"
 
-	pkgctx "adfy.io/pkg/ctx"
 	"adfy.io/pkg/db"
 	"adfy.io/pkg/jwt"
 	"gorm.io/gorm"
 )
 
-func NewProjectRepository(orm *db.Orm, authContext *pkgctx.AuthContext) *ProjectRepository {
+func NewProjectRepository(baseRepository db.BaseRepository) *ProjectRepository {
 	return &ProjectRepository{
-		Orm:         orm,
-		AuthContext: authContext,
+		BaseRepository: baseRepository,
 	}
 }
 
 type ProjectRepository struct {
-	Orm         *db.Orm
-	AuthContext *pkgctx.AuthContext
-}
-
-func (u *ProjectRepository) authUser(ctx context.Context) *jwt.AuthUser {
-	return u.AuthContext.GetAuthUser(ctx)
+	db.BaseRepository
 }
 
 // Find Project By ID
@@ -60,6 +53,10 @@ func (r *ProjectRepository) Delete(ctx context.Context, project *Project) error 
 	usr := r.authUser(ctx)
 	result := r.Orm.Scopes(ownerScope(usr)).Delete(project, "id = ?", project.ID)
 	return result.Error
+}
+
+func (u *ProjectRepository) authUser(ctx context.Context) *jwt.AuthUser {
+	return u.AuthContext.GetAuthUser(ctx)
 }
 
 func ownerScope(usr *jwt.AuthUser) func(db *gorm.DB) *gorm.DB {

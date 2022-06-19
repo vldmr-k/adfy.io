@@ -14,6 +14,32 @@
     "application/json"
   ],
   "paths": {
+    "/twirp/adfy.io.rpc.media.MediaService/All": {
+      "post": {
+        "operationId": "All",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/rpcmediaAllResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/mediaAllRequest"
+            }
+          }
+        ],
+        "tags": [
+          "MediaService"
+        ]
+      }
+    },
     "/twirp/adfy.io.rpc.media.MediaService/Delete": {
       "post": {
         "operationId": "Delete",
@@ -47,7 +73,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/mediaGetMediaResponse"
+              "$ref": "#/definitions/rpcmediaGetResponse"
             }
           }
         },
@@ -102,13 +128,8 @@
       ],
       "default": "IMAGE"
     },
-    "mediaGetMediaResponse": {
-      "type": "object",
-      "properties": {
-        "media": {
-          "$ref": "#/definitions/mediaMedia"
-        }
-      }
+    "mediaAllRequest": {
+      "type": "object"
     },
     "mediaMedia": {
       "type": "object",
@@ -145,6 +166,9 @@
     "mediaUploadRequest": {
       "type": "object",
       "properties": {
+        "name": {
+          "type": "string"
+        },
         "body": {
           "type": "string",
           "format": "byte"
@@ -152,6 +176,25 @@
       }
     },
     "mediaUploadResponse": {
+      "type": "object",
+      "properties": {
+        "media": {
+          "$ref": "#/definitions/mediaMedia"
+        }
+      }
+    },
+    "rpcmediaAllResponse": {
+      "type": "object",
+      "properties": {
+        "medias": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/mediaMedia"
+          }
+        }
+      }
+    },
+    "rpcmediaGetResponse": {
       "type": "object",
       "properties": {
         "media": {

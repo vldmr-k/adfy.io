@@ -2,7 +2,7 @@
 import { Inject, Injectable } from "@angular/core"
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
-import { mergeMap, map, catchError, switchMap, tap } from 'rxjs/operators';
+import { mergeMap, map, catchError, switchMap, tap, withLatestFrom, concatMap } from 'rxjs/operators';
 import { from, of } from 'rxjs'
 
 import { User } from '@store/models/index';
@@ -12,6 +12,7 @@ import { UserTokenStorage } from "@core/services/user-token.service";
 import { Empty } from "@grpc/google/protobuf/empty";
 import { Router } from "@angular/router";
 import { TuiAlertService } from "@taiga-ui/core";
+import { Logger } from "@core/logger";
 
 
 @Injectable({ providedIn: 'root' })
@@ -39,7 +40,12 @@ export class UserEffects {
         tap((call) => {
           this.userTokenStorage.setToken(call.response.token);
           this.alertService.open('success');
-          this.router.navigateByUrl("/");
+        }),
+        tap((call) => {
+          Logger.debug('CLASS', 'METHOD', `Begin redirect to /`);
+          this.router.navigateByUrl("/").then(() => {
+            window.location.reload();
+          });
         })
     ), { dispatch: false });
 

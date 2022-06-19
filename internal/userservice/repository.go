@@ -2,14 +2,14 @@ package userservice
 
 import "adfy.io/pkg/db"
 
-func NewUserRepository(orm *db.Orm) *UserRepository {
+func NewUserRepository(baseRepository db.BaseRepository) *UserRepository {
 	return &UserRepository{
-		Orm: orm,
+		BaseRepository: baseRepository,
 	}
 }
 
 type UserRepository struct {
-	Orm *db.Orm
+	db.BaseRepository
 }
 
 // Find User By ID

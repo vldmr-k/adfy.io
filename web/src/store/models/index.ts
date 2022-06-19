@@ -1,3 +1,5 @@
 export { Project } from "@grpc/project/service";
-export { Place } from "@grpc/place/service";
+export { Placement } from "@grpc/placement/service";
+export { Area } from "@grpc/area/service";
 export { User } from "@grpc/user/service";
+export { Media } from "@grpc/media/service";
