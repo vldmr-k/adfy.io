@@ -4,7 +4,11 @@
   </div>
   <div class="container adfy-content">
 
-    <adfy-placement-stepper></adfy-placement-stepper>
+    <adfy-placement-stepper [currentStep]="1"></adfy-placement-stepper>
+
+    <ng-template [ngIf]="currentStep == 1">
+      <adfy-placement-step-template></adfy-placement-step-template>
+    </ng-template>
 
   </div>
 </div>

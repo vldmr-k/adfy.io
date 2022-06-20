@@ -1,4 +1,4 @@
-<tui-stepper [activeItemIndex]="0">
+<tui-stepper [activeItemIndex]="currentStep">
   <button tuiStep state="pass">
       Select Template
   </button>
@@ -8,7 +8,7 @@
   <button tuiStep state="error" >
       Error step
   </button>
-  <button tuiStep disabled>
+  <button tuiStep>
       Disabled step
   </button>
   <button tuiStep icon="tuiIconTimeLarge">

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 
 
@@ -9,4 +10,15 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class PlacementAddComponent {
 
+  projectId?: string;
+  templateId?: string;
+  areaId?: string;
+
+  currentStep: number = 1;
+
+  constructor(
+    @Inject(Store) private readonly store: Store
+  ) {
+
+  }
 }

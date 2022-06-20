@@ -40,7 +40,7 @@ export class ProjectListComponent {
   }
 
   onClickCardAction(project: Project) {
-      this.router.navigate([ROUTER_PLACEMENT_ADD], { queryParams: { project: project.id } })
+      this.router.navigate([ROUTER_PLACEMENT_ADD], { queryParams: { projectId: project.id } })
   }
 
   onDeleteProjectAction(project: Project) {

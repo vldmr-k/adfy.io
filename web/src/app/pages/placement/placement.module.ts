@@ -4,11 +4,13 @@ import { PlacementRoutingModule } from './placement-routing.module'
 import { TuiStepperModule } from '@taiga-ui/kit';
 import { PlacementStepperComponent } from './components/stepper/stepper.component';
 import { PlacementAddComponent } from './pages/add/add.component';
+import { PlacementStepTemplateComponent } from './components/step/template.component';
 
 @NgModule({
   declarations: [
     PlacementStepperComponent,
-    PlacementAddComponent
+    PlacementAddComponent,
+    PlacementStepTemplateComponent
   ],
   imports: [
     CommonModule,

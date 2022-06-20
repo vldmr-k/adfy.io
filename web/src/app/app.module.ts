@@ -22,7 +22,7 @@ import { AuthenticateGuard, GuestGuard } from "@core/guard";
 import {TUI_LANGUAGE, TUI_ENGLISH_LANGUAGE} from '@taiga-ui/i18n';
 import { of } from "rxjs";
 import { ProjectServiceClient } from "@grpc/project/service.client";
-import { ProjectEffects, UserEffects } from "@store/effects";
+import { AreaEffects, PlacementEffects, ProjectEffects, TemplateEffects, UserEffects } from "@store/effects";
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MediaServiceClient } from "@grpc/media/service.client";
 import { MediaEffects } from "@store/effects/media.effects";
@@ -57,7 +57,14 @@ import { media, project, user} from "@store/reducers"
       ...project.reducer,
       ...media.reducer
     }),
-    EffectsModule.forRoot([UserEffects, ProjectEffects, MediaEffects]),
+    EffectsModule.forRoot([
+      UserEffects,
+      ProjectEffects,
+      MediaEffects,
+      TemplateEffects,
+      PlacementEffects,
+      AreaEffects
+    ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production, autoPause: true }),
   ],
   providers: [
