@@ -67,13 +67,15 @@ func (a *AreaService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetR
 
 func (a *AreaService) GetByProject(ctx context.Context, req *pb.GetByProjectRequest) (resp *pb.GetByProjectResponse, err error) {
 	project, err := a.projectRepository.Find(ctx, req.Project.Id)
+
 	if err != nil {
 		return nil, twirp.NotFoundError(fmt.Sprintf("Project %s not found", req.Project.Id))
 	}
+
 	items, err := a.areaRepository.GetByProject(ctx, project)
 
 	if err != nil {
-		return nil, twirp.InternalError(err.Error())
+		return nil, twirp.InternalError(fmt.Sprintf("Error %s. Project %s", err.Error(), project.ID))
 	}
 
 	var areas []*pb.Area

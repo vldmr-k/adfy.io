@@ -1,17 +1,9 @@
-<tui-stepper [activeItemIndex]="currentStep">
-  <button tuiStep state="pass">
-      Select Template
-  </button>
-  <button tuiStep>
-    Select Area
-  </button>
-  <button tuiStep state="error" >
-      Error step
-  </button>
-  <button tuiStep>
-      Disabled step
-  </button>
-  <button tuiStep icon="tuiIconTimeLarge">
-      Step with an icon
+<tui-stepper [activeItemIndex]="step">
+  <button *ngFor="let step of steps" tuiStep [attr.disabled]="isDisabled(step.index)"
+    [routerLink]="['/placement/add']" 
+    [queryParams]="{step: step.index}"
+    queryParamsHandling="merge"
+  >
+      {{step.label}}
   </button>
 </tui-stepper>

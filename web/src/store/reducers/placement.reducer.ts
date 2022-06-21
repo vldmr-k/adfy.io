@@ -19,7 +19,7 @@ export const initialState: PlacementState = {
 
 
 
-export const projectFeature = createFeature({
+export const placementFeature = createFeature({
   name: STORE_PLACEMENT_KEY,
   reducer: createReducer(
     initialState,
@@ -54,4 +54,4 @@ export const {
   selectPlacementState,
   selectList,
   selectError,
-} = projectFeature;
+} = placementFeature;

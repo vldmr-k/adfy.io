@@ -19,7 +19,7 @@ export const initialState: TemplateState = {
 
 
 
-export const projectFeature = createFeature({
+export const templateFeature = createFeature({
   name: STORE_TEMPLATE_KEY,
   reducer: createReducer(
     initialState,
@@ -42,4 +42,4 @@ export const {
   selectTemplateState,
   selectList,
   selectError,
-} = projectFeature;
+} = templateFeature;

@@ -26,7 +26,11 @@ import { AreaEffects, PlacementEffects, ProjectEffects, TemplateEffects, UserEff
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MediaServiceClient } from "@grpc/media/service.client";
 import { MediaEffects } from "@store/effects/media.effects";
-import { media, project, user} from "@store/reducers"
+import { media, placement, project, template, user, area} from "@store/reducers"
+import { AreaServiceClient } from "@grpc/area/service.client";
+import { TemplateServiceClient } from "@grpc/template/service.client";
+import { PlacementService } from "@grpc/placement/service";
+import { PlacementServiceClient } from "@grpc/placement/service.client";
 
 @NgModule({
   declarations: [
@@ -55,7 +59,10 @@ import { media, project, user} from "@store/reducers"
     StoreModule.forRoot({
       ...user.reducer,
       ...project.reducer,
-      ...media.reducer
+      ...media.reducer,
+      ...area.reducer,
+      ...template.reducer,
+      ...placement.reducer
     }),
     EffectsModule.forRoot([
       UserEffects,
@@ -73,6 +80,9 @@ import { media, project, user} from "@store/reducers"
     UserServiceClient,
     ProjectServiceClient,
     MediaServiceClient,
+    AreaServiceClient,
+    TemplateServiceClient,
+    PlacementServiceClient,
     GuestGuard,
     AuthenticateGuard
   ],

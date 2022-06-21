@@ -29,7 +29,10 @@ func (r *AreaRepository) Find(ctx context.Context, id string) (area *Area, err e
 func (r *AreaRepository) GetByProject(ctx context.Context, project *projectservice.Project) ([]Area, error) {
 	usr := r.AuthContext.GetAuthUser(ctx)
 	var lists []Area
-	result := r.Orm.Scopes(db.OwnerScope(usr), projectScope(project)).Find(&lists)
+	result := r.Orm.Scopes(
+		db.OwnerScope(usr),
+		projectScope(project),
+	).Find(&lists)
 	return lists, result.Error
 }
 
@@ -57,6 +60,6 @@ func (r *AreaRepository) Delete(ctx context.Context, area *Area) error {
 
 func projectScope(project *projectservice.Project) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Scopes().Where("project_id = ?", project.ID)
+		return db.Scopes().Where("project_id = ?", project.ID.String())
 	}
 }
