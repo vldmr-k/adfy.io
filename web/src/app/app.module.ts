@@ -4,7 +4,6 @@ import { TuiRootModule, TUI_SANITIZER } from "@taiga-ui/core";
 import { NgModule, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PbDatePipeModule, TwirpModule } from '@protobuf-ts/runtime-angular';
-import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,7 +15,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from "@ngrx/effects"
 import { UserServiceClient } from "@grpc/user/service.client";
 
-import { log } from "@store/reducers/log-meta.reducer";
 import { AuthenticateGuard, GuestGuard } from "@core/guard";
 
 import {TUI_LANGUAGE, TUI_ENGLISH_LANGUAGE} from '@taiga-ui/i18n';
@@ -29,7 +27,6 @@ import { MediaEffects } from "@store/effects/media.effects";
 import { media, placement, project, template, user, area} from "@store/reducers"
 import { AreaServiceClient } from "@grpc/area/service.client";
 import { TemplateServiceClient } from "@grpc/template/service.client";
-import { PlacementService } from "@grpc/placement/service";
 import { PlacementServiceClient } from "@grpc/placement/service.client";
 
 @NgModule({

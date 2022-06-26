@@ -26,7 +26,7 @@ export class ProjectEffects {
     mergeMap(
       (action) => from(this.projectServiceClient.create(action.request)).pipe(
         map((call) => projectActions.createSuccess({ response: call.response })),
-        tap((call) => { this.store.dispatch(projectActions.allRequest())}),
+        tap((call) => { this.store.dispatch(projectActions.listRequest())}),
         catchError((error) => of(projectActions.createError({ error: error })))
       )
     )
@@ -37,19 +37,19 @@ export class ProjectEffects {
     mergeMap(
       (action) => from(this.projectServiceClient.update(action.request)).pipe(
         map((call) => projectActions.updateSuccess({ response: call.response })),
-        tap((call) => { this.store.dispatch(projectActions.allRequest())}),
+        tap((call) => { this.store.dispatch(projectActions.listRequest())}),
         catchError((error) => of(projectActions.updateError({ error: error })))
       )
     )
   ))
 
 
-  all$ = createEffect(() => this.actions$.pipe(
-    ofType(projectActions.allRequest),
+  list$ = createEffect(() => this.actions$.pipe(
+    ofType(projectActions.listRequest),
     mergeMap(
-      (action) => from(this.projectServiceClient.all(Empty)).pipe(
-        map((call) => projectActions.allSuccess({response: call.response})),
-        catchError((error) => of(projectActions.allError({error: error })))
+      (action) => from(this.projectServiceClient.list(Empty)).pipe(
+        map((call) => projectActions.listSuccess({response: call.response})),
+        catchError((error) => of(projectActions.listError({error: error })))
       )
     )
   ))
@@ -60,7 +60,7 @@ export class ProjectEffects {
     mergeMap(
       (action) => from(this.projectServiceClient.delete(action.request)).pipe(
         map((call) => projectActions.deleteSuccess()),
-        tap((call) => { this.store.dispatch(projectActions.allRequest())}),
+        tap((call) => { this.store.dispatch(projectActions.listRequest())}),
         catchError((error) => of(projectActions.deleteError({ error: error })))
       )
     )

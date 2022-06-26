@@ -7,7 +7,11 @@ export const ROUTER_PLACEMENT_ADD = 'placement/add'
 
 
 const routes: Routes = [
-  { path: ROUTER_PLACEMENT_ADD, component: PlacementAddComponent, pathMatch: 'full' },
+  {
+    path: ROUTER_PLACEMENT_ADD,
+    component: PlacementAddComponent,
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

@@ -24,13 +24,13 @@ export const templateFeature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(templateActions.getRequest, (state) => ({ ...state, loading: true })),
+    on(templateActions.getRequest, (state) => ({ ...state })),
     on(templateActions.getSuccess, (state, action) => ({ ...state, template: action.response.template! })),
-    on(templateActions.getError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
+    on(templateActions.getError, (state, action) => ({ ...state, errorResponse: action.error })),
 
-    on(templateActions.listRequest, (state) => ({ ...state, loading: true })),
+    on(templateActions.listRequest, (state) => ({ ...state })),
     on(templateActions.listSuccess, (state, action) => ({ ...state, list: action.response.templates })),
-    on(templateActions.listError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
+    on(templateActions.listError, (state, action) => ({ ...state, errorResponse: action.error })),
 
   ),
 });

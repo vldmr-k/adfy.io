@@ -28,7 +28,7 @@ export class ProjectListComponent {
     @Inject(Injector) private readonly injector: Injector,
     @Inject(Store) private readonly store: Store
   ) {
-    this.store.dispatch(projectActions.allRequest())
+    this.store.dispatch(projectActions.listRequest())
   }
 
   addProjectDialog() {
@@ -46,7 +46,6 @@ export class ProjectListComponent {
   onDeleteProjectAction(project: Project) {
     let idRequest: IdRequest = {id: project.id}
     this.store.dispatch(projectActions.deleteRequest({request: idRequest}))
-    //this.store.dispatch(projectActions.allRequest())
   }
 
   onUpdateProjectDialog(project: Project) {

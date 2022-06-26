@@ -4,13 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"adfy.io/internal/areaservice"
+	"adfy.io/internal/entity"
 	"adfy.io/internal/kernel"
-	"adfy.io/internal/mediaservice"
-	"adfy.io/internal/placementservice"
-	"adfy.io/internal/projectservice"
-	"adfy.io/internal/templateservice"
-	"adfy.io/internal/userservice"
 )
 
 func main() {
@@ -29,13 +24,12 @@ func main() {
 		panic(err)
 	}
 
-	orm.AutoMigrate(&userservice.User{})
-	orm.AutoMigrate(&projectservice.Project{})
-	orm.AutoMigrate(&areaservice.Area{})
-	orm.AutoMigrate(&areaservice.Area{})
-	orm.AutoMigrate(&templateservice.Template{})
-	orm.AutoMigrate(&placementservice.Placement{})
-	orm.AutoMigrate(&mediaservice.Media{})
+	orm.AutoMigrate(&entity.User{})
+	orm.AutoMigrate(&entity.Project{})
+	orm.AutoMigrate(&entity.Area{})
+	orm.AutoMigrate(&entity.Template{})
+	orm.AutoMigrate(&entity.Placement{})
+	orm.AutoMigrate(&entity.Media{})
 
 	fmt.Println("Done!")
 }

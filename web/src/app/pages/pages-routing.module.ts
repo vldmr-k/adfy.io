@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { PagesLayoutComponent } from './_layout/pages-layout.component';
 import { NotFoundComponent } from './_error/not-found.component';
+import { ROUTE_PROJECT_LIST } from './project/project-routing.module';
 
 const routes: Routes = [{
   path: '',
@@ -10,8 +11,7 @@ const routes: Routes = [{
   children: [
     {
       path: '',
-      loadChildren: () => import('@pages/project/project.module')
-        .then(m => m.ProjectModule),
+      loadChildren: () => import('@pages/project/project.module').then(m => m.ProjectModule),
     },
     {
       path: '',
@@ -22,7 +22,6 @@ const routes: Routes = [{
       loadChildren: () => import('@pages/block/block.module')
         .then(m => m.BlockModule),
     },
-    { path: '', redirectTo: 'project', pathMatch: 'full',},
   ],
 },
 ];

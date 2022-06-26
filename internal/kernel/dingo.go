@@ -2,13 +2,15 @@
 package kernel
 
 import (
-	areaservice "adfy.io/internal/areaservice"
-	handler "adfy.io/internal/handler"
-	mediaservice "adfy.io/internal/mediaservice"
-	placementservice "adfy.io/internal/placementservice"
-	projectservice "adfy.io/internal/projectservice"
-	templateservice "adfy.io/internal/templateservice"
-	userservice "adfy.io/internal/userservice"
+	factory "adfy.io/internal/factory"
+	areaservice "adfy.io/internal/handler/areaservice"
+	mediaservice "adfy.io/internal/handler/mediaservice"
+	placementservice "adfy.io/internal/handler/placementservice"
+	projectservice "adfy.io/internal/handler/projectservice"
+	static "adfy.io/internal/handler/static"
+	templateservice "adfy.io/internal/handler/templateservice"
+	userservice "adfy.io/internal/handler/userservice"
+	repository "adfy.io/internal/repository"
 	config "adfy.io/pkg/config"
 	ctx "adfy.io/pkg/ctx"
 	db "adfy.io/pkg/db"
@@ -26,8 +28,8 @@ import (
 )
 
 type Container struct {
-	AreaFactory		*areaservice.AreaFactory
-	AreaRepository		*areaservice.AreaRepository
+	AreaFactory		*factory.AreaFactory
+	AreaRepository		*repository.AreaRepository
 	AreaService		*areaservice.AreaService
 	AreaTransformer		*areaservice.Transformer
 	AreaTwirpHandler	*area.TwirpServer
@@ -36,33 +38,33 @@ type Container struct {
 	Config			*config.Config
 	Db			*db.Db
 	JWT			*jwt.JWT
-	MediaFactory		*mediaservice.MediaFactory
+	MediaFactory		*factory.MediaFactory
 	MediaHelper		*mediaservice.Helper
 	MediaManager		*mediaservice.MediaManager
-	MediaRepository		*mediaservice.MediaRepository
+	MediaRepository		*repository.MediaRepository
 	MediaService		*mediaservice.MediaService
 	MediaTransformer	*mediaservice.Transformer
 	MediaTwirpHandler	*media.TwirpServer
 	MediaUploader		*mediaservice.MediaUploader
 	Orm			*db.Orm
-	PlacementFactory	*placementservice.PlacementFactory
-	PlacementRepository	*placementservice.PlacementRepository
+	PlacementFactory	*factory.PlacementFactory
+	PlacementRepository	*repository.PlacementRepository
 	PlacementService	*placementservice.PlacementService
 	PlacementTransformer	*placementservice.Transformer
 	PlacementTwirpHandler	*placement.TwirpServer
-	ProjectFactory		*projectservice.ProjectFactory
-	ProjectRepository	*projectservice.ProjectRepository
+	ProjectFactory		*factory.ProjectFactory
+	ProjectRepository	*repository.ProjectRepository
 	ProjectService		*projectservice.ProjectService
 	ProjectTransformer	*projectservice.Transformer
 	ProjectTwirpHandler	*project.TwirpServer
 	S3ClientPool		*s3.S3ClientPool
 	Secure			*secure.Secure
-	TemplateHandler		*handler.TemplateHandler
-	TemplateRepository	*templateservice.TemplateRepository
+	TemplateHandler		*static.TemplateHandler
+	TemplateRepository	*repository.TemplateRepository
 	TemplateService		*templateservice.TemplateService
 	TemplateTransformer	*templateservice.Transformer
 	TemplateTwirpHandler	*template.TwirpServer
-	UserRepository		*userservice.UserRepository
+	UserRepository		*repository.UserRepository
 	UserService		*userservice.UserService
 	UserTransormer		*userservice.Transformer
 	UserTwirpHandler	*user.TwirpServer
@@ -74,30 +76,30 @@ var DefaultContainer = NewContainer()
 func NewContainer() *Container {
 	return &Container{}
 }
-func (container *Container) GetAreaFactory() *areaservice.AreaFactory {
+func (container *Container) GetAreaFactory() *factory.AreaFactory {
 	if container.AreaFactory == nil {
-		service := areaservice.NewAreaFactory()
+		service := factory.NewAreaFactory()
 		container.AreaFactory = service
 	}
 	return container.AreaFactory
 }
-func (container *Container) GetAreaRepository() *areaservice.AreaRepository {
+func (container *Container) GetAreaRepository() *repository.AreaRepository {
 	if container.AreaRepository == nil {
-		service := areaservice.NewAreaRepository(container.GetBaseRepository())
+		service := repository.NewAreaRepository(container.GetBaseRepository())
 		container.AreaRepository = service
 	}
 	return container.AreaRepository
 }
 func (container *Container) GetAreaService() *areaservice.AreaService {
 	if container.AreaService == nil {
-		service := areaservice.NewAreaService(container.GetAreaRepository(), container.GetProjectRepository(), container.GetAuthContext(), container.GetAreaFactory(), container.GetAreaTransformer())
+		service := areaservice.NewAreaService(container.GetAreaRepository(), container.GetAuthContext(), container.GetAreaFactory(), container.GetAreaTransformer())
 		container.AreaService = service
 	}
 	return container.AreaService
 }
 func (container *Container) GetAreaTransformer() *areaservice.Transformer {
 	if container.AreaTransformer == nil {
-		service := areaservice.NewTransformer(container.GetProjectTransformer())
+		service := areaservice.NewTransformer()
 		container.AreaTransformer = service
 	}
 	return container.AreaTransformer
@@ -144,9 +146,9 @@ func (container *Container) GetJWT() *jwt.JWT {
 	}
 	return container.JWT
 }
-func (container *Container) GetMediaFactory() *mediaservice.MediaFactory {
+func (container *Container) GetMediaFactory() *factory.MediaFactory {
 	if container.MediaFactory == nil {
-		service := mediaservice.NewMediaFactory()
+		service := factory.NewMediaFactory()
 		container.MediaFactory = service
 	}
 	return container.MediaFactory
@@ -165,9 +167,9 @@ func (container *Container) GetMediaManager() *mediaservice.MediaManager {
 	}
 	return container.MediaManager
 }
-func (container *Container) GetMediaRepository() *mediaservice.MediaRepository {
+func (container *Container) GetMediaRepository() *repository.MediaRepository {
 	if container.MediaRepository == nil {
-		service := mediaservice.NewMediaRepository(container.GetBaseRepository())
+		service := repository.NewMediaRepository(container.GetBaseRepository())
 		container.MediaRepository = service
 	}
 	return container.MediaRepository
@@ -207,16 +209,16 @@ func (container *Container) GetOrm() *db.Orm {
 	}
 	return container.Orm
 }
-func (container *Container) GetPlacementFactory() *placementservice.PlacementFactory {
+func (container *Container) GetPlacementFactory() *factory.PlacementFactory {
 	if container.PlacementFactory == nil {
-		service := placementservice.NewPlacementFactory()
+		service := factory.NewPlacementFactory()
 		container.PlacementFactory = service
 	}
 	return container.PlacementFactory
 }
-func (container *Container) GetPlacementRepository() *placementservice.PlacementRepository {
+func (container *Container) GetPlacementRepository() *repository.PlacementRepository {
 	if container.PlacementRepository == nil {
-		service := placementservice.NewPlacementRepository(container.GetBaseRepository())
+		service := repository.NewPlacementRepository(container.GetBaseRepository())
 		container.PlacementRepository = service
 	}
 	return container.PlacementRepository
@@ -242,23 +244,23 @@ func (container *Container) GetPlacementTwirpHandler() placement.TwirpServer {
 	}
 	return *container.PlacementTwirpHandler
 }
-func (container *Container) GetProjectFactory() *projectservice.ProjectFactory {
+func (container *Container) GetProjectFactory() *factory.ProjectFactory {
 	if container.ProjectFactory == nil {
-		service := projectservice.NewProjectFactory()
+		service := factory.NewProjectFactory()
 		container.ProjectFactory = service
 	}
 	return container.ProjectFactory
 }
-func (container *Container) GetProjectRepository() *projectservice.ProjectRepository {
+func (container *Container) GetProjectRepository() *repository.ProjectRepository {
 	if container.ProjectRepository == nil {
-		service := projectservice.NewProjectRepository(container.GetBaseRepository())
+		service := repository.NewProjectRepository(container.GetBaseRepository())
 		container.ProjectRepository = service
 	}
 	return container.ProjectRepository
 }
 func (container *Container) GetProjectService() *projectservice.ProjectService {
 	if container.ProjectService == nil {
-		service := projectservice.NewProjectService(container.GetProjectRepository(), container.GetAuthContext(), container.GetProjectFactory())
+		service := projectservice.NewProjectService(container.GetProjectRepository(), container.GetAuthContext(), container.GetProjectFactory(), container.GetProjectTransformer())
 		container.ProjectService = service
 	}
 	return container.ProjectService
@@ -291,16 +293,16 @@ func (container *Container) GetSecure() *secure.Secure {
 	}
 	return container.Secure
 }
-func (container *Container) GetTemplateHandler() *handler.TemplateHandler {
+func (container *Container) GetTemplateHandler() *static.TemplateHandler {
 	if container.TemplateHandler == nil {
-		service := handler.NewTemplateHandler(container.GetTemplateRepository())
+		service := static.NewTemplateHandler(container.GetTemplateRepository())
 		container.TemplateHandler = service
 	}
 	return container.TemplateHandler
 }
-func (container *Container) GetTemplateRepository() *templateservice.TemplateRepository {
+func (container *Container) GetTemplateRepository() *repository.TemplateRepository {
 	if container.TemplateRepository == nil {
-		service := templateservice.NewTemplateRepository(container.GetBaseRepository())
+		service := repository.NewTemplateRepository(container.GetBaseRepository())
 		container.TemplateRepository = service
 	}
 	return container.TemplateRepository
@@ -326,9 +328,9 @@ func (container *Container) GetTemplateTwirpHandler() template.TwirpServer {
 	}
 	return *container.TemplateTwirpHandler
 }
-func (container *Container) GetUserRepository() *userservice.UserRepository {
+func (container *Container) GetUserRepository() *repository.UserRepository {
 	if container.UserRepository == nil {
-		service := userservice.NewUserRepository(container.GetBaseRepository())
+		service := repository.NewUserRepository(container.GetBaseRepository())
 		container.UserRepository = service
 	}
 	return container.UserRepository

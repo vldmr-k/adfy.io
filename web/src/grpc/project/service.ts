@@ -77,9 +77,9 @@ export interface IdRequest {
     id: string;
 }
 /**
- * @generated from protobuf message adfy.io.rpc.project.AllResponse
+ * @generated from protobuf message adfy.io.rpc.project.ListResponse
  */
-export interface AllResponse {
+export interface ListResponse {
     /**
      * @generated from protobuf field: repeated adfy.io.rpc.project.Project projects = 1;
      */
@@ -188,17 +188,17 @@ class IdRequest$Type extends MessageType<IdRequest> {
  */
 export const IdRequest = new IdRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class AllResponse$Type extends MessageType<AllResponse> {
+class ListResponse$Type extends MessageType<ListResponse> {
     constructor() {
-        super("adfy.io.rpc.project.AllResponse", [
+        super("adfy.io.rpc.project.ListResponse", [
             { no: 1, name: "projects", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Project }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message adfy.io.rpc.project.AllResponse
+ * @generated MessageType for protobuf message adfy.io.rpc.project.ListResponse
  */
-export const AllResponse = new AllResponse$Type();
+export const ListResponse = new ListResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Project$Type extends MessageType<Project> {
     constructor() {
@@ -221,7 +221,7 @@ export const Project = new Project$Type();
 export const ProjectService = new ServiceType("adfy.io.rpc.project.ProjectService", [
     { name: "Create", options: {}, I: CreateRequest, O: CreateResponse },
     { name: "Get", options: {}, I: IdRequest, O: GetResponse },
-    { name: "All", options: {}, I: Empty, O: AllResponse },
+    { name: "List", options: {}, I: Empty, O: ListResponse },
     { name: "Update", options: {}, I: UpdateRequest, O: UpdateResponse },
     { name: "Delete", options: {}, I: IdRequest, O: Empty }
 ]);

@@ -22,7 +22,6 @@ const STEPPER_LIST = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlacementStepperComponent implements OnInit {
-  @Input()
   step: number = 0;
 
   @Output()
@@ -32,19 +31,23 @@ export class PlacementStepperComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute
-  ) {}
+  ) {
 
-  ngOnInit() {
     this.route.queryParams.subscribe(params => {
-        this.step = Number(params['step']);
+        this.step = Number(params['step']) || 0;
         this.changeStep.emit(this.step)
-    }
-  );
+    })
   }
+
+  ngOnInit(): void {
+    
+    this.step = Number(this.route.snapshot.queryParamMap.get('step') || 0)
+    this.changeStep.emit(this.step);
+  }
+
 
   isDisabled(stepIndex: number): boolean | null {
     const result: boolean = !(stepIndex <= this.step);
-    return null;
     return result ? result : null;
   }
 }

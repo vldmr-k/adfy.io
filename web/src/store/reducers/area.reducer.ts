@@ -33,7 +33,7 @@ export const areaFeature = createFeature({
     on(areaActions.getError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
     on(areaActions.getByProjectRequest, (state) => ({ ...state, loading: true })),
-    on(areaActions.getByProjectSuccess, (state, action) => ({ ...state, list: action.response.areas! })),
+    on(areaActions.getByProjectSuccess, (state, action) => ({ ...state, list: action.response.areas })),
     on(areaActions.getByProjectError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
     on(areaActions.editRequest, (state) => ({ ...state })),

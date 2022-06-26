@@ -10,9 +10,9 @@ export const getRequest = createAction('[Project] Get Request', props<{ request:
 export const getSuccess = createAction('[Project] Get Response', props<{ response: grpc.GetResponse;}>());
 export const getError = createAction('[Project] Get Error', props<{ error: any;}>());
 
-export const allRequest = createAction('[Project] All Request');
-export const allSuccess = createAction('[Project] All Response', props<{ response: grpc.AllResponse;}>());
-export const allError = createAction('[Project] All Error', props<{ error: any;}>());
+export const listRequest = createAction('[Project] List Request');
+export const listSuccess = createAction('[Project] List Response', props<{ response: grpc.ListResponse;}>());
+export const listError = createAction('[Project] List Error', props<{ error: any;}>());
 
 
 export const updateRequest = createAction('[Project] Edit Request', props<{ request: grpc.UpdateRequest;}>());

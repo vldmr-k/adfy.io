@@ -11,7 +11,9 @@ const routes: Routes = [
     path: ROUTE_PROJECT_LIST,
     component: ProjectListComponent,
     pathMatch: 'full'
-  }
+  },
+  { path: '', redirectTo: ROUTE_PROJECT_LIST, pathMatch: 'full',},
+
 ];
 
 @NgModule({

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
 
 
@@ -9,13 +11,18 @@ import { Store } from '@ngrx/store';
   templateUrl: './add.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlacementAddComponent implements OnInit {
+export class PlacementAddComponent {
 
   projectId?: string;
   templateId?: string;
   areaId?: string;
 
-  step: number = 0;
+  step$ = new Observable<number>();
+
+  // Create a new BehaviorSubject with an initial value of []
+  stepSubject$ = new BehaviorSubject<number>(0);
+
+  stepObserver$ = this.stepSubject$.asObservable()
 
   params: object = {}
 
@@ -26,11 +33,9 @@ export class PlacementAddComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
 
+  onChangeStep(newStep: number) {
+    this.stepSubject$.next(newStep);
   }
 
-  onChangeStep(step: number) {
-    this.step = step;
-  }
 }

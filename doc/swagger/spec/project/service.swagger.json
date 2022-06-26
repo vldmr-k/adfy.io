@@ -14,32 +14,6 @@
     "application/json"
   ],
   "paths": {
-    "/twirp/adfy.io.rpc.project.ProjectService/All": {
-      "post": {
-        "operationId": "All",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/projectAllResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/protobufEmpty"
-            }
-          }
-        ],
-        "tags": [
-          "ProjectService"
-        ]
-      }
-    },
     "/twirp/adfy.io.rpc.project.ProjectService/Create": {
       "post": {
         "operationId": "Create",
@@ -118,6 +92,32 @@
         ]
       }
     },
+    "/twirp/adfy.io.rpc.project.ProjectService/List": {
+      "post": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/projectListResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        ],
+        "tags": [
+          "ProjectService"
+        ]
+      }
+    },
     "/twirp/adfy.io.rpc.project.ProjectService/Update": {
       "post": {
         "operationId": "Update",
@@ -146,17 +146,6 @@
     }
   },
   "definitions": {
-    "projectAllResponse": {
-      "type": "object",
-      "properties": {
-        "projects": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/projectProject"
-          }
-        }
-      }
-    },
     "projectCreateRequest": {
       "type": "object",
       "properties": {
@@ -195,6 +184,17 @@
       "properties": {
         "id": {
           "type": "string"
+        }
+      }
+    },
+    "projectListResponse": {
+      "type": "object",
+      "properties": {
+        "projects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/projectProject"
+          }
         }
       }
     },

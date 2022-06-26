@@ -8,15 +8,13 @@ import { createReducer, createFeature, on } from '@ngrx/store';
 export interface ProjectState {
   project: Project | null,
   list: Project[] | null,
-  error: null,
-  loading: boolean
+  error: null
 }
 
 export const initialState: ProjectState = {
   project: null,
   list: [],
-  error: null,
-  loading: false,
+  error: null
 };
 
 
@@ -26,17 +24,17 @@ export const projectFeature = createFeature({
   reducer: createReducer(
     initialState,
 
-    on(projectActions.createRequest, (state) => ({ ...state, loading: true })),
-    on(projectActions.createSuccess, (state, action) => ({ ...state, loading: false })),
-    on(projectActions.createError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
+    on(projectActions.createRequest, (state) => ({ ...state })),
+    on(projectActions.createSuccess, (state, action) => ({ ...state })),
+    on(projectActions.createError, (state, action) => ({ ...state, errorResponse: action.error })),
 
     on(projectActions.getRequest, (state) => ({ ...state, loading: true })),
     on(projectActions.getSuccess, (state, action) => ({ ...state, loading: false, project: action.response.project ?? null })),
     on(projectActions.getError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
-    on(projectActions.allRequest, (state) => ({ ...state, loading: true })),
-    on(projectActions.allSuccess, (state, action) => ({ ...state, loading: false, list: action.response.projects })),
-    on(projectActions.allError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
+    on(projectActions.listRequest, (state) => ({ ...state, loading: true })),
+    on(projectActions.listSuccess, (state, action) => ({ ...state, loading: false, list: action.response.projects })),
+    on(projectActions.listError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
     on(projectActions.updateRequest, (state) => ({ ...state, loading: true })),
     on(projectActions.updateSuccess, (state, action) => ({ ...state, loading: false, project: action.response.project ?? null })),
@@ -56,5 +54,4 @@ export const {
   selectProject,
   selectList,
   selectError,
-  selectLoading,
 } = projectFeature;

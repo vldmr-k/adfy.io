@@ -22,7 +22,7 @@ import { projectFeature } from '@store/reducers/project.reducer';
     PagesLayoutModule,
     NavbarModule,
 
-    StoreModule.forFeature(userFeature)
+    StoreModule.forFeature(userFeature),
   ],
   declarations: [
     PagesLayoutComponent,

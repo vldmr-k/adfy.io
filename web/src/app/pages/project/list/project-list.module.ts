@@ -22,8 +22,7 @@ import { TuiInputColorModule } from '@taiga-ui/addon-editor';
     TuiLoaderModule,
     TuiTagModule,
     TuiInputColorModule,
-    ProjectItemModule,
-    EffectsModule.forFeature([ProjectEffects])
+    ProjectItemModule
   ],
   exports: [
     ProjectListComponent,
