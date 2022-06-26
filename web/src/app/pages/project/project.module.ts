@@ -9,14 +9,11 @@ import { StoreModule } from '@ngrx/store';
 
 
 @NgModule({
-  declarations: [
-
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     ProjectRoutingModule,
     ProjectListModule,
   ],
-  bootstrap: [ProjectListComponent]
 })
 export class ProjectModule { }

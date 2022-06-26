@@ -3,8 +3,23 @@
     <span class="tui-text_h4">Add Placement</span>
   </div>
   <div class="container adfy-content">
+    <adfy-placement-stepper (changeStep)="onChangeStep($event)"></adfy-placement-stepper>
 
-    <adfy-placement-stepper></adfy-placement-stepper>
+
+    <ng-container *ngIf="(stepObserver$ | async) !== null">
+      <container-element [ngSwitch]="(stepObserver$ | async)">
+        <ng-container *ngSwitchCase="0">
+          <adfy-placement-step-template></adfy-placement-step-template>
+        </ng-container>
+        <ng-container *ngSwitchCase="1">
+          <adfy-placement-step-area></adfy-placement-step-area>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="2">
+          <adfy-placement-step-finished></adfy-placement-step-finished>
+        </ng-container>
+      </container-element>
+    </ng-container>
 
   </div>
 </div>

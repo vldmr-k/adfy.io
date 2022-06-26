@@ -23,6 +23,12 @@ func (b *BaseRepository) AuthUser(ctx context.Context) *jwt.AuthUser {
 
 func OwnerScope(usr *jwt.AuthUser) func(db *gorm.DB) *gorm.DB {
 	return func(db *gorm.DB) *gorm.DB {
-		return db.Scopes().Where("owner_id = ?", usr.ID)
+		return db.Where("owner_id = ?", usr.ID)
+	}
+}
+
+func ProjectScope(projectID string) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Where("project_id = ?", projectID)
 	}
 }

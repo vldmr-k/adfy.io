@@ -25,92 +25,92 @@ services:
 
   #User
   UserService:
-    type: "*adfy.io/internal/userservice.UserService"
+    type: "*adfy.io/internal/handler/userservice.UserService"
     returns: "userservice.NewUserService(@{JWT}, @{Secure}, @{UserRepository}, @{AuthContext}, @{UserTransormer})"
   UserRepository:
-    type: "*adfy.io/internal/userservice.UserRepository"
-    returns: "userservice.NewUserRepository(@{BaseRepository})"
+    type: "*adfy.io/internal/repository.UserRepository"
+    returns: "repository.NewUserRepository(@{BaseRepository})"
   UserTransormer:
-    type: "*adfy.io/internal/userservice.Transformer"
+    type: "*adfy.io/internal/handler/userservice.Transformer"
     returns: "userservice.NewTransformer()"
 
   #Project
   ProjectService:
-    type: "*adfy.io/internal/projectservice.ProjectService"
-    returns: "projectservice.NewProjectService(@{ProjectRepository}, @{AuthContext}, @{ProjectFactory})"
+    type: "*adfy.io/internal/handler/projectservice.ProjectService"
+    returns: "projectservice.NewProjectService(@{ProjectRepository}, @{AuthContext}, @{ProjectFactory}, @{ProjectTransformer})"
   ProjectFactory:
-    type: "*adfy.io/internal/projectservice.ProjectFactory"
-    returns: "projectservice.NewProjectFactory()"
+    type: "*adfy.io/internal/factory.ProjectFactory"
+    returns: "factory.NewProjectFactory()"
   ProjectRepository:
-    type: "*adfy.io/internal/projectservice.ProjectRepository"
-    returns: "projectservice.NewProjectRepository(@{BaseRepository})"
+    type: "*adfy.io/internal/repository.ProjectRepository"
+    returns: "repository.NewProjectRepository(@{BaseRepository})"
   ProjectTransformer:
-    type: "*adfy.io/internal/projectservice.Transformer"
+    type: "*adfy.io/internal/handler/projectservice.Transformer"
     returns: "projectservice.NewTransformer()"
 
   #Media
   MediaService:
-    type: "*adfy.io/internal/mediaservice.MediaService"
+    type: "*adfy.io/internal/handler/mediaservice.MediaService"
     returns: "mediaservice.NewMediaService(@{MediaRepository}, @{MediaFactory}, @{MediaTransformer}, @{AuthContext}, @{MediaManager})"
   MediaFactory:
-    type: "*adfy.io/internal/mediaservice.MediaFactory"
-    returns: "mediaservice.NewMediaFactory()"
+    type: "*adfy.io/internal/factory.MediaFactory"
+    returns: "factory.NewMediaFactory()"
   MediaTransformer:
-    type: "*adfy.io/internal/mediaservice.Transformer"
+    type: "*adfy.io/internal/handler/mediaservice.Transformer"
     returns: "mediaservice.NewTransformer()"
   MediaRepository:
-    type: "*adfy.io/internal/mediaservice.MediaRepository"
-    returns: "mediaservice.NewMediaRepository(@{BaseRepository})"
+    type: "*adfy.io/internal/repository.MediaRepository"
+    returns: "repository.NewMediaRepository(@{BaseRepository})"
   MediaHelper:
-    type: "*adfy.io/internal/mediaservice.Helper"
+    type: "*adfy.io/internal/handler/mediaservice.Helper"
     returns: "mediaservice.NewHelper(@{AuthContext})"
   MediaUploader:
-    type: "*adfy.io/internal/mediaservice.MediaUploader"
+    type: "*adfy.io/internal/handler/mediaservice.MediaUploader"
     returns: 'mediaservice.NewMediaUploader(@{S3ClientPool})'
   MediaManager:
-    type: "*adfy.io/internal/mediaservice.MediaManager"
+    type: "*adfy.io/internal/handler/mediaservice.MediaManager"
     returns: "mediaservice.NewMediaManager(@{AuthContext}, @{Orm}, @{MediaUploader}, @{MediaHelper}, @{MediaRepository}, @{MediaFactory})"
 
   #Template
   TemplateService:
-    type: "*adfy.io/internal/templateservice.TemplateService"
+    type: "*adfy.io/internal/handler/templateservice.TemplateService"
     returns: "templateservice.NewTemplateService(@{TemplateRepository}, @{AuthContext}, @{TemplateTransformer})"
   TemplateRepository:
-    type: "*adfy.io/internal/templateservice.TemplateRepository"
-    returns: "templateservice.NewTemplateRepository(@{BaseRepository})"
+    type: "*adfy.io/internal/repository.TemplateRepository"
+    returns: "repository.NewTemplateRepository(@{BaseRepository})"
   TemplateTransformer:
-    type: "*adfy.io/internal/templateservice.Transformer"
+    type: "*adfy.io/internal/handler/templateservice.Transformer"
     returns: "templateservice.NewTransformer()"
   TemplateHandler:
-    type: "*adfy.io/internal/handler.TemplateHandler"
-    returns: "handler.NewTemplateHandler(@{TemplateRepository})"
+    type: "*adfy.io/internal/handler/static.TemplateHandler"
+    returns: "static.NewTemplateHandler(@{TemplateRepository})"
 
   #Area
   AreaService:
-    type: "*adfy.io/internal/areaservice.AreaService"
-    returns: "areaservice.NewAreaService(@{AreaRepository}, @{ProjectRepository}, @{AuthContext}, @{AreaFactory}, @{AreaTransformer})"
+    type: "*adfy.io/internal/handler/areaservice.AreaService"
+    returns: "areaservice.NewAreaService(@{AreaRepository}, @{AuthContext}, @{AreaFactory}, @{AreaTransformer})"
   AreaFactory:
-    type: "*adfy.io/internal/areaservice.AreaFactory"
-    returns: "areaservice.NewAreaFactory()"
+    type: "*adfy.io/internal/factory.AreaFactory"
+    returns: "factory.NewAreaFactory()"
   AreaRepository:
-    type: "*adfy.io/internal/areaservice.AreaRepository"
-    returns: "areaservice.NewAreaRepository(@{BaseRepository})"
+    type: "*adfy.io/internal/repository.AreaRepository"
+    returns: "repository.NewAreaRepository(@{BaseRepository})"
   AreaTransformer:
-    type: "*adfy.io/internal/areaservice.Transformer"
-    returns: "areaservice.NewTransformer(@{ProjectTransformer})"
+    type: "*adfy.io/internal/handler/areaservice.Transformer"
+    returns: "areaservice.NewTransformer()"
 
   #Placement
   PlacementService:
-    type: "*adfy.io/internal/placementservice.PlacementService"
+    type: "*adfy.io/internal/handler/placementservice.PlacementService"
     returns: "placementservice.NewPlacementService(@{PlacementRepository}, @{ProjectRepository}, @{AuthContext}, @{PlacementFactory}, @{PlacementTransformer})"
   PlacementRepository:
-    type: "*adfy.io/internal/placementservice.PlacementRepository"
-    returns: "placementservice.NewPlacementRepository(@{BaseRepository})"
+    type: "*adfy.io/internal/repository.PlacementRepository"
+    returns: "repository.NewPlacementRepository(@{BaseRepository})"
   PlacementFactory:
-    type: "*adfy.io/internal/placementservice.PlacementFactory"
-    returns: "placementservice.NewPlacementFactory()"
+    type: "*adfy.io/internal/factory.PlacementFactory"
+    returns: "factory.NewPlacementFactory()"
   PlacementTransformer:
-    type: "*adfy.io/internal/placementservice.Transformer"
+    type: "*adfy.io/internal/handler/placementservice.Transformer"
     returns: "placementservice.NewTransformer(@{ProjectTransformer}, @{AreaTransformer}, @{TemplateTransformer})"
 
 

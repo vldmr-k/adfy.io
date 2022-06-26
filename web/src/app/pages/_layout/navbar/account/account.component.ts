@@ -43,8 +43,6 @@ export class AccountComponent implements OnInit {
     this.store.select(selectUser).pipe(
       map((user) => this.user = user)
     ).subscribe()
-
-    console.log('menuItems', this.menuItems);
   }
 
   onClick() {

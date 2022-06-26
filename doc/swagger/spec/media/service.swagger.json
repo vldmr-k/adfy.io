@@ -21,7 +21,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcmediaAllResponse"
+              "$ref": "#/definitions/mediaAllResponse"
             }
           }
         },
@@ -131,6 +131,17 @@
     "mediaAllRequest": {
       "type": "object"
     },
+    "mediaAllResponse": {
+      "type": "object",
+      "properties": {
+        "medias": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/mediaMedia"
+          }
+        }
+      }
+    },
     "mediaMedia": {
       "type": "object",
       "properties": {
@@ -180,17 +191,6 @@
       "properties": {
         "media": {
           "$ref": "#/definitions/mediaMedia"
-        }
-      }
-    },
-    "rpcmediaAllResponse": {
-      "type": "object",
-      "properties": {
-        "medias": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mediaMedia"
-          }
         }
       }
     },

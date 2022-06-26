@@ -7,7 +7,7 @@ import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { ProjectService } from "./service";
 import type { UpdateResponse } from "./service";
 import type { UpdateRequest } from "./service";
-import type { AllResponse } from "./service";
+import type { ListResponse } from "./service";
 import type { Empty } from "../google/protobuf/empty";
 import type { GetResponse } from "./service";
 import type { IdRequest } from "./service";
@@ -29,9 +29,9 @@ export interface IProjectServiceClient {
      */
     get(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse>;
     /**
-     * @generated from protobuf rpc: All(google.protobuf.Empty) returns (adfy.io.rpc.project.AllResponse);
+     * @generated from protobuf rpc: List(google.protobuf.Empty) returns (adfy.io.rpc.project.ListResponse);
      */
-    all(input: Empty, options?: RpcOptions): UnaryCall<Empty, AllResponse>;
+    list(input: Empty, options?: RpcOptions): UnaryCall<Empty, ListResponse>;
     /**
      * @generated from protobuf rpc: Update(adfy.io.rpc.project.UpdateRequest) returns (adfy.io.rpc.project.UpdateResponse);
      */
@@ -68,11 +68,11 @@ export class ProjectServiceClient implements IProjectServiceClient, ServiceInfo 
         return stackIntercept<IdRequest, GetResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: All(google.protobuf.Empty) returns (adfy.io.rpc.project.AllResponse);
+     * @generated from protobuf rpc: List(google.protobuf.Empty) returns (adfy.io.rpc.project.ListResponse);
      */
-    all(input: Empty, options?: RpcOptions): UnaryCall<Empty, AllResponse> {
+    list(input: Empty, options?: RpcOptions): UnaryCall<Empty, ListResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
-        return stackIntercept<Empty, AllResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<Empty, ListResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: Update(adfy.io.rpc.project.UpdateRequest) returns (adfy.io.rpc.project.UpdateResponse);

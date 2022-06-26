@@ -25,7 +25,7 @@ service ProjectService {
 
   rpc Create(CreateRequest) returns (CreateResponse);
   rpc Get(IdRequest) returns (GetResponse);
-  rpc All(google.protobuf.Empty) returns (AllResponse);
+  rpc List(google.protobuf.Empty) returns (ListResponse);
   rpc Update(UpdateRequest) returns (UpdateResponse);
   rpc Delete(IdRequest) returns (google.protobuf.Empty);
 
@@ -69,7 +69,7 @@ message IdRequest {
   string id = 1;
 }
 
-message AllResponse {
+message ListResponse {
   repeated Project projects = 1;
 }
 

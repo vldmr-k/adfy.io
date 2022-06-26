@@ -28,7 +28,7 @@ export class ProjectListComponent {
     @Inject(Injector) private readonly injector: Injector,
     @Inject(Store) private readonly store: Store
   ) {
-    this.store.dispatch(projectActions.allRequest())
+    this.store.dispatch(projectActions.listRequest())
   }
 
   addProjectDialog() {
@@ -40,13 +40,12 @@ export class ProjectListComponent {
   }
 
   onClickCardAction(project: Project) {
-      this.router.navigate([ROUTER_PLACEMENT_ADD], { queryParams: { project: project.id } })
+      this.router.navigate([ROUTER_PLACEMENT_ADD], { queryParams: { projectId: project.id } })
   }
 
   onDeleteProjectAction(project: Project) {
     let idRequest: IdRequest = {id: project.id}
     this.store.dispatch(projectActions.deleteRequest({request: idRequest}))
-    //this.store.dispatch(projectActions.allRequest())
   }
 
   onUpdateProjectDialog(project: Project) {
