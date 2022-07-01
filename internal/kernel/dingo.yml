@@ -142,3 +142,13 @@ services:
   PlacementTwirpHandler:
     type: "adfy.io/rpc/placement.TwirpServer"
     returns: "placement.NewPlacementServiceServer(@{PlacementService}, @{VerifyJWTHook}.WithJWTAuth())"
+
+  #Cli Commands
+  MigrateCommand:
+    type: "adfy.io/cmd/console.AdfyCommand"
+    returns: "console.NewMigrateCommand(@{Orm})"
+  UserCommand:
+    type: "adfy.io/cmd/console.AdfyCommand"
+    returns: "console.NewUserCommand(@{UserRepository}, @{Secure})"
+
+

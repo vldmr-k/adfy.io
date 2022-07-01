@@ -2,6 +2,7 @@ package userservice
 
 import (
 	"context"
+	"errors"
 
 	"adfy.io/internal/entity"
 	"adfy.io/internal/repository"
@@ -12,6 +13,7 @@ import (
 	pb "adfy.io/rpc/user"
 	gprotobuf "github.com/golang/protobuf/ptypes/empty"
 	"github.com/twitchtv/twirp"
+	"gorm.io/gorm"
 )
 
 func NewUserService(jwt *jwt.JWT, secure *secure.Secure, userRepository *repository.UserRepository, authContext *pkgctx.AuthContext, transformer *Transformer) *UserService {
@@ -47,8 +49,12 @@ func (s *UserService) SignIn(ctx context.Context, req *pb.SignInRequest) (resp *
 
 	u, err := s.UserRepository.FindByEmail(req.Email)
 
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, twirp.NotFound.Errorf("User %s not found", req.Email)
+	}
+
 	if err != nil {
-		return nil, err
+		return nil, twirp.InternalError(err.Error())
 	}
 
 	result := s.Secure.MatchesHash(u.EncryptedPassword, req.Password)

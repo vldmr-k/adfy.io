@@ -23,6 +23,7 @@ services:
       - "4200:4200"
     volumes:
       - ./web:/app
+      - ./web/node_modules:/go/src/adfy.io/web/node_modules
     command: npm start
     links:
       - backend
@@ -35,7 +36,7 @@ services:
     networks:
     - adfy_network
     environment:
-      - CONFIG_PATH=.
+      - CONFIG_PATH=/go/src/adfy.io
     depends_on:
       - rollup
       - db
@@ -47,8 +48,8 @@ services:
       - "2345:2345"
     volumes:
       - ./:/go/src/adfy.io
-      - node_modules:/go/src/adfy.io/web/node_modules
-      - vendor:/go/src/adfy.io/vendor
+      - ./node_modules:/go/src/adfy.io/web/node_modules
+      - ./vendor:/go/src/adfy.io/vendor
     command: air -c /go/src/adfy.io/.air.toml
 
   db:
@@ -61,12 +62,13 @@ services:
     ports:
       - "2432:5432"
     volumes:
-      - ./docker/data/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./docker/data/db:/var/lib/postgresql
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - adfy-database:/var/lib/postgresql/data
 
 volumes:
   node_modules:
-  vendor:
+  adfy-database:
+    external: true
 
 
 networks:

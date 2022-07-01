@@ -2,7 +2,7 @@ gen:
 	go generate ./...
 
 migrate:
-	export CONFIG_PATH=. && go run cmd/db/main.go
+	go run cmd/db/main.go
 
 swagger:
 	chmod -R +x bin/
