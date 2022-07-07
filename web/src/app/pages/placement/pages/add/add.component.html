@@ -6,20 +6,23 @@
     <adfy-placement-stepper (changeStep)="onChangeStep($event)"></adfy-placement-stepper>
 
 
-    <ng-container *ngIf="(stepObserver$ | async) !== null">
+    <div class="tui-space_top-8" *ngIf="(stepObserver$ | async) !== null">
       <container-element [ngSwitch]="(stepObserver$ | async)">
         <ng-container *ngSwitchCase="0">
-          <adfy-placement-step-template></adfy-placement-step-template>
+          <adfy-placement-step-name></adfy-placement-step-name>
         </ng-container>
         <ng-container *ngSwitchCase="1">
+          <adfy-placement-step-template></adfy-placement-step-template>
+        </ng-container>
+        <ng-container *ngSwitchCase="2">
           <adfy-placement-step-area></adfy-placement-step-area>
         </ng-container>
 
-        <ng-container *ngSwitchCase="2">
+        <ng-container *ngSwitchCase="3">
           <adfy-placement-step-finished></adfy-placement-step-finished>
         </ng-container>
       </container-element>
-    </ng-container>
+    </div>
 
   </div>
 </div>

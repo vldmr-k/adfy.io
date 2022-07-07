@@ -1,0 +1,7 @@
+<ul class="adfy-navbar-menu-list">
+  <li *ngFor="let item of menuItems; index as i">
+    <button tuiButton  appearance="flat" [pseudoHovered]="false" [pseudoPressed]="false" [routerLink]="item.url">
+      {{ item.label }}
+    </button>
+  </li>
+</ul>

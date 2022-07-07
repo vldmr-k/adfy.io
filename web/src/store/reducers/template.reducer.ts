@@ -6,7 +6,7 @@ export const STORE_TEMPLATE_KEY = 'template';
 import { createReducer, createFeature, on } from '@ngrx/store';
 
 export interface TemplateState {
-  template: Template | null,
+  template: Template,
   list: Template[] | null,
   error: null,
 }

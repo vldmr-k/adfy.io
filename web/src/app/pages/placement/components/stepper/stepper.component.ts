@@ -4,14 +4,19 @@ import { ActivatedRoute } from '@angular/router';
 const STEPPER_LIST = [
     {
         index: 0,
-        label: "Select Template"
+        label: "Name",
+        
     },
     {
         index: 1,
-        label: "Select Area"
+        label: "Select Template"
     },
     {
         index: 2,
+        label: "Select Area"
+    },
+    {
+        index: 3,
         label: "Create Placement"
     }
 ];

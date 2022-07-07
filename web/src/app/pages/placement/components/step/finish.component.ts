@@ -1,17 +1,83 @@
-import { ChangeDetectionStrategy, Component, Inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IdRequest } from '@grpc/area/service';
+import { CreateRequest } from '@grpc/placement/service';
 import { Store } from '@ngrx/store';
-import { templateActions } from '@store/actions';
-import { template } from "@store/reducers"
+import { ROUTER_PLACEMENT_UPDATE } from '@pages/placement/placement-routing.module';
+import { areaActions, placementActions, projectActions, templateActions } from '@store/actions';
+import { Placement } from '@store/models';
+import { template, area, project, placement } from "@store/reducers"
+import { combineLatest, forkJoin } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 
 
 @Component({
   selector: 'adfy-placement-step-finished',
   template: `
-    Finished
+
+    <tui-loader class="inline-flex tui-space_right-2" [showLoader]="true" [inheritColor]="true" [overlay]="true">
+        </tui-loader>
+    
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlacementStepFinishComponent {
+export class PlacementStepFinishComponent implements OnInit {
 
+    name: string = ""
+    
+    area$ = this.store.select(area.selectArea)
+    template$ = this.store.select(template.selectTemplate)
+    project$ = this.store.select(project.selectProject)
+    placement$ = this.store.select(placement.selectPlacement)
+
+    constructor(
+        private readonly route: ActivatedRoute,
+        private readonly router: Router,
+        @Inject(Store) private readonly store: Store
+    ) { }
+
+    ngOnInit(): void {  
+
+        var map = this.route.snapshot.queryParamMap
+
+        var areaId: string = String(map.get("areaId"));
+        var templateId: string = String(map.get("templateId"));
+        var projectId: string = String(map.get("projectId"))
+        
+        this.store.dispatch(areaActions.getRequest({ request : { id: areaId } }))
+        this.store.dispatch(templateActions.getRequest({request : { id: templateId }}))
+        this.store.dispatch(projectActions.getRequest({request : { id: projectId }}))
+
+        this.name = String(map.get("name"))
+
+
+        combineLatest([this.area$, this.template$, this.project$])
+        .pipe(filter(([area, template, project]) => area !== null && template !== null && project !== null))
+        .subscribe({
+            next: ([area, template, project]) => {
+                var placement : Placement = {
+                    id: '',
+                    name: this.name,
+                    area: area,
+                    template: template,
+                    project: project,
+                    data: '[]'
+                }
+
+                var request : CreateRequest = {
+                    placment: placement
+                }
+
+                this.store.dispatch(placementActions.createRequest({request: request}))
+            }
+        })
+
+        this.placement$.subscribe({
+            next: (placement) => {
+                this.router.navigateByUrl(ROUTER_PLACEMENT_UPDATE.replace(':placementId', placement?.id));
+            }
+        })
+ 
+    }
 }

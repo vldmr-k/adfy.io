@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/cor
 import { Store } from '@ngrx/store';
 import { selectUser } from '@store/reducers/user.reducer';
 import { User } from "@store/models/index"
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { TuiDialogService } from '@taiga-ui/core';
 import { TUI_ARROW } from '@taiga-ui/kit';
 
@@ -19,7 +19,7 @@ const ACCOUNT_MENU_ITEMS = [
 
 
 @Component({
-  selector: 'adfy-account',
+  selector: 'adfy-navbar-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +28,7 @@ export class AccountComponent implements OnInit {
 
   readonly arrowIcon = TUI_ARROW;
 
-  user: User | null = null;
+  user$ = this.store.select(selectUser)
 
   dropdownOpen = false;
 
@@ -40,9 +40,7 @@ export class AccountComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store.select(selectUser).pipe(
-      map((user) => this.user = user)
-    ).subscribe()
+
   }
 
   onClick() {

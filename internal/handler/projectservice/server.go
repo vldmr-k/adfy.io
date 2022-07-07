@@ -2,6 +2,7 @@ package projectservice
 
 import (
 	"context"
+	"errors"
 
 	"adfy.io/internal/factory"
 	"adfy.io/internal/repository"
@@ -9,6 +10,7 @@ import (
 	pkgerr "adfy.io/pkg/err"
 	gprotobuf "github.com/golang/protobuf/ptypes/empty"
 	"github.com/twitchtv/twirp"
+	"gorm.io/gorm"
 
 	pb "adfy.io/rpc/project"
 )
@@ -32,8 +34,8 @@ type ProjectService struct {
 func (s *ProjectService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetResponse, err error) {
 	project, err := s.projectRepository.Find(ctx, req.Id)
 
-	if err != nil {
-		return nil, twirp.InternalError(err.Error())
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, twirp.NotFound.Errorf("Project %s not found", req.Id)
 	}
 
 	return &pb.GetResponse{
