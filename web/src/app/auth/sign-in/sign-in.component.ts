@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { EMPTY_STR, INVALID_REQUEST } from '@core/constant';
 
 import { AuthService } from '@core/services/auth.service';
@@ -23,18 +23,18 @@ export class SignInComponent implements OnInit {
   /**
    * @class FormGroup
    */
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private store: Store,
     @Inject(AuthService) private readonly authService: AuthService,
     private router: Router
   ) {
     this.form = this.fb.group({
-      email: new FormControl(EMPTY_STR, { validators: [Validators.required, Validators.email] }),
-      password: new FormControl(EMPTY_STR, [Validators.required, Validators.minLength(3)]),
-      rememberMe: new FormControl(false),
+      email: new UntypedFormControl(EMPTY_STR, { validators: [Validators.required, Validators.email] }),
+      password: new UntypedFormControl(EMPTY_STR, [Validators.required, Validators.minLength(3)]),
+      rememberMe: new UntypedFormControl(false),
     });
   }
 

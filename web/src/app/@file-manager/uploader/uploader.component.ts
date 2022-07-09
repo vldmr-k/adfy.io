@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {TUI_IS_CYPRESS} from '@taiga-ui/cdk';
 import {TuiFileLike} from '@taiga-ui/kit';
 
@@ -18,7 +18,7 @@ import { Store } from '@ngrx/store';
 })
 export class UploaderComponent implements OnInit {
 
-  readonly control = new FormControl();
+  readonly control = new UntypedFormControl();
   rejectedFiles: readonly TuiFileLike[] = [];
 
   constructor(

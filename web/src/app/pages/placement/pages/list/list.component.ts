@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { project, placement } from '@store/reducers';
@@ -20,8 +20,8 @@ import { Project } from '@store/models';
 })
 export class PlacementListComponent implements OnInit {
 
-  readonly form = new FormGroup({
-    filters: new FormControl(),
+  readonly form = new UntypedFormGroup({
+    filters: new UntypedFormControl(),
   });
 
   readonly items: any[] = [];

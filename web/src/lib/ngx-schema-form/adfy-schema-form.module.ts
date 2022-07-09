@@ -26,45 +26,37 @@ const moduleProviders = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SchemaFormModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TuiInputModule,
-    TuiButtonModule,
-    TuiLabelModule,
-    TuiCheckboxModule,
-    TuiTooltipModule,
-    TuiHintModule,
-    TuiCheckboxLabeledModule,
-    TuiInputColorModule,
-    TuiAlertModule,
-    TuiDialogModule,
-
-    FileManagerModule
-  ],
-  declarations: [
-    StringWidget,
-    CheckboxWidget,
-    ColorWidget,
-    ArrayWidget,
-    FilemanagerWidget
-  ],
-  entryComponents: [
-    StringWidget,
-    CheckboxWidget,
-    ColorWidget
-  ],
-  exports: [
-    StringWidget,
-    CheckboxWidget,
-    ColorWidget,
-    ArrayWidget
-  ],
-  providers: [
-
-  ]
+    imports: [
+        CommonModule,
+        SchemaFormModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TuiInputModule,
+        TuiButtonModule,
+        TuiLabelModule,
+        TuiCheckboxModule,
+        TuiTooltipModule,
+        TuiHintModule,
+        TuiCheckboxLabeledModule,
+        TuiInputColorModule,
+        TuiAlertModule,
+        TuiDialogModule,
+        FileManagerModule
+    ],
+    declarations: [
+        StringWidget,
+        CheckboxWidget,
+        ColorWidget,
+        ArrayWidget,
+        FilemanagerWidget
+    ],
+    exports: [
+        StringWidget,
+        CheckboxWidget,
+        ColorWidget,
+        ArrayWidget
+    ],
+    providers: []
 })
 
 export class AdfySchemaFormModule {
