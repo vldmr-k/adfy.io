@@ -4,8 +4,12 @@ import * as grpc from '@grpc/placement/service';
 
 import { Placement }  from "@store/models"
 
+export const listRequest = createAction('[Placement] List Request', props<{ request: grpc.ListRequest; }>())
+export const listSuccess = createAction('[Placement] List Success', props<{ request: grpc.ListResponse; }>())
+export const listError = createAction('[Placement] List Error', props<{ request: any; }>())
+
 export const getAllByProjectRequest = createAction('[Placement] Get All By Project Request', props<{ request: grpc.GetAllByProjectRequest;}>());
-export const getAllByProjectSuccess = createAction('[Placement] Get All By Project Success', props<{ response: grpc.GetAllByProjectResponse;}>());
+export const getAllByProjectSuccess = createAction('[Placement] Get All By Project Success', props<{ response: grpc.ListResponse;}>());
 export const getAllByProjectError   = createAction('[Placement] Get All By Project Error', props<{ error: any;}>());
 
 export const createRequest = createAction('[Placement] Create Request', props<{ request: grpc.CreateRequest;}>());

@@ -123,6 +123,10 @@
         },
         "type": {
           "$ref": "#/definitions/TemplateTypes"
+        },
+        "version": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     }

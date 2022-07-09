@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { PlacementAddComponent } from './pages/add/add.component';
+import { PlacementListComponent } from './pages/list/list.component';
 import { PlacementUpdateComponent } from './pages/update/update.component';
 
 
@@ -21,6 +22,12 @@ const routes: Routes = [
   {
     path: ROUTER_PLACEMENT_ADD,
     component: PlacementAddComponent,
+    pathMatch: 'full'
+  },
+
+  {
+    path: ROUTER_PLACEMENT_LIST,
+    component: PlacementListComponent,
     pathMatch: 'full'
   },
 ];

@@ -2,7 +2,7 @@ syntax = "proto3";
 package adfy.io.rpc.area;
 option go_package = "adfy.io/rpc/area";
 
-import "project/service.proto";
+//import "project/service.proto";
 import "validate/validate.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 import "google/protobuf/empty.proto";

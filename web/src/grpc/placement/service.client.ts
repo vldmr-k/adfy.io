@@ -8,8 +8,9 @@ import { PlacementService } from "./service";
 import type { Empty } from "../google/protobuf/empty";
 import type { EditResponse } from "./service";
 import type { EditRequest } from "./service";
-import type { GetAllByProjectResponse } from "./service";
 import type { GetAllByProjectRequest } from "./service";
+import type { ListResponse } from "./service";
+import type { ListRequest } from "./service";
 import type { GetResponse } from "./service";
 import type { IdRequest } from "./service";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
@@ -30,9 +31,13 @@ export interface IPlacementServiceClient {
      */
     get(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse>;
     /**
-     * @generated from protobuf rpc: GetAllByProject(adfy.io.rpc.placement.GetAllByProjectRequest) returns (adfy.io.rpc.placement.GetAllByProjectResponse);
+     * @generated from protobuf rpc: List(adfy.io.rpc.placement.ListRequest) returns (adfy.io.rpc.placement.ListResponse);
      */
-    getAllByProject(input: GetAllByProjectRequest, options?: RpcOptions): UnaryCall<GetAllByProjectRequest, GetAllByProjectResponse>;
+    list(input: ListRequest, options?: RpcOptions): UnaryCall<ListRequest, ListResponse>;
+    /**
+     * @generated from protobuf rpc: GetAllByProject(adfy.io.rpc.placement.GetAllByProjectRequest) returns (adfy.io.rpc.placement.ListResponse);
+     */
+    getAllByProject(input: GetAllByProjectRequest, options?: RpcOptions): UnaryCall<GetAllByProjectRequest, ListResponse>;
     /**
      * @generated from protobuf rpc: Edit(adfy.io.rpc.placement.EditRequest) returns (adfy.io.rpc.placement.EditResponse);
      */
@@ -69,24 +74,31 @@ export class PlacementServiceClient implements IPlacementServiceClient, ServiceI
         return stackIntercept<IdRequest, GetResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: GetAllByProject(adfy.io.rpc.placement.GetAllByProjectRequest) returns (adfy.io.rpc.placement.GetAllByProjectResponse);
+     * @generated from protobuf rpc: List(adfy.io.rpc.placement.ListRequest) returns (adfy.io.rpc.placement.ListResponse);
      */
-    getAllByProject(input: GetAllByProjectRequest, options?: RpcOptions): UnaryCall<GetAllByProjectRequest, GetAllByProjectResponse> {
+    list(input: ListRequest, options?: RpcOptions): UnaryCall<ListRequest, ListResponse> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetAllByProjectRequest, GetAllByProjectResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<ListRequest, ListResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: GetAllByProject(adfy.io.rpc.placement.GetAllByProjectRequest) returns (adfy.io.rpc.placement.ListResponse);
+     */
+    getAllByProject(input: GetAllByProjectRequest, options?: RpcOptions): UnaryCall<GetAllByProjectRequest, ListResponse> {
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        return stackIntercept<GetAllByProjectRequest, ListResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: Edit(adfy.io.rpc.placement.EditRequest) returns (adfy.io.rpc.placement.EditResponse);
      */
     edit(input: EditRequest, options?: RpcOptions): UnaryCall<EditRequest, EditResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<EditRequest, EditResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: Delete(adfy.io.rpc.placement.IdRequest) returns (google.protobuf.Empty);
      */
     delete(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, Empty> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
         return stackIntercept<IdRequest, Empty>("unary", this._transport, method, opt, input);
     }
 }

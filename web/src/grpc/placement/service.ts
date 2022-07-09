@@ -5,6 +5,7 @@ import { MessageType } from "@protobuf-ts/runtime";
 import { Template } from "../template/service";
 import { Area } from "../area/service";
 import { Project } from "../project/service";
+import { Struct } from "../google/protobuf/struct";
 /**
  * @generated from protobuf message adfy.io.rpc.placement.CreateRequest
  */
@@ -60,9 +61,18 @@ export interface GetAllByProjectRequest {
     project?: IdRequest;
 }
 /**
- * @generated from protobuf message adfy.io.rpc.placement.GetAllByProjectResponse
+ * @generated from protobuf message adfy.io.rpc.placement.ListRequest
  */
-export interface GetAllByProjectResponse {
+export interface ListRequest {
+    /**
+     * @generated from protobuf field: repeated google.protobuf.Struct filters = 1;
+     */
+    filters: Struct[];
+}
+/**
+ * @generated from protobuf message adfy.io.rpc.placement.ListResponse
+ */
+export interface ListResponse {
     /**
      * @generated from protobuf field: repeated adfy.io.rpc.placement.Placement placements = 1;
      */
@@ -179,17 +189,29 @@ class GetAllByProjectRequest$Type extends MessageType<GetAllByProjectRequest> {
  */
 export const GetAllByProjectRequest = new GetAllByProjectRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class GetAllByProjectResponse$Type extends MessageType<GetAllByProjectResponse> {
+class ListRequest$Type extends MessageType<ListRequest> {
     constructor() {
-        super("adfy.io.rpc.placement.GetAllByProjectResponse", [
+        super("adfy.io.rpc.placement.ListRequest", [
+            { no: 1, name: "filters", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Struct }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message adfy.io.rpc.placement.ListRequest
+ */
+export const ListRequest = new ListRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class ListResponse$Type extends MessageType<ListResponse> {
+    constructor() {
+        super("adfy.io.rpc.placement.ListResponse", [
             { no: 1, name: "placements", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Placement }
         ]);
     }
 }
 /**
- * @generated MessageType for protobuf message adfy.io.rpc.placement.GetAllByProjectResponse
+ * @generated MessageType for protobuf message adfy.io.rpc.placement.ListResponse
  */
-export const GetAllByProjectResponse = new GetAllByProjectResponse$Type();
+export const ListResponse = new ListResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetResponse$Type extends MessageType<GetResponse> {
     constructor() {
@@ -225,7 +247,8 @@ export const Placement = new Placement$Type();
 export const PlacementService = new ServiceType("adfy.io.rpc.placement.PlacementService", [
     { name: "Create", options: {}, I: CreateRequest, O: CreateResponse },
     { name: "Get", options: {}, I: IdRequest, O: GetResponse },
-    { name: "GetAllByProject", options: {}, I: GetAllByProjectRequest, O: GetAllByProjectResponse },
+    { name: "List", options: {}, I: ListRequest, O: ListResponse },
+    { name: "GetAllByProject", options: {}, I: GetAllByProjectRequest, O: ListResponse },
     { name: "Edit", options: {}, I: EditRequest, O: EditResponse },
     { name: "Delete", options: {}, I: IdRequest, O: Empty }
 ]);

@@ -440,6 +440,8 @@ func (m *Template) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	// no validation rules for Version
+
 	if len(errors) > 0 {
 		return TemplateMultiError(errors)
 	}

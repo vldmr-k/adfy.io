@@ -10,7 +10,7 @@ import "template/service.proto";
 import "validate/validate.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 import "google/protobuf/empty.proto";
-
+import "google/protobuf/struct.proto";
 
 
 option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
@@ -29,7 +29,8 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 service PlacementService {
     rpc Create(CreateRequest) returns (CreateResponse);
     rpc Get(IdRequest) returns (GetResponse);
-    rpc GetAllByProject(GetAllByProjectRequest) returns(GetAllByProjectResponse);
+    rpc List(ListRequest) returns (ListResponse);
+    rpc GetAllByProject(GetAllByProjectRequest) returns(ListResponse);
     rpc Edit(EditRequest) returns (EditResponse);
     rpc Delete(IdRequest) returns (google.protobuf.Empty);
 }
@@ -58,7 +59,11 @@ message GetAllByProjectRequest {
   IdRequest project = 1;
 }
 
-message GetAllByProjectResponse {
+message ListRequest {
+  repeated google.protobuf.Struct filters = 1;
+}
+
+message ListResponse {
   repeated Placement placements = 1;
 }
 

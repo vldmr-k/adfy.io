@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlacementRoutingModule } from './placement-routing.module'
-import { TuiInputModule, TuiIslandModule, TuiStepperModule } from '@taiga-ui/kit';
+import { TuiFilterModule, TuiInputModule, TuiIslandModule, TuiStepperModule } from '@taiga-ui/kit';
 import { PlacementStepperComponent } from './components/stepper/stepper.component';
+
 import { PlacementAddComponent } from './pages/add/add.component';
 import { PlacementUpdateComponent } from './pages/update/update.component';
+import { PlacementListComponent } from './pages/list/list.component';
+
 
 import { PlacementStepTemplateComponent } from './components/step/template.component';
 import { PlacementStepAreaComponent } from './components/step/area.component';
@@ -22,6 +25,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
     PlacementAddComponent,
     PlacementUpdateComponent,
+    PlacementListComponent,
 
     PlacementStepTemplateComponent,
     PlacementStepAreaComponent,
@@ -36,6 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TuiLoaderModule,
     TuiInputModule,
     TuiButtonModule,
+    TuiFilterModule,
     StoreModule.forFeature(template.templateFeature),
     StoreModule.forFeature(area.areaFeature),
     StoreModule.forFeature(placement.placementFeature),

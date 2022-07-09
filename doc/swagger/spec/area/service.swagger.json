@@ -21,7 +21,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcareaCreateResponse"
+              "$ref": "#/definitions/areaCreateResponse"
             }
           }
         },
@@ -31,7 +31,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/rpcareaCreateRequest"
+              "$ref": "#/definitions/areaCreateRequest"
             }
           }
         ],
@@ -57,7 +57,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/rpcareaIdRequest"
+              "$ref": "#/definitions/areaIdRequest"
             }
           }
         ],
@@ -99,7 +99,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcareaGetResponse"
+              "$ref": "#/definitions/areaGetResponse"
             }
           }
         },
@@ -109,7 +109,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/rpcareaIdRequest"
+              "$ref": "#/definitions/areaIdRequest"
             }
           }
         ],
@@ -178,6 +178,25 @@
         }
       }
     },
+    "areaCreateRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "projectId": {
+          "type": "string"
+        }
+      }
+    },
+    "areaCreateResponse": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "$ref": "#/definitions/areaArea"
+        }
+      }
+    },
     "areaEditRequest": {
       "type": "object",
       "properties": {
@@ -201,7 +220,7 @@
       "type": "object",
       "properties": {
         "project": {
-          "$ref": "#/definitions/rpcareaIdRequest"
+          "$ref": "#/definitions/areaIdRequest"
         }
       }
     },
@@ -216,18 +235,7 @@
         }
       }
     },
-    "rpcareaCreateRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "projectId": {
-          "type": "string"
-        }
-      }
-    },
-    "rpcareaCreateResponse": {
+    "areaGetResponse": {
       "type": "object",
       "properties": {
         "area": {
@@ -235,15 +243,7 @@
         }
       }
     },
-    "rpcareaGetResponse": {
-      "type": "object",
-      "properties": {
-        "area": {
-          "$ref": "#/definitions/areaArea"
-        }
-      }
-    },
-    "rpcareaIdRequest": {
+    "areaIdRequest": {
       "type": "object",
       "properties": {
         "id": {
