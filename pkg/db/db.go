@@ -49,7 +49,9 @@ func NewGorm(sqlDB *Db) *Orm {
 
 	orm, err := gorm.Open(postgres.New(postgres.Config{
 		Conn: sqlDB,
-	}), &gorm.Config{})
+	}), &gorm.Config{
+		PrepareStmt: true,
+	})
 
 	if err != nil {
 		panic(err)

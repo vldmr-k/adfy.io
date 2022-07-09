@@ -6,8 +6,8 @@ export const STORE_AREA_KEY = 'area';
 import { createReducer, createFeature, on } from '@ngrx/store';
 
 export interface AreaState {
-  area: Area | null,
-  list: Area[] | null,
+  area: Area,
+  list: Area[],
   error: null,
 }
 
@@ -29,7 +29,7 @@ export const areaFeature = createFeature({
     on(areaActions.createError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
     on(areaActions.getRequest, (state) => ({ ...state, loading: true })),
-    on(areaActions.getSuccess, (state, action) => ({ ...state, template: action.response.area! })),
+    on(areaActions.getSuccess, (state, action) => ({ ...state, area: action.response.area! })),
     on(areaActions.getError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
     on(areaActions.getByProjectRequest, (state) => ({ ...state, loading: true })),

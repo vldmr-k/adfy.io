@@ -2,6 +2,7 @@
 package kernel
 
 import (
+	console "adfy.io/cmd/console"
 	factory "adfy.io/internal/factory"
 	areaservice "adfy.io/internal/handler/areaservice"
 	mediaservice "adfy.io/internal/handler/mediaservice"
@@ -46,6 +47,7 @@ type Container struct {
 	MediaTransformer	*mediaservice.Transformer
 	MediaTwirpHandler	*media.TwirpServer
 	MediaUploader		*mediaservice.MediaUploader
+	MigrateCommand		*console.AdfyCommand
 	Orm			*db.Orm
 	PlacementFactory	*factory.PlacementFactory
 	PlacementRepository	*repository.PlacementRepository
@@ -64,6 +66,7 @@ type Container struct {
 	TemplateService		*templateservice.TemplateService
 	TemplateTransformer	*templateservice.Transformer
 	TemplateTwirpHandler	*template.TwirpServer
+	UserCommand		*console.AdfyCommand
 	UserRepository		*repository.UserRepository
 	UserService		*userservice.UserService
 	UserTransormer		*userservice.Transformer
@@ -202,6 +205,13 @@ func (container *Container) GetMediaUploader() *mediaservice.MediaUploader {
 	}
 	return container.MediaUploader
 }
+func (container *Container) GetMigrateCommand() console.AdfyCommand {
+	if container.MigrateCommand == nil {
+		service := console.NewMigrateCommand(container.GetOrm())
+		container.MigrateCommand = &service
+	}
+	return *container.MigrateCommand
+}
 func (container *Container) GetOrm() *db.Orm {
 	if container.Orm == nil {
 		service := db.NewGorm(container.GetDb())
@@ -327,6 +337,13 @@ func (container *Container) GetTemplateTwirpHandler() template.TwirpServer {
 		container.TemplateTwirpHandler = &service
 	}
 	return *container.TemplateTwirpHandler
+}
+func (container *Container) GetUserCommand() console.AdfyCommand {
+	if container.UserCommand == nil {
+		service := console.NewUserCommand(container.GetUserRepository(), container.GetSecure())
+		container.UserCommand = &service
+	}
+	return *container.UserCommand
 }
 func (container *Container) GetUserRepository() *repository.UserRepository {
 	if container.UserRepository == nil {

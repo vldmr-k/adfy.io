@@ -2,6 +2,7 @@ package areaservice
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	factory "adfy.io/internal/factory"
@@ -11,6 +12,7 @@ import (
 	pb "adfy.io/rpc/area"
 	gprotobuf "github.com/golang/protobuf/ptypes/empty"
 	"github.com/twitchtv/twirp"
+	"gorm.io/gorm"
 )
 
 type AreaService struct {
@@ -57,6 +59,10 @@ func (a *AreaService) Create(ctx context.Context, req *pb.CreateRequest) (resp *
 
 func (a *AreaService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.GetResponse, err error) {
 	area, err := a.areaRepository.Find(ctx, req.Id)
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, twirp.NotFound.Errorf("Area %s not found", req.Id)
+	}
 
 	return &pb.GetResponse{
 		Area: a.transformer.Transofrm(*area),

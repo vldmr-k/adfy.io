@@ -6,6 +6,7 @@ import { LogoComponent } from './logo/logo.component';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar.component';
 import { TuiDropdownHostModule } from '@taiga-ui/cdk';
+import { MenuModule } from './menu/menu.module';
 
 
 
@@ -17,6 +18,7 @@ import { TuiDropdownHostModule } from '@taiga-ui/cdk';
     CommonModule,
     LogoModule,
     AccountModule,
+    MenuModule,
     RouterModule
   ],
   exports: [

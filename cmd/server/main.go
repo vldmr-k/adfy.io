@@ -29,6 +29,7 @@ func NewServer() (router *mux.Router, addr string) {
 	templateServiceHandler := di.GetTemplateTwirpHandler()
 	mediaServiceHandler := di.GetMediaTwirpHandler()
 	areaServiceHandler := di.GetAreaTwirpHandler()
+	placementServiceHandler := di.GetPlacementTwirpHandler()
 
 	//twirp handler
 	r.PathPrefix(userServiceHandler.PathPrefix()).Handler(userServiceHandler)
@@ -36,6 +37,7 @@ func NewServer() (router *mux.Router, addr string) {
 	r.PathPrefix(templateServiceHandler.PathPrefix()).Handler(templateServiceHandler)
 	r.PathPrefix(mediaServiceHandler.PathPrefix()).Handler(mediaServiceHandler)
 	r.PathPrefix(areaServiceHandler.PathPrefix()).Handler(areaServiceHandler)
+	r.PathPrefix(placementServiceHandler.PathPrefix()).Handler(placementServiceHandler)
 
 	addr = fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
 

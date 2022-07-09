@@ -25,11 +25,11 @@ export const placementFeature = createFeature({
     initialState,
 
     on(placementActions.createRequest, (state) => ({ ...state, loading: true })),
-    on(placementActions.createSuccess, (state, action) => ({ ...state, template: action.response.placement! })),
+    on(placementActions.createSuccess, (state, action) => ({ ...state, placement: action.response.placement! })),
     on(placementActions.createError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
     on(placementActions.getRequest, (state) => ({ ...state, loading: true })),
-    on(placementActions.getSuccess, (state, action) => ({ ...state, template: action.response.placement! })),
+    on(placementActions.getSuccess, (state, action) => ({ ...state, placement: action.response.placement! })),
     on(placementActions.getError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
     on(placementActions.getAllByProjectRequest, (state) => ({ ...state, loading: true })),

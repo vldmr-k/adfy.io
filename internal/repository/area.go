@@ -19,6 +19,7 @@ func NewAreaRepository(baseRepository db.BaseRepository) *AreaRepository {
 
 func (r *AreaRepository) Find(ctx context.Context, id string) (area *entity.Area, err error) {
 	usr := r.AuthContext.GetAuthUser(ctx)
+	area = &entity.Area{}
 	result := r.Orm.Scopes(db.OwnerScope(usr)).Find(area, "id = ?", id)
 	return area, result.Error
 }

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
 
 @Component({
-    selector: 'adfy-logo',
+    selector: 'adfy-navbar-logo',
     templateUrl: './logo.component.html',
     styleUrls: ['./logo.component.less'],
     changeDetection: ChangeDetectionStrategy.OnPush,

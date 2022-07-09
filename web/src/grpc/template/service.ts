@@ -57,6 +57,10 @@ export interface Template {
      * @generated from protobuf field: adfy.io.rpc.template.Template.Types type = 6;
      */
     type: Template_Types;
+    /**
+     * @generated from protobuf field: int32 version = 7;
+     */
+    version: number;
 }
 /**
  * @generated from protobuf enum adfy.io.rpc.template.Template.Types
@@ -116,7 +120,8 @@ class Template$Type extends MessageType<Template> {
             { no: 3, name: "component", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "formSchema", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "sampleData", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "type", kind: "enum", T: () => ["adfy.io.rpc.template.Template.Types", Template_Types], options: { "validate.rules": { enum: { definedOnly: true } } } }
+            { no: 6, name: "type", kind: "enum", T: () => ["adfy.io.rpc.template.Template.Types", Template_Types], options: { "validate.rules": { enum: { definedOnly: true } } } },
+            { no: 7, name: "version", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
 }

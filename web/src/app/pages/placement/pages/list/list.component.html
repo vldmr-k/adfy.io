@@ -1,0 +1,26 @@
+<div class="adfy-placement-list">
+  <div class="tui-col_md-12 adfy-header">
+    <span class="tui-text_h4">Placements</span>
+  </div>
+  <div class="container adfy-content">
+
+    <ng-component *ngIf="(projectList$ | async) as projects; then filters"></ng-component>
+
+
+  </div>
+</div>
+
+<ng-template #filters>
+  <form [formGroup]="form">
+    <tui-filter
+        formControlName="filters"
+        size="s"
+        [items]="items"
+    ></tui-filter>
+  </form>
+</ng-template>
+
+<ng-template #loading>
+  <tui-loader class="inline-flex tui-space_right-2" [showLoader]="true" [inheritColor]="true" [overlay]="true">
+  </tui-loader>
+</ng-template>

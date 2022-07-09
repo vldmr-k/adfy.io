@@ -32,6 +32,17 @@ export class ProjectEffects {
     )
   ));
 
+
+  get$ = createEffect(() => this.actions$.pipe(
+    ofType(projectActions.getRequest),
+    mergeMap(
+      (action) => from(this.projectServiceClient.get(action.request)).pipe(
+        map((call) => projectActions.getSuccess({ response: call.response })),
+        catchError((error) => of(projectActions.createError({ error: error })))
+      )
+    )
+  ));
+
   update$ = createEffect(() => this.actions$.pipe(
     ofType(projectActions.updateRequest),
     mergeMap(

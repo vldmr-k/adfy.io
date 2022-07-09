@@ -21,15 +21,6 @@ export class AreaEffects {
     @Inject(AreaServiceClient) private areaServiceClient: AreaServiceClient
   ) { }
 
-  create$ = createEffect(() => this.actions$.pipe(
-    ofType(areaActions.createRequest),
-    mergeMap(
-      (action) => from(this.areaServiceClient.create(action.request)).pipe(
-        map((call) => areaActions.createSuccess({ response: call.response })),
-        catchError((error) => of(areaActions.createError({ error: error })))
-      )
-    )
-  ));
 
   get$ = createEffect(() => this.actions$.pipe(
     ofType(areaActions.getRequest),
@@ -37,6 +28,16 @@ export class AreaEffects {
       (action) => from(this.areaServiceClient.get(action.request)).pipe(
         map((call) => areaActions.getSuccess({ response: call.response })),
         catchError((error) => of(areaActions.getError({ error: error })))
+      )
+    )
+  ));
+
+  create$ = createEffect(() => this.actions$.pipe(
+    ofType(areaActions.createRequest),
+    mergeMap(
+      (action) => from(this.areaServiceClient.create(action.request)).pipe(
+        map((call) => areaActions.createSuccess({ response: call.response })),
+        catchError((error) => of(areaActions.createError({ error: error })))
       )
     )
   ));

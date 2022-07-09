@@ -37,7 +37,7 @@ export class PlacementStepAreaComponent {
 
     list$ = this.store.select(area.selectList)
 
-    nextStep: number = 2;
+    nextStep: number = 3;
 
     constructor(
         @Inject(Store) private readonly store: Store,

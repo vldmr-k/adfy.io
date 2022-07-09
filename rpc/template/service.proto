@@ -56,6 +56,7 @@ message Template {
   }
 
   Types type = 6 [(validate.rules).enum.defined_only = true];
+  int32 version = 7;
 }
 
 

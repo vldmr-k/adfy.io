@@ -16,9 +16,9 @@ export const getRequest = createAction('[Area] Get Request', props<{ request: gr
 export const getSuccess = createAction('[Area] Get Response', props<{ response: grpc.GetResponse;}>());
 export const getError   = createAction('[Area] Get Error', props<{ error: any;}>());
 
-export const editRequest = createAction('[Area] Get Request', props<{ request: grpc.EditRequest;}>());
-export const editSuccess = createAction('[Area] Get Response', props<{ response: grpc.EditResponse;}>());
-export const editError   = createAction('[Area] Get Error', props<{ error: any;}>());
+export const editRequest = createAction('[Area] Edit Request', props<{ request: grpc.EditRequest;}>());
+export const editSuccess = createAction('[Area] Edit Response', props<{ response: grpc.EditResponse;}>());
+export const editError   = createAction('[Area] Edit Error', props<{ error: any;}>());
 
 export const deleteRequest = createAction('[Area] Delete Request', props<{ request: grpc.IdRequest;}>());
 export const deleteSuccess = createAction('[Area] Delete Response');
