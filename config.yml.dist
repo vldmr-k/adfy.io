@@ -1,0 +1,22 @@
+server:
+  host: 0.0.0.0
+  port: 4800
+
+database:
+  host: db
+  port: 5432
+  username: postgres
+  password: 1
+  dbname: adfy
+  timezone: Europe/Kiev
+
+jwt:
+  secret: 9KH4NV4]%<S$x^z_
+  duration: 31556926
+  algo: RS256
+s3:
+  client:
+    bucket: adfy.io
+    region: 
+    key:
+    secret:
