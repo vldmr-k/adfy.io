@@ -41,15 +41,14 @@ export class PlacementStepFinishComponent implements OnInit {
 
         var map = this.route.snapshot.queryParamMap
 
-        var areaId: string = String(map.get("areaId"));
-        var templateId: string = String(map.get("templateId"));
-        var projectId: string = String(map.get("projectId"))
+        const areaId: string = String(map.get("areaId"));
+        const templateId: string = String(map.get("templateId"));
+        const projectId: string = String(map.get("projectId"))
+        const name: string = String(map.get("name"));
         
         this.store.dispatch(areaActions.getRequest({ request : { id: areaId } }))
         this.store.dispatch(templateActions.getRequest({request : { id: templateId }}))
         this.store.dispatch(projectActions.getRequest({request : { id: projectId }}))
-
-        this.name = String(map.get("name"))
 
 
         combineLatest([this.area$, this.template$, this.project$])
@@ -58,11 +57,12 @@ export class PlacementStepFinishComponent implements OnInit {
             next: ([area, template, project]) => {
                 var placement : Placement = {
                     id: '',
-                    name: this.name,
+                    name: name,
                     area: area,
                     template: template,
                     project: project,
-                    data: '[]'
+                    data: '[]',
+                    state: false
                 }
 
                 var request : CreateRequest = {
