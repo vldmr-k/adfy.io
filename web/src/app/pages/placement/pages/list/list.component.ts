@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { project, placement } from '@store/reducers';
@@ -10,8 +10,14 @@ import * as placementService from '@grpc/placement/service';
 import * as projectService from '@grpc/project/service';
 
 import { Project } from '@store/models';
+import { TuiIdentityMatcher } from '@taiga-ui/cdk';
+import * as grpc from "@grpc/placement/service";
 
 
+interface ProjectFilter {
+  title: string;
+  id: string
+}
 
 @Component({
   selector: 'adfy-placement-list',
@@ -20,32 +26,19 @@ import { Project } from '@store/models';
 })
 export class PlacementListComponent implements OnInit {
 
-  readonly form = new UntypedFormGroup({
-    filters: new UntypedFormControl(),
-  });
-
-  readonly items: any[] = [];
-
   projectList$ = this.store.select(project.selectList)
   placementList$ = this.store.select(placement.selectList)
 
   constructor(
     @Inject(Store) private readonly store: Store,
   ) {
-      this.store.dispatch(projectActions.listRequest())
-
+      this.store.dispatch(projectActions.listRequest());
+      const req: grpc.ListRequest = {}
+      this.store.dispatch(placementActions.listRequest({request: req}));
   }
 
   ngOnInit(): void {
-      this.projectList$
-      .pipe(filter((projects) => projects !== null))
-      .subscribe({
-        next: (projects) => {
-          projects?.forEach((value) => {
-            this.items.push(value.name)
-          })
-        }
-      })
+
   }
 
 }

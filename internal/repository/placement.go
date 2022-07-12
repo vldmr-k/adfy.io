@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"gorm.io/gorm/clause"
 
 	"adfy.io/internal/entity"
 	"adfy.io/pkg/db"
@@ -24,6 +25,15 @@ func (r *PlacementRepository) Find(ctx context.Context, id string) (*entity.Plac
 	placement := &entity.Placement{}
 	result := r.Orm.Scopes(db.OwnerScope(usr)).Find(&placement, "id = ?", id)
 	return placement, result.Error
+}
+
+//All
+func (r *PlacementRepository) All(ctx context.Context) ([]entity.Placement, error) {
+	usr := r.BaseRepository.AuthContext.GetAuthUser(ctx)
+
+	var placements []entity.Placement
+	result := r.Orm.Scopes(db.OwnerScope(usr)).Preload(clause.Associations).Find(&placements)
+	return placements, result.Error
 }
 
 //Find Placement By Project

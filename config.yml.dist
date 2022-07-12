@@ -17,6 +17,6 @@ jwt:
 s3:
   client:
     bucket: adfy.io
-    region: 
-    key:
-    secret:
+    region: eu-central-1
+    key: ****
+    secret: ***

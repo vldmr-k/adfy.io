@@ -29,11 +29,23 @@ export class PlacementEffects {
     )
   ));
 
+  /*
   getAllByProject$ = createEffect(() => this.actions$.pipe(
     ofType(placementActions.getAllByProjectRequest),
     mergeMap(
       (action) => from(this.placementServiceClient.getAllByProject(action.request)).pipe(
         map((call) => placementActions.getAllByProjectSuccess({ response: call.response })),
+        catchError((error) => of(placementActions.getAllByProjectError({ error: error })))
+      )
+    )
+  ));
+  */
+
+  list$ = createEffect(() => this.actions$.pipe(
+    ofType(placementActions.listRequest),
+    mergeMap(
+      (action) => from(this.placementServiceClient.list(action.request)).pipe(
+        map((call) => placementActions.listSuccess({ response: call.response })),
         catchError((error) => of(placementActions.getAllByProjectError({ error: error })))
       )
     )

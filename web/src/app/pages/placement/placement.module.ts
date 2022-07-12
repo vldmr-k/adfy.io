@@ -6,8 +6,6 @@ import { PlacementStepperComponent } from './components/stepper/stepper.componen
 
 import { PlacementAddComponent } from './pages/add/add.component';
 import { PlacementUpdateComponent } from './pages/update/update.component';
-import { PlacementListComponent } from './pages/list/list.component';
-
 
 import { PlacementStepTemplateComponent } from './components/step/template.component';
 import { PlacementStepAreaComponent } from './components/step/area.component';
@@ -17,6 +15,7 @@ import { template, area, placement } from '@store/reducers';
 import { StoreModule } from '@ngrx/store';
 import { PlacementStepNameComponent } from './components/step/name.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {PlacementListModule} from "@pages/placement/pages/list/list.module";
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
     PlacementAddComponent,
     PlacementUpdateComponent,
-    PlacementListComponent,
 
     PlacementStepTemplateComponent,
     PlacementStepAreaComponent,
@@ -41,6 +39,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     TuiInputModule,
     TuiButtonModule,
     TuiFilterModule,
+
+    PlacementListModule,
     StoreModule.forFeature(template.templateFeature),
     StoreModule.forFeature(area.areaFeature),
     StoreModule.forFeature(placement.placementFeature),

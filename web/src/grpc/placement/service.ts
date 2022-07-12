@@ -5,7 +5,6 @@ import { MessageType } from "@protobuf-ts/runtime";
 import { Template } from "../template/service";
 import { Area } from "../area/service";
 import { Project } from "../project/service";
-import { Struct } from "../google/protobuf/struct";
 /**
  * @generated from protobuf message adfy.io.rpc.placement.CreateRequest
  */
@@ -64,10 +63,6 @@ export interface GetAllByProjectRequest {
  * @generated from protobuf message adfy.io.rpc.placement.ListRequest
  */
 export interface ListRequest {
-    /**
-     * @generated from protobuf field: repeated google.protobuf.Struct filters = 1;
-     */
-    filters: Struct[];
 }
 /**
  * @generated from protobuf message adfy.io.rpc.placement.ListResponse
@@ -115,6 +110,10 @@ export interface Placement {
      * @generated from protobuf field: string data = 7;
      */
     data: string;
+    /**
+     * @generated from protobuf field: bool state = 8;
+     */
+    state: boolean;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class CreateRequest$Type extends MessageType<CreateRequest> {
@@ -191,9 +190,7 @@ export const GetAllByProjectRequest = new GetAllByProjectRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class ListRequest$Type extends MessageType<ListRequest> {
     constructor() {
-        super("adfy.io.rpc.placement.ListRequest", [
-            { no: 1, name: "filters", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Struct }
-        ]);
+        super("adfy.io.rpc.placement.ListRequest", []);
     }
 }
 /**
@@ -233,7 +230,8 @@ class Placement$Type extends MessageType<Placement> {
             { no: 4, name: "project", kind: "message", T: () => Project },
             { no: 5, name: "area", kind: "message", T: () => Area },
             { no: 6, name: "template", kind: "message", T: () => Template },
-            { no: 7, name: "data", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { len: "10" } } } }
+            { no: 7, name: "data", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { len: "10" } } } },
+            { no: 8, name: "state", kind: "scalar", T: 8 /*ScalarType.BOOL*/, options: { "validate.rules": { bool: { const: true } } } }
         ]);
     }
 }
@@ -248,7 +246,8 @@ export const PlacementService = new ServiceType("adfy.io.rpc.placement.Placement
     { name: "Create", options: {}, I: CreateRequest, O: CreateResponse },
     { name: "Get", options: {}, I: IdRequest, O: GetResponse },
     { name: "List", options: {}, I: ListRequest, O: ListResponse },
-    { name: "GetAllByProject", options: {}, I: GetAllByProjectRequest, O: ListResponse },
     { name: "Edit", options: {}, I: EditRequest, O: EditResponse },
-    { name: "Delete", options: {}, I: IdRequest, O: Empty }
+    { name: "Delete", options: {}, I: IdRequest, O: Empty },
+    { name: "StatePlay", options: {}, I: IdRequest, O: GetResponse },
+    { name: "StateStop", options: {}, I: IdRequest, O: GetResponse }
 ]);

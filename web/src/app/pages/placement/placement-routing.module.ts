@@ -6,11 +6,8 @@ import { PlacementUpdateComponent } from './pages/update/update.component';
 
 
 export const ROUTER_PLACEMENT_LIST = 'placement/list'
-
 export const ROUTER_PLACEMENT_ADD = 'placement/add'
-
 export const ROUTER_PLACEMENT_UPDATE = 'placement/:placementId/update'
-
 
 const routes: Routes = [
   {

@@ -7,6 +7,7 @@ import "area/service.proto";
 import "template/service.proto";
 
 
+
 import "validate/validate.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 import "google/protobuf/empty.proto";
@@ -30,9 +31,10 @@ service PlacementService {
     rpc Create(CreateRequest) returns (CreateResponse);
     rpc Get(IdRequest) returns (GetResponse);
     rpc List(ListRequest) returns (ListResponse);
-    rpc GetAllByProject(GetAllByProjectRequest) returns(ListResponse);
     rpc Edit(EditRequest) returns (EditResponse);
     rpc Delete(IdRequest) returns (google.protobuf.Empty);
+    rpc StatePlay(IdRequest) returns(GetResponse);
+    rpc StateStop(IdRequest) returns(GetResponse);
 }
 
 message CreateRequest {
@@ -60,7 +62,7 @@ message GetAllByProjectRequest {
 }
 
 message ListRequest {
-  repeated google.protobuf.Struct filters = 1;
+
 }
 
 message ListResponse {
@@ -78,4 +80,6 @@ message Placement {
   area.Area area = 5;
   template.Template template = 6;
   string data = 7 [(validate.rules).string = {len: 10}];
+  bool state = 8 [(validate.rules).bool.const = true];
+
 }

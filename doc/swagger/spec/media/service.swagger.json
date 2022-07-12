@@ -57,7 +57,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/rpcmediaIdRequest"
+              "$ref": "#/definitions/mediaIdRequest"
             }
           }
         ],
@@ -73,7 +73,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/rpcmediaGetResponse"
+              "$ref": "#/definitions/mediaGetResponse"
             }
           }
         },
@@ -83,7 +83,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/rpcmediaIdRequest"
+              "$ref": "#/definitions/mediaIdRequest"
             }
           }
         ],
@@ -142,6 +142,22 @@
         }
       }
     },
+    "mediaGetResponse": {
+      "type": "object",
+      "properties": {
+        "media": {
+          "$ref": "#/definitions/mediaMedia"
+        }
+      }
+    },
+    "mediaIdRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
     "mediaMedia": {
       "type": "object",
       "properties": {
@@ -191,22 +207,6 @@
       "properties": {
         "media": {
           "$ref": "#/definitions/mediaMedia"
-        }
-      }
-    },
-    "rpcmediaGetResponse": {
-      "type": "object",
-      "properties": {
-        "media": {
-          "$ref": "#/definitions/mediaMedia"
-        }
-      }
-    },
-    "rpcmediaIdRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
         }
       }
     }
