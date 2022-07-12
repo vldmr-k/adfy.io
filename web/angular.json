@@ -27,7 +27,11 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "allowedCommonJsDependencies": [
-              "angular2-text-mask"
+              "angular2-text-mask",
+              "dompurify",
+              "jexl",
+              "z-schema",
+              "moment"
             ],
             "assets": [
               "src/favicon.ico",
@@ -116,6 +120,5 @@
         }
       }
     }
-  },
-  "defaultProject": "adfy.io"
+  }
 }

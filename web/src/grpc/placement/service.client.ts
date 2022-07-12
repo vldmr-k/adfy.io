@@ -8,7 +8,6 @@ import { PlacementService } from "./service";
 import type { Empty } from "../google/protobuf/empty";
 import type { EditResponse } from "./service";
 import type { EditRequest } from "./service";
-import type { GetAllByProjectRequest } from "./service";
 import type { ListResponse } from "./service";
 import type { ListRequest } from "./service";
 import type { GetResponse } from "./service";
@@ -35,10 +34,6 @@ export interface IPlacementServiceClient {
      */
     list(input: ListRequest, options?: RpcOptions): UnaryCall<ListRequest, ListResponse>;
     /**
-     * @generated from protobuf rpc: GetAllByProject(adfy.io.rpc.placement.GetAllByProjectRequest) returns (adfy.io.rpc.placement.ListResponse);
-     */
-    getAllByProject(input: GetAllByProjectRequest, options?: RpcOptions): UnaryCall<GetAllByProjectRequest, ListResponse>;
-    /**
      * @generated from protobuf rpc: Edit(adfy.io.rpc.placement.EditRequest) returns (adfy.io.rpc.placement.EditResponse);
      */
     edit(input: EditRequest, options?: RpcOptions): UnaryCall<EditRequest, EditResponse>;
@@ -46,6 +41,14 @@ export interface IPlacementServiceClient {
      * @generated from protobuf rpc: Delete(adfy.io.rpc.placement.IdRequest) returns (google.protobuf.Empty);
      */
     delete(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, Empty>;
+    /**
+     * @generated from protobuf rpc: StatePlay(adfy.io.rpc.placement.IdRequest) returns (adfy.io.rpc.placement.GetResponse);
+     */
+    statePlay(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse>;
+    /**
+     * @generated from protobuf rpc: StateStop(adfy.io.rpc.placement.IdRequest) returns (adfy.io.rpc.placement.GetResponse);
+     */
+    stateStop(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse>;
 }
 /**
  * @generated from protobuf service adfy.io.rpc.placement.PlacementService
@@ -81,24 +84,31 @@ export class PlacementServiceClient implements IPlacementServiceClient, ServiceI
         return stackIntercept<ListRequest, ListResponse>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: GetAllByProject(adfy.io.rpc.placement.GetAllByProjectRequest) returns (adfy.io.rpc.placement.ListResponse);
-     */
-    getAllByProject(input: GetAllByProjectRequest, options?: RpcOptions): UnaryCall<GetAllByProjectRequest, ListResponse> {
-        const method = this.methods[3], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetAllByProjectRequest, ListResponse>("unary", this._transport, method, opt, input);
-    }
-    /**
      * @generated from protobuf rpc: Edit(adfy.io.rpc.placement.EditRequest) returns (adfy.io.rpc.placement.EditResponse);
      */
     edit(input: EditRequest, options?: RpcOptions): UnaryCall<EditRequest, EditResponse> {
-        const method = this.methods[4], opt = this._transport.mergeOptions(options);
+        const method = this.methods[3], opt = this._transport.mergeOptions(options);
         return stackIntercept<EditRequest, EditResponse>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: Delete(adfy.io.rpc.placement.IdRequest) returns (google.protobuf.Empty);
      */
     delete(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, Empty> {
-        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        const method = this.methods[4], opt = this._transport.mergeOptions(options);
         return stackIntercept<IdRequest, Empty>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: StatePlay(adfy.io.rpc.placement.IdRequest) returns (adfy.io.rpc.placement.GetResponse);
+     */
+    statePlay(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse> {
+        const method = this.methods[5], opt = this._transport.mergeOptions(options);
+        return stackIntercept<IdRequest, GetResponse>("unary", this._transport, method, opt, input);
+    }
+    /**
+     * @generated from protobuf rpc: StateStop(adfy.io.rpc.placement.IdRequest) returns (adfy.io.rpc.placement.GetResponse);
+     */
+    stateStop(input: IdRequest, options?: RpcOptions): UnaryCall<IdRequest, GetResponse> {
+        const method = this.methods[6], opt = this._transport.mergeOptions(options);
+        return stackIntercept<IdRequest, GetResponse>("unary", this._transport, method, opt, input);
     }
 }

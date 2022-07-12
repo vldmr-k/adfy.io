@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, Inject, ViewChild } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder, FormControl,
-  FormGroup,
+  UntypedFormBuilder, UntypedFormControl,
+  UntypedFormGroup,
   ValidatorFn,
   Validators
 } from '@angular/forms';
@@ -44,17 +44,17 @@ export class ProjectDialogComponent {
   @ViewChild('domainsErrorContent')
   domainErrorContent: PolymorpheusContent = '';
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     @Inject(POLYMORPHEUS_CONTEXT) private readonly context: TuiDialogContext<boolean, Project>,
     private readonly projectServiceClient: ProjectServiceClient,
     @Inject(Store) private store: Store,
-    private readonly fb: FormBuilder
+    private readonly fb: UntypedFormBuilder
   ) {
     this.form = this.fb.group({
-      name: new FormControl(this.project?.name, { validators: [Validators.required] }),
-      domain: new FormControl(this.project?.domain, createControlValidator(domainValidator))
+      name: new UntypedFormControl(this.project?.name, { validators: [Validators.required] }),
+      domain: new UntypedFormControl(this.project?.domain, createControlValidator(domainValidator))
     })
   }
 

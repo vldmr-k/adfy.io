@@ -824,40 +824,6 @@ func (m *ListRequest) validate(all bool) error {
 
 	var errors []error
 
-	for idx, item := range m.GetFilters() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ListRequestValidationError{
-						field:  fmt.Sprintf("Filters[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ListRequestValidationError{
-						field:  fmt.Sprintf("Filters[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ListRequestValidationError{
-					field:  fmt.Sprintf("Filters[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
 	if len(errors) > 0 {
 		return ListRequestMultiError(errors)
 	}
@@ -1328,6 +1294,17 @@ func (m *Placement) validate(all bool) error {
 		}
 		errors = append(errors, err)
 
+	}
+
+	if m.GetState() != true {
+		err := PlacementValidationError{
+			field:  "State",
+			reason: "value must equal true",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if len(errors) > 0 {

@@ -32,9 +32,9 @@ export const placementFeature = createFeature({
     on(placementActions.getSuccess, (state, action) => ({ ...state, placement: action.response.placement! })),
     on(placementActions.getError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
-    on(placementActions.getAllByProjectRequest, (state) => ({ ...state, loading: true })),
-    on(placementActions.getAllByProjectSuccess, (state, action) => ({ ...state, list: action.response.placements! })),
-    on(placementActions.getAllByProjectError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
+    on(placementActions.listRequest, (state) => ({ ...state, loading: true })),
+    on(placementActions.listSuccess, (state, action) => ({ ...state, list: action.response.placements! })),
+    on(placementActions.listError, (state, action) => ({ ...state, errorResponse: action.error, loading: false })),
 
     on(placementActions.editRequest, (state) => ({ ...state })),
     on(placementActions.editSuccess, (state, action) => ({ ...state, placement: action.response.placement! })),

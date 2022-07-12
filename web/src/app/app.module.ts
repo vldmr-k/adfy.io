@@ -28,6 +28,7 @@ import { media, placement, project, template, user, area} from "@store/reducers"
 import { AreaServiceClient } from "@grpc/area/service.client";
 import { TemplateServiceClient } from "@grpc/template/service.client";
 import { PlacementServiceClient } from "@grpc/placement/service.client";
+import {UserTokenStorage} from "@core/services/user-token.service";
 
 @NgModule({
   declarations: [

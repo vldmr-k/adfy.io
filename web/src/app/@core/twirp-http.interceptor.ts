@@ -1,8 +1,11 @@
-import { Inject, Injector, InjectionToken } from "@angular/core";
+import {inject} from "@angular/core";
 import { RpcInterceptor, UnaryCall, ServerStreamingCall } from "@protobuf-ts/runtime-rpc";
-import { JWT_KEY, UserTokenStorage } from "@core/services/user-token.service";
+import { UserTokenStorage } from "@core/services/user-token.service";
 
-const token = localStorage.getItem(JWT_KEY)?.replace(/"/g, "")
+
+function getStorage(): UserTokenStorage {
+  return inject(UserTokenStorage);
+}
 
 export class TwirpHttpInterceptor {
 
@@ -13,8 +16,11 @@ export class TwirpHttpInterceptor {
         if (!options.meta) {
           options.meta = {};
         }
+
+        const token = getStorage().getToken();
+
         options.meta = { "Authorization": `Bearer ${token}` };
-        console.log("token: ", token)
+
         return next(method, input, options);
       },
       interceptServerStreaming(next, method, input, options): ServerStreamingCall {
@@ -22,6 +28,9 @@ export class TwirpHttpInterceptor {
         if (!options.meta) {
           options.meta = {};
         }
+
+        const token = getStorage().getToken();
+
         options.meta = { "Authorization": `Bearer ${token}` };
         return next(method, input, options);
       }

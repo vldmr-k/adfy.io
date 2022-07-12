@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -27,7 +27,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlacementStepNameComponent {
-    name = new FormControl();
+    name = new UntypedFormControl();
 
     nextStep: number = 1;
 

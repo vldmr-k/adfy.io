@@ -41,11 +41,13 @@ type PlacementService interface {
 
 	List(context.Context, *ListRequest) (*ListResponse, error)
 
-	GetAllByProject(context.Context, *GetAllByProjectRequest) (*ListResponse, error)
-
 	Edit(context.Context, *EditRequest) (*EditResponse, error)
 
 	Delete(context.Context, *IdRequest) (*google_protobuf5.Empty, error)
+
+	StatePlay(context.Context, *IdRequest) (*GetResponse, error)
+
+	StateStop(context.Context, *IdRequest) (*GetResponse, error)
 }
 
 // ================================
@@ -54,7 +56,7 @@ type PlacementService interface {
 
 type placementServiceProtobufClient struct {
 	client      HTTPClient
-	urls        [6]string
+	urls        [7]string
 	interceptor twirp.Interceptor
 	opts        twirp.ClientOptions
 }
@@ -82,13 +84,14 @@ func NewPlacementServiceProtobufClient(baseURL string, client HTTPClient, opts .
 	// Build method URLs: <baseURL>[<prefix>]/<package>.<Service>/<Method>
 	serviceURL := sanitizeBaseURL(baseURL)
 	serviceURL += baseServicePath(pathPrefix, "adfy.io.rpc.placement", "PlacementService")
-	urls := [6]string{
+	urls := [7]string{
 		serviceURL + "Create",
 		serviceURL + "Get",
 		serviceURL + "List",
-		serviceURL + "GetAllByProject",
 		serviceURL + "Edit",
 		serviceURL + "Delete",
+		serviceURL + "StatePlay",
+		serviceURL + "StateStop",
 	}
 
 	return &placementServiceProtobufClient{
@@ -237,52 +240,6 @@ func (c *placementServiceProtobufClient) callList(ctx context.Context, in *ListR
 	return out, nil
 }
 
-func (c *placementServiceProtobufClient) GetAllByProject(ctx context.Context, in *GetAllByProjectRequest) (*ListResponse, error) {
-	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.placement")
-	ctx = ctxsetters.WithServiceName(ctx, "PlacementService")
-	ctx = ctxsetters.WithMethodName(ctx, "GetAllByProject")
-	caller := c.callGetAllByProject
-	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *GetAllByProjectRequest) (*ListResponse, error) {
-			resp, err := c.interceptor(
-				func(ctx context.Context, req interface{}) (interface{}, error) {
-					typedReq, ok := req.(*GetAllByProjectRequest)
-					if !ok {
-						return nil, twirp.InternalError("failed type assertion req.(*GetAllByProjectRequest) when calling interceptor")
-					}
-					return c.callGetAllByProject(ctx, typedReq)
-				},
-			)(ctx, req)
-			if resp != nil {
-				typedResp, ok := resp.(*ListResponse)
-				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*ListResponse) when calling interceptor")
-				}
-				return typedResp, err
-			}
-			return nil, err
-		}
-	}
-	return caller(ctx, in)
-}
-
-func (c *placementServiceProtobufClient) callGetAllByProject(ctx context.Context, in *GetAllByProjectRequest) (*ListResponse, error) {
-	out := new(ListResponse)
-	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[3], in, out)
-	if err != nil {
-		twerr, ok := err.(twirp.Error)
-		if !ok {
-			twerr = twirp.InternalErrorWith(err)
-		}
-		callClientError(ctx, c.opts.Hooks, twerr)
-		return nil, err
-	}
-
-	callClientResponseReceived(ctx, c.opts.Hooks)
-
-	return out, nil
-}
-
 func (c *placementServiceProtobufClient) Edit(ctx context.Context, in *EditRequest) (*EditResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.placement")
 	ctx = ctxsetters.WithServiceName(ctx, "PlacementService")
@@ -314,7 +271,7 @@ func (c *placementServiceProtobufClient) Edit(ctx context.Context, in *EditReque
 
 func (c *placementServiceProtobufClient) callEdit(ctx context.Context, in *EditRequest) (*EditResponse, error) {
 	out := new(EditResponse)
-	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[4], in, out)
+	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[3], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -360,7 +317,99 @@ func (c *placementServiceProtobufClient) Delete(ctx context.Context, in *IdReque
 
 func (c *placementServiceProtobufClient) callDelete(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
 	out := new(google_protobuf5.Empty)
+	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[4], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
+}
+
+func (c *placementServiceProtobufClient) StatePlay(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.placement")
+	ctx = ctxsetters.WithServiceName(ctx, "PlacementService")
+	ctx = ctxsetters.WithMethodName(ctx, "StatePlay")
+	caller := c.callStatePlay
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*IdRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
+					}
+					return c.callStatePlay(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*GetResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *placementServiceProtobufClient) callStatePlay(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	out := new(GetResponse)
 	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[5], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
+}
+
+func (c *placementServiceProtobufClient) StateStop(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.placement")
+	ctx = ctxsetters.WithServiceName(ctx, "PlacementService")
+	ctx = ctxsetters.WithMethodName(ctx, "StateStop")
+	caller := c.callStateStop
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*IdRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
+					}
+					return c.callStateStop(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*GetResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *placementServiceProtobufClient) callStateStop(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	out := new(GetResponse)
+	ctx, err := doProtobufRequest(ctx, c.client, c.opts.Hooks, c.urls[6], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -381,7 +430,7 @@ func (c *placementServiceProtobufClient) callDelete(ctx context.Context, in *IdR
 
 type placementServiceJSONClient struct {
 	client      HTTPClient
-	urls        [6]string
+	urls        [7]string
 	interceptor twirp.Interceptor
 	opts        twirp.ClientOptions
 }
@@ -409,13 +458,14 @@ func NewPlacementServiceJSONClient(baseURL string, client HTTPClient, opts ...tw
 	// Build method URLs: <baseURL>[<prefix>]/<package>.<Service>/<Method>
 	serviceURL := sanitizeBaseURL(baseURL)
 	serviceURL += baseServicePath(pathPrefix, "adfy.io.rpc.placement", "PlacementService")
-	urls := [6]string{
+	urls := [7]string{
 		serviceURL + "Create",
 		serviceURL + "Get",
 		serviceURL + "List",
-		serviceURL + "GetAllByProject",
 		serviceURL + "Edit",
 		serviceURL + "Delete",
+		serviceURL + "StatePlay",
+		serviceURL + "StateStop",
 	}
 
 	return &placementServiceJSONClient{
@@ -564,52 +614,6 @@ func (c *placementServiceJSONClient) callList(ctx context.Context, in *ListReque
 	return out, nil
 }
 
-func (c *placementServiceJSONClient) GetAllByProject(ctx context.Context, in *GetAllByProjectRequest) (*ListResponse, error) {
-	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.placement")
-	ctx = ctxsetters.WithServiceName(ctx, "PlacementService")
-	ctx = ctxsetters.WithMethodName(ctx, "GetAllByProject")
-	caller := c.callGetAllByProject
-	if c.interceptor != nil {
-		caller = func(ctx context.Context, req *GetAllByProjectRequest) (*ListResponse, error) {
-			resp, err := c.interceptor(
-				func(ctx context.Context, req interface{}) (interface{}, error) {
-					typedReq, ok := req.(*GetAllByProjectRequest)
-					if !ok {
-						return nil, twirp.InternalError("failed type assertion req.(*GetAllByProjectRequest) when calling interceptor")
-					}
-					return c.callGetAllByProject(ctx, typedReq)
-				},
-			)(ctx, req)
-			if resp != nil {
-				typedResp, ok := resp.(*ListResponse)
-				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*ListResponse) when calling interceptor")
-				}
-				return typedResp, err
-			}
-			return nil, err
-		}
-	}
-	return caller(ctx, in)
-}
-
-func (c *placementServiceJSONClient) callGetAllByProject(ctx context.Context, in *GetAllByProjectRequest) (*ListResponse, error) {
-	out := new(ListResponse)
-	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[3], in, out)
-	if err != nil {
-		twerr, ok := err.(twirp.Error)
-		if !ok {
-			twerr = twirp.InternalErrorWith(err)
-		}
-		callClientError(ctx, c.opts.Hooks, twerr)
-		return nil, err
-	}
-
-	callClientResponseReceived(ctx, c.opts.Hooks)
-
-	return out, nil
-}
-
 func (c *placementServiceJSONClient) Edit(ctx context.Context, in *EditRequest) (*EditResponse, error) {
 	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.placement")
 	ctx = ctxsetters.WithServiceName(ctx, "PlacementService")
@@ -641,7 +645,7 @@ func (c *placementServiceJSONClient) Edit(ctx context.Context, in *EditRequest) 
 
 func (c *placementServiceJSONClient) callEdit(ctx context.Context, in *EditRequest) (*EditResponse, error) {
 	out := new(EditResponse)
-	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[4], in, out)
+	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[3], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -687,7 +691,99 @@ func (c *placementServiceJSONClient) Delete(ctx context.Context, in *IdRequest) 
 
 func (c *placementServiceJSONClient) callDelete(ctx context.Context, in *IdRequest) (*google_protobuf5.Empty, error) {
 	out := new(google_protobuf5.Empty)
+	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[4], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
+}
+
+func (c *placementServiceJSONClient) StatePlay(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.placement")
+	ctx = ctxsetters.WithServiceName(ctx, "PlacementService")
+	ctx = ctxsetters.WithMethodName(ctx, "StatePlay")
+	caller := c.callStatePlay
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*IdRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
+					}
+					return c.callStatePlay(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*GetResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *placementServiceJSONClient) callStatePlay(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	out := new(GetResponse)
 	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[5], in, out)
+	if err != nil {
+		twerr, ok := err.(twirp.Error)
+		if !ok {
+			twerr = twirp.InternalErrorWith(err)
+		}
+		callClientError(ctx, c.opts.Hooks, twerr)
+		return nil, err
+	}
+
+	callClientResponseReceived(ctx, c.opts.Hooks)
+
+	return out, nil
+}
+
+func (c *placementServiceJSONClient) StateStop(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	ctx = ctxsetters.WithPackageName(ctx, "adfy.io.rpc.placement")
+	ctx = ctxsetters.WithServiceName(ctx, "PlacementService")
+	ctx = ctxsetters.WithMethodName(ctx, "StateStop")
+	caller := c.callStateStop
+	if c.interceptor != nil {
+		caller = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
+			resp, err := c.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*IdRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
+					}
+					return c.callStateStop(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*GetResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+	return caller(ctx, in)
+}
+
+func (c *placementServiceJSONClient) callStateStop(ctx context.Context, in *IdRequest) (*GetResponse, error) {
+	out := new(GetResponse)
+	ctx, err := doJSONRequest(ctx, c.client, c.opts.Hooks, c.urls[6], in, out)
 	if err != nil {
 		twerr, ok := err.(twirp.Error)
 		if !ok {
@@ -808,14 +904,17 @@ func (s *placementServiceServer) ServeHTTP(resp http.ResponseWriter, req *http.R
 	case "List":
 		s.serveList(ctx, resp, req)
 		return
-	case "GetAllByProject":
-		s.serveGetAllByProject(ctx, resp, req)
-		return
 	case "Edit":
 		s.serveEdit(ctx, resp, req)
 		return
 	case "Delete":
 		s.serveDelete(ctx, resp, req)
+		return
+	case "StatePlay":
+		s.serveStatePlay(ctx, resp, req)
+		return
+	case "StateStop":
+		s.serveStateStop(ctx, resp, req)
 		return
 	default:
 		msg := fmt.Sprintf("no handler for path %q", req.URL.Path)
@@ -1364,186 +1463,6 @@ func (s *placementServiceServer) serveListProtobuf(ctx context.Context, resp htt
 	callResponseSent(ctx, s.hooks)
 }
 
-func (s *placementServiceServer) serveGetAllByProject(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
-	header := req.Header.Get("Content-Type")
-	i := strings.Index(header, ";")
-	if i == -1 {
-		i = len(header)
-	}
-	switch strings.TrimSpace(strings.ToLower(header[:i])) {
-	case "application/json":
-		s.serveGetAllByProjectJSON(ctx, resp, req)
-	case "application/protobuf":
-		s.serveGetAllByProjectProtobuf(ctx, resp, req)
-	default:
-		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
-		twerr := badRouteError(msg, req.Method, req.URL.Path)
-		s.writeError(ctx, resp, twerr)
-	}
-}
-
-func (s *placementServiceServer) serveGetAllByProjectJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
-	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "GetAllByProject")
-	ctx, err = callRequestRouted(ctx, s.hooks)
-	if err != nil {
-		s.writeError(ctx, resp, err)
-		return
-	}
-
-	d := json.NewDecoder(req.Body)
-	rawReqBody := json.RawMessage{}
-	if err := d.Decode(&rawReqBody); err != nil {
-		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
-		return
-	}
-	reqContent := new(GetAllByProjectRequest)
-	unmarshaler := protojson.UnmarshalOptions{DiscardUnknown: true}
-	if err = unmarshaler.Unmarshal(rawReqBody, reqContent); err != nil {
-		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
-		return
-	}
-
-	handler := s.PlacementService.GetAllByProject
-	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *GetAllByProjectRequest) (*ListResponse, error) {
-			resp, err := s.interceptor(
-				func(ctx context.Context, req interface{}) (interface{}, error) {
-					typedReq, ok := req.(*GetAllByProjectRequest)
-					if !ok {
-						return nil, twirp.InternalError("failed type assertion req.(*GetAllByProjectRequest) when calling interceptor")
-					}
-					return s.PlacementService.GetAllByProject(ctx, typedReq)
-				},
-			)(ctx, req)
-			if resp != nil {
-				typedResp, ok := resp.(*ListResponse)
-				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*ListResponse) when calling interceptor")
-				}
-				return typedResp, err
-			}
-			return nil, err
-		}
-	}
-
-	// Call service method
-	var respContent *ListResponse
-	func() {
-		defer ensurePanicResponses(ctx, resp, s.hooks)
-		respContent, err = handler(ctx, reqContent)
-	}()
-
-	if err != nil {
-		s.writeError(ctx, resp, err)
-		return
-	}
-	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *ListResponse and nil error while calling GetAllByProject. nil responses are not supported"))
-		return
-	}
-
-	ctx = callResponsePrepared(ctx, s.hooks)
-
-	marshaler := &protojson.MarshalOptions{UseProtoNames: !s.jsonCamelCase, EmitUnpopulated: !s.jsonSkipDefaults}
-	respBytes, err := marshaler.Marshal(respContent)
-	if err != nil {
-		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal json response"))
-		return
-	}
-
-	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
-	resp.Header().Set("Content-Type", "application/json")
-	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
-	resp.WriteHeader(http.StatusOK)
-
-	if n, err := resp.Write(respBytes); err != nil {
-		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
-		twerr := twirp.NewError(twirp.Unknown, msg)
-		ctx = callError(ctx, s.hooks, twerr)
-	}
-	callResponseSent(ctx, s.hooks)
-}
-
-func (s *placementServiceServer) serveGetAllByProjectProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
-	var err error
-	ctx = ctxsetters.WithMethodName(ctx, "GetAllByProject")
-	ctx, err = callRequestRouted(ctx, s.hooks)
-	if err != nil {
-		s.writeError(ctx, resp, err)
-		return
-	}
-
-	buf, err := ioutil.ReadAll(req.Body)
-	if err != nil {
-		s.handleRequestBodyError(ctx, resp, "failed to read request body", err)
-		return
-	}
-	reqContent := new(GetAllByProjectRequest)
-	if err = proto.Unmarshal(buf, reqContent); err != nil {
-		s.writeError(ctx, resp, malformedRequestError("the protobuf request could not be decoded"))
-		return
-	}
-
-	handler := s.PlacementService.GetAllByProject
-	if s.interceptor != nil {
-		handler = func(ctx context.Context, req *GetAllByProjectRequest) (*ListResponse, error) {
-			resp, err := s.interceptor(
-				func(ctx context.Context, req interface{}) (interface{}, error) {
-					typedReq, ok := req.(*GetAllByProjectRequest)
-					if !ok {
-						return nil, twirp.InternalError("failed type assertion req.(*GetAllByProjectRequest) when calling interceptor")
-					}
-					return s.PlacementService.GetAllByProject(ctx, typedReq)
-				},
-			)(ctx, req)
-			if resp != nil {
-				typedResp, ok := resp.(*ListResponse)
-				if !ok {
-					return nil, twirp.InternalError("failed type assertion resp.(*ListResponse) when calling interceptor")
-				}
-				return typedResp, err
-			}
-			return nil, err
-		}
-	}
-
-	// Call service method
-	var respContent *ListResponse
-	func() {
-		defer ensurePanicResponses(ctx, resp, s.hooks)
-		respContent, err = handler(ctx, reqContent)
-	}()
-
-	if err != nil {
-		s.writeError(ctx, resp, err)
-		return
-	}
-	if respContent == nil {
-		s.writeError(ctx, resp, twirp.InternalError("received a nil *ListResponse and nil error while calling GetAllByProject. nil responses are not supported"))
-		return
-	}
-
-	ctx = callResponsePrepared(ctx, s.hooks)
-
-	respBytes, err := proto.Marshal(respContent)
-	if err != nil {
-		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal proto response"))
-		return
-	}
-
-	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
-	resp.Header().Set("Content-Type", "application/protobuf")
-	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
-	resp.WriteHeader(http.StatusOK)
-	if n, err := resp.Write(respBytes); err != nil {
-		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
-		twerr := twirp.NewError(twirp.Unknown, msg)
-		ctx = callError(ctx, s.hooks, twerr)
-	}
-	callResponseSent(ctx, s.hooks)
-}
-
 func (s *placementServiceServer) serveEdit(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
 	header := req.Header.Get("Content-Type")
 	i := strings.Index(header, ";")
@@ -1881,6 +1800,366 @@ func (s *placementServiceServer) serveDeleteProtobuf(ctx context.Context, resp h
 	}
 	if respContent == nil {
 		s.writeError(ctx, resp, twirp.InternalError("received a nil *google_protobuf5.Empty and nil error while calling Delete. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	respBytes, err := proto.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal proto response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/protobuf")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
+}
+
+func (s *placementServiceServer) serveStatePlay(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	header := req.Header.Get("Content-Type")
+	i := strings.Index(header, ";")
+	if i == -1 {
+		i = len(header)
+	}
+	switch strings.TrimSpace(strings.ToLower(header[:i])) {
+	case "application/json":
+		s.serveStatePlayJSON(ctx, resp, req)
+	case "application/protobuf":
+		s.serveStatePlayProtobuf(ctx, resp, req)
+	default:
+		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
+		twerr := badRouteError(msg, req.Method, req.URL.Path)
+		s.writeError(ctx, resp, twerr)
+	}
+}
+
+func (s *placementServiceServer) serveStatePlayJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "StatePlay")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	d := json.NewDecoder(req.Body)
+	rawReqBody := json.RawMessage{}
+	if err := d.Decode(&rawReqBody); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+	reqContent := new(IdRequest)
+	unmarshaler := protojson.UnmarshalOptions{DiscardUnknown: true}
+	if err = unmarshaler.Unmarshal(rawReqBody, reqContent); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+
+	handler := s.PlacementService.StatePlay
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*IdRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
+					}
+					return s.PlacementService.StatePlay(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*GetResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *GetResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetResponse and nil error while calling StatePlay. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	marshaler := &protojson.MarshalOptions{UseProtoNames: !s.jsonCamelCase, EmitUnpopulated: !s.jsonSkipDefaults}
+	respBytes, err := marshaler.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal json response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/json")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
+}
+
+func (s *placementServiceServer) serveStatePlayProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "StatePlay")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	buf, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		s.handleRequestBodyError(ctx, resp, "failed to read request body", err)
+		return
+	}
+	reqContent := new(IdRequest)
+	if err = proto.Unmarshal(buf, reqContent); err != nil {
+		s.writeError(ctx, resp, malformedRequestError("the protobuf request could not be decoded"))
+		return
+	}
+
+	handler := s.PlacementService.StatePlay
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*IdRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
+					}
+					return s.PlacementService.StatePlay(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*GetResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *GetResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetResponse and nil error while calling StatePlay. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	respBytes, err := proto.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal proto response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/protobuf")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
+}
+
+func (s *placementServiceServer) serveStateStop(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	header := req.Header.Get("Content-Type")
+	i := strings.Index(header, ";")
+	if i == -1 {
+		i = len(header)
+	}
+	switch strings.TrimSpace(strings.ToLower(header[:i])) {
+	case "application/json":
+		s.serveStateStopJSON(ctx, resp, req)
+	case "application/protobuf":
+		s.serveStateStopProtobuf(ctx, resp, req)
+	default:
+		msg := fmt.Sprintf("unexpected Content-Type: %q", req.Header.Get("Content-Type"))
+		twerr := badRouteError(msg, req.Method, req.URL.Path)
+		s.writeError(ctx, resp, twerr)
+	}
+}
+
+func (s *placementServiceServer) serveStateStopJSON(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "StateStop")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	d := json.NewDecoder(req.Body)
+	rawReqBody := json.RawMessage{}
+	if err := d.Decode(&rawReqBody); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+	reqContent := new(IdRequest)
+	unmarshaler := protojson.UnmarshalOptions{DiscardUnknown: true}
+	if err = unmarshaler.Unmarshal(rawReqBody, reqContent); err != nil {
+		s.handleRequestBodyError(ctx, resp, "the json request could not be decoded", err)
+		return
+	}
+
+	handler := s.PlacementService.StateStop
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*IdRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
+					}
+					return s.PlacementService.StateStop(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*GetResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *GetResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetResponse and nil error while calling StateStop. nil responses are not supported"))
+		return
+	}
+
+	ctx = callResponsePrepared(ctx, s.hooks)
+
+	marshaler := &protojson.MarshalOptions{UseProtoNames: !s.jsonCamelCase, EmitUnpopulated: !s.jsonSkipDefaults}
+	respBytes, err := marshaler.Marshal(respContent)
+	if err != nil {
+		s.writeError(ctx, resp, wrapInternal(err, "failed to marshal json response"))
+		return
+	}
+
+	ctx = ctxsetters.WithStatusCode(ctx, http.StatusOK)
+	resp.Header().Set("Content-Type", "application/json")
+	resp.Header().Set("Content-Length", strconv.Itoa(len(respBytes)))
+	resp.WriteHeader(http.StatusOK)
+
+	if n, err := resp.Write(respBytes); err != nil {
+		msg := fmt.Sprintf("failed to write response, %d of %d bytes written: %s", n, len(respBytes), err.Error())
+		twerr := twirp.NewError(twirp.Unknown, msg)
+		ctx = callError(ctx, s.hooks, twerr)
+	}
+	callResponseSent(ctx, s.hooks)
+}
+
+func (s *placementServiceServer) serveStateStopProtobuf(ctx context.Context, resp http.ResponseWriter, req *http.Request) {
+	var err error
+	ctx = ctxsetters.WithMethodName(ctx, "StateStop")
+	ctx, err = callRequestRouted(ctx, s.hooks)
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+
+	buf, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		s.handleRequestBodyError(ctx, resp, "failed to read request body", err)
+		return
+	}
+	reqContent := new(IdRequest)
+	if err = proto.Unmarshal(buf, reqContent); err != nil {
+		s.writeError(ctx, resp, malformedRequestError("the protobuf request could not be decoded"))
+		return
+	}
+
+	handler := s.PlacementService.StateStop
+	if s.interceptor != nil {
+		handler = func(ctx context.Context, req *IdRequest) (*GetResponse, error) {
+			resp, err := s.interceptor(
+				func(ctx context.Context, req interface{}) (interface{}, error) {
+					typedReq, ok := req.(*IdRequest)
+					if !ok {
+						return nil, twirp.InternalError("failed type assertion req.(*IdRequest) when calling interceptor")
+					}
+					return s.PlacementService.StateStop(ctx, typedReq)
+				},
+			)(ctx, req)
+			if resp != nil {
+				typedResp, ok := resp.(*GetResponse)
+				if !ok {
+					return nil, twirp.InternalError("failed type assertion resp.(*GetResponse) when calling interceptor")
+				}
+				return typedResp, err
+			}
+			return nil, err
+		}
+	}
+
+	// Call service method
+	var respContent *GetResponse
+	func() {
+		defer ensurePanicResponses(ctx, resp, s.hooks)
+		respContent, err = handler(ctx, reqContent)
+	}()
+
+	if err != nil {
+		s.writeError(ctx, resp, err)
+		return
+	}
+	if respContent == nil {
+		s.writeError(ctx, resp, twirp.InternalError("received a nil *GetResponse and nil error while calling StateStop. nil responses are not supported"))
 		return
 	}
 
@@ -2482,49 +2761,49 @@ func callClientError(ctx context.Context, h *twirp.ClientHooks, err twirp.Error)
 }
 
 var twirpFileDescriptor0 = []byte{
-	// 691 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0xcd, 0x4e, 0xdb, 0x40,
-	0x10, 0x96, 0x93, 0x90, 0x90, 0x09, 0xa5, 0x68, 0x25, 0x82, 0x9b, 0x22, 0x64, 0xb9, 0x45, 0x42,
-	0xa8, 0xb1, 0x4b, 0x2a, 0x71, 0x40, 0xfd, 0x21, 0x29, 0x08, 0xd1, 0x16, 0x88, 0x0c, 0xbd, 0xf4,
-	0xb6, 0xd8, 0x43, 0x70, 0xeb, 0x64, 0xdd, 0xf5, 0x06, 0x94, 0x5b, 0x25, 0xde, 0xa0, 0xa7, 0x9e,
-	0xfa, 0x0c, 0x7d, 0xbd, 0x72, 0xaa, 0xbc, 0xf6, 0x9a, 0x24, 0x25, 0x0d, 0x52, 0x39, 0x65, 0xb3,
-	0xdf, 0x37, 0xdf, 0xcc, 0xce, 0x9f, 0x61, 0x29, 0x0c, 0xa8, 0x8b, 0x5d, 0xec, 0x09, 0x3b, 0x42,
-	0x7e, 0xe1, 0xbb, 0x68, 0x85, 0x9c, 0x09, 0x46, 0x16, 0xa9, 0x77, 0x36, 0xb0, 0x7c, 0x66, 0xf1,
-	0xd0, 0xb5, 0x32, 0x52, 0x6d, 0x31, 0xe4, 0xec, 0x33, 0xba, 0x63, 0xec, 0x1a, 0xa1, 0x1c, 0xe9,
-	0xd8, 0x5d, 0x55, 0x60, 0x37, 0x0c, 0xa8, 0xc0, 0xb1, 0xfb, 0xa5, 0x0b, 0x1a, 0xf8, 0x5e, 0x7c,
-	0xaf, 0x0e, 0x29, 0xf0, 0x4c, 0xfe, 0xb8, 0xf5, 0x0e, 0xf6, 0xea, 0xd1, 0x25, 0xed, 0x74, 0x90,
-	0xdb, 0x2c, 0x14, 0x3e, 0xeb, 0x45, 0x36, 0xed, 0xf5, 0x98, 0xa0, 0xf2, 0x9c, 0xb2, 0x1f, 0x77,
-	0x18, 0xeb, 0x04, 0x68, 0xcb, 0x7f, 0xa7, 0xfd, 0x33, 0x1b, 0xbb, 0xa1, 0x18, 0xa4, 0xe0, 0xf2,
-	0x38, 0x18, 0x09, 0xde, 0x77, 0x45, 0x82, 0x9a, 0x07, 0xf0, 0xe0, 0x2d, 0x47, 0x2a, 0xd0, 0xc1,
-	0xaf, 0x7d, 0x8c, 0x04, 0x79, 0x09, 0xb3, 0xf1, 0x13, 0xe3, 0x17, 0xea, 0x9a, 0xa1, 0xad, 0x55,
-	0x1a, 0x86, 0x75, 0xeb, 0xfb, 0xad, 0xb6, 0x3a, 0x39, 0x99, 0x85, 0xd9, 0x86, 0x79, 0x25, 0x17,
-	0x85, 0xac, 0x17, 0x21, 0x79, 0x0d, 0xe5, 0xcc, 0xe4, 0xce, 0x82, 0x37, 0x26, 0xe6, 0x01, 0x54,
-	0x76, 0x3d, 0x5f, 0xa8, 0xf0, 0xfe, 0x57, 0xee, 0x10, 0xe6, 0x12, 0xb9, 0x7b, 0x0a, 0x6f, 0x15,
-	0xca, 0xfb, 0x9e, 0x0a, 0x4e, 0x87, 0x9c, 0xef, 0x49, 0x95, 0x72, 0x6b, 0xf6, 0xba, 0x35, 0xc3,
-	0xf3, 0xbf, 0x34, 0xcd, 0xc9, 0xf9, 0x9e, 0x79, 0x02, 0xd5, 0x3d, 0x14, 0xcd, 0x20, 0x68, 0x0d,
-	0xda, 0x49, 0xd7, 0x28, 0x9b, 0x2d, 0x28, 0xa5, 0x7d, 0x34, 0xc5, 0x7d, 0xe6, 0xc6, 0x51, 0x06,
-	0xe6, 0x36, 0x54, 0x3e, 0xf8, 0x51, 0x26, 0xb5, 0x01, 0xa5, 0x33, 0x3f, 0x10, 0xc8, 0x23, 0x5d,
-	0x33, 0xf2, 0x6b, 0x95, 0xc6, 0x92, 0x95, 0xd4, 0xde, 0x52, 0xb5, 0xb7, 0x8e, 0x65, 0xed, 0x1d,
-	0xc5, 0x33, 0xdb, 0x30, 0x97, 0x28, 0xa4, 0xe9, 0xd8, 0x06, 0xc8, 0x3c, 0x2a, 0x95, 0xe9, 0xf9,
-	0x18, 0xb2, 0x89, 0xeb, 0xb5, 0x87, 0xf7, 0x97, 0xdf, 0xdf, 0x1a, 0x94, 0x33, 0x80, 0xcc, 0xdf,
-	0x24, 0x38, 0x4e, 0x2b, 0x59, 0x81, 0x42, 0x8f, 0x76, 0x51, 0xcf, 0xc9, 0x94, 0xc3, 0x75, 0xab,
-	0xc4, 0x67, 0x16, 0xf2, 0xfa, 0x37, 0xcd, 0x91, 0xf7, 0x64, 0xf3, 0x26, 0xb9, 0x05, 0xe9, 0x7b,
-	0x79, 0xd4, 0x77, 0x82, 0x59, 0xaa, 0x24, 0x8a, 0x4c, 0xd6, 0xa1, 0x10, 0x4f, 0xb1, 0x3e, 0x23,
-	0x8d, 0xaa, 0x23, 0x46, 0x31, 0x60, 0x35, 0x39, 0x52, 0x47, 0x72, 0xc8, 0x16, 0xcc, 0xaa, 0xe9,
-	0xd6, 0x8b, 0x92, 0xbf, 0x32, 0xc2, 0x57, 0xa0, 0x75, 0x92, 0x1e, 0x9c, 0x8c, 0x4f, 0x96, 0xa1,
-	0xe0, 0x51, 0x41, 0xf5, 0xd2, 0x50, 0xcb, 0xfc, 0xd0, 0xc0, 0x91, 0xb7, 0x8d, 0xab, 0x02, 0x2c,
-	0x64, 0x6f, 0x3f, 0x4e, 0x16, 0x07, 0xf9, 0x08, 0xc5, 0x64, 0xc2, 0xc8, 0xd3, 0x09, 0x79, 0x1c,
-	0x99, 0xe7, 0xda, 0xea, 0x14, 0x56, 0x5a, 0xa7, 0xf7, 0x90, 0xdf, 0x43, 0x41, 0xa6, 0x36, 0x5f,
-	0xcd, 0x9c, 0xc0, 0x18, 0x2e, 0xfa, 0x11, 0x14, 0xe2, 0xae, 0x22, 0x93, 0xb8, 0x43, 0x4d, 0x5b,
-	0x7b, 0xf2, 0x4f, 0x4e, 0x2a, 0x88, 0xf0, 0x70, 0x6c, 0x7c, 0x48, 0x7d, 0x72, 0x1c, 0xb7, 0x8c,
-	0xd9, 0xdd, 0xdc, 0x1c, 0x41, 0x21, 0x5e, 0x0e, 0x13, 0xe3, 0x1e, 0x5a, 0x44, 0x13, 0x05, 0x47,
-	0xb6, 0x4b, 0x0b, 0x8a, 0x3b, 0x18, 0xa0, 0xc0, 0x3b, 0x24, 0xb6, 0xfa, 0xd7, 0xb0, 0xee, 0xc6,
-	0x5b, 0xbc, 0xf5, 0x53, 0xfb, 0xa4, 0x3e, 0x40, 0x36, 0x0f, 0x5d, 0x3b, 0xb3, 0xfd, 0xde, 0xbc,
-	0xd2, 0xc8, 0x2b, 0xd8, 0x6c, 0x26, 0xa0, 0x91, 0x01, 0x46, 0xda, 0x2b, 0xc6, 0xc9, 0xa5, 0xcf,
-	0x43, 0xfb, 0xdd, 0xf1, 0xd1, 0xa1, 0xd1, 0x6c, 0xef, 0x1b, 0x3b, 0xcc, 0xed, 0xc7, 0xb8, 0xfc,
-	0x76, 0x34, 0xf2, 0x1b, 0xd6, 0xf3, 0x75, 0x2d, 0xc7, 0xdf, 0xc0, 0x23, 0xa5, 0xd0, 0xf1, 0xc5,
-	0x79, 0xff, 0xd4, 0xe0, 0x18, 0xb2, 0xc8, 0x17, 0x8c, 0x0f, 0x88, 0x79, 0x2e, 0x44, 0x18, 0x6d,
-	0xd9, 0x76, 0x02, 0x59, 0x2e, 0xeb, 0xda, 0x17, 0x81, 0xd7, 0xe5, 0xf5, 0x2f, 0x76, 0x1a, 0xd4,
-	0x69, 0x51, 0x06, 0xfc, 0xe2, 0x4f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xdf, 0xfc, 0x27, 0x28, 0x40,
-	0x07, 0x00, 0x00,
+	// 696 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0xcb, 0x4e, 0xdb, 0x4c,
+	0x14, 0x96, 0x73, 0xcf, 0xe1, 0x22, 0x34, 0x12, 0xc1, 0x7f, 0x7e, 0x8a, 0x2c, 0xb7, 0x48, 0x08,
+	0x95, 0x71, 0x4b, 0x25, 0x16, 0xa8, 0xb7, 0xb8, 0x20, 0x44, 0x5b, 0x20, 0x75, 0xe8, 0xa6, 0xbb,
+	0xc1, 0x1e, 0x82, 0xa9, 0xe3, 0x71, 0xc7, 0x13, 0x50, 0x76, 0x95, 0xfa, 0x06, 0x5d, 0xb1, 0xea,
+	0x33, 0xf4, 0x19, 0xfa, 0x58, 0xac, 0x2a, 0x8f, 0x3d, 0xce, 0x45, 0x4d, 0x41, 0x6a, 0x56, 0x99,
+	0x9c, 0xef, 0x3b, 0xdf, 0xcc, 0xf9, 0xe6, 0x9c, 0x31, 0xac, 0x44, 0x01, 0x71, 0x69, 0x8f, 0x86,
+	0xc2, 0x8a, 0x29, 0xbf, 0xf2, 0x5d, 0x8a, 0x23, 0xce, 0x04, 0x43, 0xcb, 0xc4, 0x3b, 0x1f, 0x60,
+	0x9f, 0x61, 0x1e, 0xb9, 0x38, 0x27, 0x35, 0x97, 0x23, 0xce, 0x2e, 0xa9, 0x3b, 0xc1, 0x6e, 0x22,
+	0xc2, 0x29, 0x99, 0x88, 0x35, 0x04, 0xed, 0x45, 0x01, 0x11, 0x74, 0x22, 0xbe, 0x72, 0x45, 0x02,
+	0xdf, 0x4b, 0xe2, 0x6a, 0x91, 0x01, 0x8f, 0xe5, 0x8f, 0xbb, 0xd5, 0xa5, 0xe1, 0x56, 0x7c, 0x4d,
+	0xba, 0x5d, 0xca, 0x2d, 0x16, 0x09, 0x9f, 0x85, 0xb1, 0x45, 0xc2, 0x90, 0x09, 0x22, 0xd7, 0x19,
+	0xfb, 0xff, 0x2e, 0x63, 0xdd, 0x80, 0x5a, 0xf2, 0xdf, 0x59, 0xff, 0xdc, 0xa2, 0xbd, 0x48, 0x0c,
+	0x32, 0x70, 0x75, 0x12, 0x8c, 0x05, 0xef, 0xbb, 0x22, 0x45, 0xcd, 0x23, 0x58, 0x78, 0xc3, 0x29,
+	0x11, 0xd4, 0xa1, 0x5f, 0xfa, 0x34, 0x16, 0xe8, 0x39, 0xd4, 0x92, 0x12, 0x93, 0x0a, 0x75, 0xcd,
+	0xd0, 0x36, 0xe6, 0xb6, 0x0d, 0xfc, 0xc7, 0xfa, 0x71, 0x5b, 0xad, 0x9c, 0x3c, 0xc3, 0x6c, 0xc3,
+	0xa2, 0x92, 0x8b, 0x23, 0x16, 0xc6, 0x14, 0xbd, 0x84, 0x7a, 0x9e, 0x72, 0x6f, 0xc1, 0x61, 0x8a,
+	0x79, 0x04, 0x73, 0xfb, 0x9e, 0x2f, 0xd4, 0xf1, 0xfe, 0x55, 0xee, 0x18, 0xe6, 0x53, 0xb9, 0x19,
+	0x1d, 0x6f, 0x1d, 0xea, 0x87, 0x9e, 0x3a, 0x9c, 0x0e, 0x05, 0xdf, 0x93, 0x2a, 0x75, 0xbb, 0x76,
+	0x6b, 0x97, 0x79, 0xf1, 0xa7, 0xa6, 0x39, 0x05, 0xdf, 0x33, 0x4f, 0xa1, 0x71, 0x40, 0x45, 0x2b,
+	0x08, 0xec, 0x41, 0x3b, 0xed, 0x1a, 0x95, 0xb3, 0x0b, 0xd5, 0xac, 0x8f, 0xee, 0xd8, 0x3e, 0xdf,
+	0xc6, 0x51, 0x09, 0xe6, 0x02, 0xcc, 0xbd, 0xf7, 0x63, 0x25, 0x65, 0xb6, 0x61, 0x3e, 0xfd, 0x9b,
+	0xd5, 0xf6, 0x1a, 0x20, 0x4f, 0x8f, 0x75, 0xcd, 0x28, 0xde, 0xab, 0xb8, 0x91, 0x9c, 0xc4, 0xfc,
+	0x03, 0x3a, 0x3b, 0xb3, 0x6e, 0x0a, 0x50, 0xcf, 0x01, 0xb4, 0x38, 0x74, 0x2b, 0xf1, 0x08, 0xad,
+	0x41, 0x29, 0x24, 0x3d, 0xaa, 0x17, 0xa4, 0x7f, 0x70, 0x6b, 0x57, 0x79, 0x79, 0xa9, 0xa8, 0x7f,
+	0xd5, 0x1c, 0x19, 0x47, 0x3b, 0x43, 0xa7, 0x4a, 0x72, 0xef, 0xd5, 0xf1, 0xbd, 0x53, 0x0c, 0x2b,
+	0x7f, 0x15, 0x19, 0x6d, 0x42, 0x29, 0x19, 0x49, 0xbd, 0x2c, 0x93, 0x1a, 0x63, 0x49, 0x09, 0x80,
+	0x5b, 0x9c, 0x12, 0x47, 0x72, 0xd0, 0x2e, 0xd4, 0xd4, 0xa8, 0xea, 0x15, 0xc9, 0x5f, 0x1b, 0xe3,
+	0x2b, 0x10, 0x9f, 0x66, 0x0b, 0x27, 0xe7, 0xa3, 0x55, 0x28, 0x79, 0x44, 0x10, 0xbd, 0x3a, 0x72,
+	0xff, 0x37, 0x1a, 0x38, 0x32, 0x8a, 0x1e, 0x40, 0x39, 0x16, 0x89, 0x6c, 0xcd, 0xd0, 0x36, 0x6a,
+	0x76, 0xf5, 0xd6, 0x2e, 0x5d, 0x16, 0x6a, 0x9a, 0x93, 0x46, 0xb7, 0x7f, 0x95, 0x60, 0x29, 0xb7,
+	0xa6, 0x93, 0x3e, 0x12, 0xe8, 0x23, 0x54, 0xd2, 0x69, 0x42, 0x8f, 0xa6, 0xd8, 0x3c, 0x36, 0xbb,
+	0xcd, 0xf5, 0x3b, 0x58, 0xd9, 0x35, 0xbe, 0x83, 0xe2, 0x01, 0x15, 0xe8, 0xce, 0x46, 0x6b, 0x9a,
+	0x53, 0x18, 0xa3, 0x3d, 0x71, 0x02, 0xa5, 0xa4, 0xe9, 0xd0, 0x34, 0xee, 0x48, 0x83, 0x36, 0x1f,
+	0xfe, 0x95, 0x33, 0x14, 0x4c, 0x26, 0x74, 0xaa, 0xe0, 0xc8, 0x6b, 0x30, 0x55, 0x70, 0x6c, 0xc4,
+	0x6d, 0xa8, 0xec, 0xd1, 0x80, 0x0a, 0x7a, 0x8f, 0x8a, 0x1b, 0x38, 0x7d, 0x2d, 0xb1, 0x7a, 0x2d,
+	0xf1, 0x7e, 0xf2, 0x94, 0xa2, 0x0f, 0x50, 0xef, 0x24, 0xf7, 0xd4, 0x0e, 0xc8, 0x60, 0x46, 0xc6,
+	0x29, 0xc9, 0x8e, 0x60, 0xd1, 0x6c, 0x24, 0xed, 0x1f, 0xda, 0x27, 0xf5, 0xad, 0xb2, 0x78, 0xe4,
+	0x5a, 0x39, 0xeb, 0x7b, 0xeb, 0x9b, 0x86, 0x5e, 0xc0, 0x4e, 0x2b, 0x05, 0x8d, 0x1c, 0x30, 0xb2,
+	0x56, 0x33, 0x4e, 0xaf, 0x7d, 0x1e, 0x59, 0x6f, 0x3b, 0x27, 0xc7, 0x46, 0xab, 0x7d, 0x68, 0xec,
+	0x31, 0xb7, 0x9f, 0xe0, 0xf2, 0x33, 0xb3, 0x5d, 0x7c, 0x8a, 0x9f, 0x6c, 0x6a, 0x05, 0xfe, 0x0a,
+	0xfe, 0x53, 0x0a, 0x5d, 0x5f, 0x5c, 0xf4, 0xcf, 0x0c, 0x4e, 0x23, 0x16, 0xfb, 0x82, 0xf1, 0x01,
+	0x32, 0x2f, 0x84, 0x88, 0xe2, 0x5d, 0xcb, 0x4a, 0x21, 0xec, 0xb2, 0x9e, 0x75, 0x15, 0x78, 0x3d,
+	0xbe, 0xf5, 0xd9, 0xca, 0x0e, 0x75, 0x56, 0x91, 0xb6, 0x3e, 0xfb, 0x1d, 0x00, 0x00, 0xff, 0xff,
+	0xe7, 0x5f, 0x29, 0x61, 0x6b, 0x07, 0x00, 0x00,
 }

@@ -4,21 +4,37 @@
   </div>
   <div class="container adfy-content">
 
-    <ng-component *ngIf="(projectList$ | async) as projects; then filters"></ng-component>
+    <ng-container *ngIf="(projectList$ | async) as result">
+      <adfy-placement-list-filters *ngIf="result.length > 0" [projects]="result"></adfy-placement-list-filters>
+    </ng-container>
 
+    <ng-container *ngIf="(placementList$ | async) as placementList else loading">
+
+      <table *ngIf="placementList.length > 0" class="tui-table">
+        <tbody>
+          <tr class="tui-table__tr">
+            <th class="tui-table__th">Name</th>
+            <th class="tui-table__th">Status</th>
+            <th class="tui-table__th">Project</th>
+            <th class="tui-table__th">Area</th>
+            <th></th>
+          </tr>
+          <tr class="tui-table__tr" *ngFor="let placement of placementList">
+            <td class="tui-table__td">{{placement.name}}</td>
+            <td class="tui-table__td">{{placement.state}}</td>
+            <td class="tui-table__td">{{placement.project?.name}}</td>
+            <td class="tui-table__td">{{placement.area?.name}}</td>
+            <td class="tui-table__td" width="50px">
+              <adfy-placement-grid-action></adfy-placement-grid-action>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
 
   </div>
 </div>
 
-<ng-template #filters>
-  <form [formGroup]="form">
-    <tui-filter
-        formControlName="filters"
-        size="s"
-        [items]="items"
-    ></tui-filter>
-  </form>
-</ng-template>
 
 <ng-template #loading>
   <tui-loader class="inline-flex tui-space_right-2" [showLoader]="true" [inheritColor]="true" [overlay]="true">

@@ -4,6 +4,9 @@ gen:
 migrate:
 	go run cmd/db/main.go
 
+srv:
+  export CONFIG_PATH=/home/vldmrk/go/packages/adfy.io go run main.go
+
 swagger:
 	chmod -R +x bin/
 	bin/swagger-documentation.sh
