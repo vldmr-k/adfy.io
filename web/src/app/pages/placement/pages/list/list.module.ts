@@ -5,13 +5,16 @@ import {PlacementListComponent} from "@pages/placement/pages/list/list.component
 import {TuiButtonModule, TuiDataListModule, TuiDropdownModule, TuiLoaderModule, TuiSvgModule} from "@taiga-ui/core";
 import {TuiFilterModule} from "@taiga-ui/kit";
 import {ReactiveFormsModule} from "@angular/forms";
-import {PlacementGridActionComponent} from "@pages/placement/pages/list/components/grid-action.component";
+
+import {PlacementGridColumnActionComponent} from "@pages/placement/pages/list/components/grid/column/action.component";
+import {PlacementGridColumnStateComponent} from "@pages/placement/pages/list/components/grid/column/state.component";
 
 @NgModule({
   declarations: [
     PlacementListComponent,
     PlacementListFilterComponent,
-    PlacementGridActionComponent
+    PlacementGridColumnActionComponent,
+    PlacementGridColumnStateComponent
   ],
   imports: [
     CommonModule,

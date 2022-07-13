@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
 import {TUI_ARROW} from "@taiga-ui/kit";
+import {Placement} from "@grpc/placement/service";
 
 const ACCOUNT_MENU_ITEMS = [
   {
@@ -13,7 +14,7 @@ const ACCOUNT_MENU_ITEMS = [
 ];
 
 @Component({
-  selector: 'adfy-placement-grid-action',
+  selector: 'adfy-placement-grid-column-action',
   template: `
     <button
       tuiIconButton
@@ -44,13 +45,16 @@ const ACCOUNT_MENU_ITEMS = [
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlacementGridActionComponent {
+export class PlacementGridColumnActionComponent {
 
   readonly arrowIcon = TUI_ARROW;
 
   dropdownOpen: boolean = false;
 
   menuItems = ACCOUNT_MENU_ITEMS;
+
+  @Input()
+  placement!: Placement
 
   onClick(event: MouseEvent) {
     this.dropdownOpen = !this.dropdownOpen;
