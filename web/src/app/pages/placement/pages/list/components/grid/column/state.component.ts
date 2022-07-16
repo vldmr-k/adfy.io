@@ -4,7 +4,7 @@ import { Placement } from "@store/models";
 @Component({
   selector: 'adfy-placement-grid-column-state',
   template: `
-    <ng-container *ngIf="placement.state === false">
+    <ng-container *ngIf="placement.state === true">
       <tui-svg
         src="tuiIconPause"
         title="Playing"
@@ -12,7 +12,7 @@ import { Placement } from "@store/models";
       ></tui-svg>
     </ng-container>
 
-    <ng-container *ngIf="placement.state === true">
+    <ng-container *ngIf="placement.state === false">
       <tui-svg
         src="tuiIconPlay"
         title="Paused"

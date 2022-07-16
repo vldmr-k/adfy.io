@@ -6,10 +6,10 @@ export const STORE_MEDIA_KEY = 'media';
 import { createReducer, createFeature, on } from '@ngrx/store';
 
 export interface MediaState {
-  media: Media,
+  media: Media | null,
   list: Media[],
-  selectedMedia: Media,
-  error: null,
+  selectedMedia: Media | null,
+  error: object | null,
   loading: boolean
 }
 

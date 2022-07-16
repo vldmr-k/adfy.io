@@ -34,7 +34,7 @@ export class FileManagerComponent implements OnInit, OnDestroy {
           filter(media => media !== null)
          )
         .subscribe((media)=> {
-          this.context.completeWith( media?.url )
+          this.context.completeWith( media!.url )
           this.store.dispatch(mediaActions.resetSelectedMedia())
         });
   }

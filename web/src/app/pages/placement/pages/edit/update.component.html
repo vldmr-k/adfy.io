@@ -1,0 +1,19 @@
+<div class="adfy-placement-update">
+  <div class="tui-col_md-12 adfy-header">
+    <span class="tui-text_h4">Placement: Update</span>
+  </div>
+  <div class="container adfy-content">
+
+    <ng-container *ngIf="(placement$ | async) as placement else loading">
+      <adfy-placement-edit-form *ngIf="placement !== null" [placement]="placement"></adfy-placement-edit-form>
+    </ng-container>
+
+
+  </div>
+</div>
+
+
+<ng-template #loading>
+  <tui-loader class="inline-flex tui-space_right-2" [showLoader]="true" [inheritColor]="true" [overlay]="true">
+  </tui-loader>
+</ng-template>

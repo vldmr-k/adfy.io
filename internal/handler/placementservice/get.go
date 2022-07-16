@@ -14,7 +14,13 @@ func (s *PlacementService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb
 		return nil, twirp.NotFoundError(`Placement ${req.Id} not found!`)
 	}
 
+	pmplacement, err := s.transformer.Transofrm(placement)
+
+	if err != nil {
+		return nil, twirp.InternalErrorWith(err).WithMeta("placement", placement.ID.String())
+	}
+
 	return &pb.GetResponse{
-		Placement: s.transformer.Transofrm(placement),
+		Placement: pmplacement,
 	}, nil
 }

@@ -1284,18 +1284,6 @@ func (m *Placement) validate(all bool) error {
 		}
 	}
 
-	if utf8.RuneCountInString(m.GetData()) != 10 {
-		err := PlacementValidationError{
-			field:  "Data",
-			reason: "value length must be 10 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-
-	}
-
 	if m.GetState() != true {
 		err := PlacementValidationError{
 			field:  "State",
@@ -1305,6 +1293,35 @@ func (m *Placement) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetMetadata()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, PlacementValidationError{
+					field:  "Metadata",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, PlacementValidationError{
+					field:  "Metadata",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMetadata()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return PlacementValidationError{
+				field:  "Metadata",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {
@@ -1383,3 +1400,205 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = PlacementValidationError{}
+
+// Validate checks the field values on PlacementMetadata with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *PlacementMetadata) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on PlacementMetadata with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// PlacementMetadataMultiError, or nil if none found.
+func (m *PlacementMetadata) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *PlacementMetadata) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if l := utf8.RuneCountInString(m.GetLayout()); l < 3 || l > 128 {
+		err := PlacementMetadataValidationError{
+			field:  "Layout",
+			reason: "value length must be between 3 and 128 runes, inclusive",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	// no validation rules for LayoutVersion
+
+	if all {
+		switch v := interface{}(m.GetSchema()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, PlacementMetadataValidationError{
+					field:  "Schema",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, PlacementMetadataValidationError{
+					field:  "Schema",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSchema()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return PlacementMetadataValidationError{
+				field:  "Schema",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetSampleAttributes()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, PlacementMetadataValidationError{
+					field:  "SampleAttributes",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, PlacementMetadataValidationError{
+					field:  "SampleAttributes",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetSampleAttributes()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return PlacementMetadataValidationError{
+				field:  "SampleAttributes",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetAttributes()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, PlacementMetadataValidationError{
+					field:  "Attributes",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, PlacementMetadataValidationError{
+					field:  "Attributes",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetAttributes()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return PlacementMetadataValidationError{
+				field:  "Attributes",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return PlacementMetadataMultiError(errors)
+	}
+
+	return nil
+}
+
+// PlacementMetadataMultiError is an error wrapping multiple validation errors
+// returned by PlacementMetadata.ValidateAll() if the designated constraints
+// aren't met.
+type PlacementMetadataMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m PlacementMetadataMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m PlacementMetadataMultiError) AllErrors() []error { return m }
+
+// PlacementMetadataValidationError is the validation error returned by
+// PlacementMetadata.Validate if the designated constraints aren't met.
+type PlacementMetadataValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e PlacementMetadataValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e PlacementMetadataValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e PlacementMetadataValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e PlacementMetadataValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e PlacementMetadataValidationError) ErrorName() string {
+	return "PlacementMetadataValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e PlacementMetadataValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sPlacementMetadata.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = PlacementMetadataValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = PlacementMetadataValidationError{}

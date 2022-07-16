@@ -6,9 +6,9 @@ export const STORE_AREA_KEY = 'area';
 import { createReducer, createFeature, on } from '@ngrx/store';
 
 export interface AreaState {
-  area: Area,
+  area: Area | null,
   list: Area[],
-  error: null,
+  error: object | null,
 }
 
 export const initialState: AreaState = {

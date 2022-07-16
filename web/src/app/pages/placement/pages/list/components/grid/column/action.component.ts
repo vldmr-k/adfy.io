@@ -1,17 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from "@angular/core";
 import {TUI_ARROW} from "@taiga-ui/kit";
-import {Placement} from "@grpc/placement/service";
+import {Placement} from "@store/models";
+import {ROUTER_PLACEMENT_UPDATE} from "@pages/placement/placement-routing.module";
 
-const ACCOUNT_MENU_ITEMS = [
-  {
-    label: 'Edit ',
-    routerLink: '/account/produle',
-  },
-  {
-    label: 'Delete',
-    routerLink: '/auth/logout',
-  },
-];
+
+
 
 @Component({
   selector: 'adfy-placement-grid-column-action',
@@ -36,8 +29,11 @@ const ACCOUNT_MENU_ITEMS = [
     <ng-template #content>
       <tui-data-list role="menu">
         <tui-opt-group>
-          <a *ngFor="let item of menuItems" tuiOption [routerLink]="item.routerLink">
-            {{item.label}}
+          <a tuiOption (click)="onHandleEdit($event)">
+            Edit
+          </a>
+          <a tuiOption (click)="onHandleDelete($event)">
+            Delete
           </a>
         </tui-opt-group>
       </tui-data-list>
@@ -51,10 +47,14 @@ export class PlacementGridColumnActionComponent {
 
   dropdownOpen: boolean = false;
 
-  menuItems = ACCOUNT_MENU_ITEMS;
-
   @Input()
   placement!: Placement
+
+  @Output()
+  deleteAction = new EventEmitter<Placement>();
+
+  @Output()
+  editAction = new EventEmitter<Placement>();
 
   onClick(event: MouseEvent) {
     this.dropdownOpen = !this.dropdownOpen;
@@ -68,5 +68,17 @@ export class PlacementGridColumnActionComponent {
 
   onActiveZone(active: boolean) {
     this.dropdownOpen = active && this.dropdownOpen;
+  }
+
+  get editLink(): string {
+    return '/' + ROUTER_PLACEMENT_UPDATE.replace(":placementId", this.placement.id)
+  }
+
+  onHandleDelete(event: MouseEvent) {
+    this.deleteAction.emit(this.placement);
+  }
+
+  onHandleEdit(event: MouseEvent) {
+    this.editAction.emit(this.placement);
   }
 }

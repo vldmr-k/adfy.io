@@ -2,12 +2,13 @@
 import { Inject, Injectable } from "@angular/core"
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import {mergeMap, map, catchError, tap} from 'rxjs/operators';
 import { from, of } from 'rxjs'
 
 import { PlacementServiceClient } from '@grpc/placement/service.client';
 import { placementActions }  from '@store/actions';
 import { Store } from "@ngrx/store";
+import * as projectActions from "@store/actions/project.actions";
 
 
 @Injectable({ providedIn: 'root' })
@@ -28,18 +29,6 @@ export class PlacementEffects {
       )
     )
   ));
-
-  /*
-  getAllByProject$ = createEffect(() => this.actions$.pipe(
-    ofType(placementActions.getAllByProjectRequest),
-    mergeMap(
-      (action) => from(this.placementServiceClient.getAllByProject(action.request)).pipe(
-        map((call) => placementActions.getAllByProjectSuccess({ response: call.response })),
-        catchError((error) => of(placementActions.getAllByProjectError({ error: error })))
-      )
-    )
-  ));
-  */
 
   list$ = createEffect(() => this.actions$.pipe(
     ofType(placementActions.listRequest),
@@ -76,6 +65,7 @@ export class PlacementEffects {
     mergeMap(
       (action) => from(this.placementServiceClient.delete(action.request)).pipe(
         map((call) => placementActions.deleteSuccess()),
+        tap((call) => { this.store.dispatch(placementActions.listRequest({request: {}}))}),
         catchError((error) => of(placementActions.deleteError({ error: error })))
       )
     )

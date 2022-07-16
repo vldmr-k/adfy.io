@@ -4,6 +4,8 @@ package adfy.io.rpc.template;
 import "validate/validate.proto";
 import "protoc-gen-swagger/options/annotations.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/struct.proto";
+
 
 option go_package = "adfy.io/rpc/template";
 
@@ -46,17 +48,17 @@ message GetResponse {
 message Template {
   string id = 1;
   string name = 2;
-  string component = 3;
-  string formSchema = 4;
-  string sampleData = 5;
+  string layout = 3;
+  uint32  layout_version = 4;
+  google.protobuf.Value schema = 5;
+  google.protobuf.Value sampleAttributes = 6;
 
   enum Types {
     FLOATING = 0;
     STATIC = 1;
   }
 
-  Types type = 6 [(validate.rules).enum.defined_only = true];
-  int32 version = 7;
+  Types type = 7 [(validate.rules).enum.defined_only = true];
 }
 
 

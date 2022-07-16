@@ -13,14 +13,19 @@ func (s *PlacementService) Edit(ctx context.Context, req *pb.EditRequest) (resp 
 		return nil, twirp.NotFound.Errorf("Placement %s not found!", req.Placement.Id)
 	}
 
-	placement.Data = req.Placement.Data
 	err = s.placmentRepository.Save(ctx, placement)
 
 	if err != nil {
 		return nil, twirp.InternalError(err.Error())
 	}
 
+	pbplacement, err := s.transformer.Transofrm(placement)
+
+	if err != nil {
+		return nil, twirp.InternalErrorWith(err).WithMeta("placement", placement.ID.String())
+	}
+
 	return &pb.EditResponse{
-		Placement: s.transformer.Transofrm(placement),
+		Placement: pbplacement,
 	}, nil
 }

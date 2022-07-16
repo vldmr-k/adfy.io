@@ -6,9 +6,9 @@ export const STORE_PROJECT_KEY = 'project';
 import { createReducer, createFeature, on } from '@ngrx/store';
 
 export interface ProjectState {
-  project: Project,
-  list: Project[] | null,
-  error: null
+  project: Project | null,
+  list: Project[],
+  error: object | null
 }
 
 export const initialState: ProjectState = {

@@ -20,9 +20,9 @@ export const getRequest = createAction('[Placement] Get Request', props<{ reques
 export const getSuccess = createAction('[Placement] Get Response', props<{ response: grpc.GetResponse;}>());
 export const getError   = createAction('[Placement] Get Error', props<{ error: any;}>());
 
-export const editRequest = createAction('[Placement] Get Request', props<{ request: grpc.EditRequest;}>());
-export const editSuccess = createAction('[Placement] Get Response', props<{ response: grpc.EditResponse;}>());
-export const editError   = createAction('[Placement] Get Error', props<{ error: any;}>());
+export const editRequest = createAction('[Placement] Edit Request', props<{ request: grpc.EditRequest;}>());
+export const editSuccess = createAction('[Placement] Edit Response', props<{ response: grpc.EditResponse;}>());
+export const editError   = createAction('[Placement] Edit Error', props<{ error: any;}>());
 
 export const deleteRequest = createAction('[Placement] Delete Request', props<{ request: grpc.IdRequest;}>());
 export const deleteSuccess = createAction('[Placement] Delete Response');

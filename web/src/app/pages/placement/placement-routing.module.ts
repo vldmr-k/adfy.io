@@ -7,7 +7,7 @@ import { PlacementUpdateComponent } from './pages/update/update.component';
 
 export const ROUTER_PLACEMENT_LIST = 'placement/list'
 export const ROUTER_PLACEMENT_ADD = 'placement/add'
-export const ROUTER_PLACEMENT_UPDATE = 'placement/:placementId/update'
+export const ROUTER_PLACEMENT_UPDATE = 'placement/update/:placementId'
 
 const routes: Routes = [
   {
@@ -15,13 +15,11 @@ const routes: Routes = [
     component: PlacementUpdateComponent,
     pathMatch: 'full'
   },
-
   {
     path: ROUTER_PLACEMENT_ADD,
     component: PlacementAddComponent,
     pathMatch: 'full'
   },
-
   {
     path: ROUTER_PLACEMENT_LIST,
     component: PlacementListComponent,

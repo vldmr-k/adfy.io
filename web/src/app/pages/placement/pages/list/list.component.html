@@ -27,7 +27,12 @@
             <td class="tui-table__td">{{placement.project?.name}}</td>
             <td class="tui-table__td">{{placement.area?.name}}</td>
             <td class="tui-table__td" width="50px">
-              <adfy-placement-grid-column-action [placement]="placement"></adfy-placement-grid-column-action>
+              <adfy-placement-grid-column-action
+                [placement]="placement"
+                (deleteAction)="onDeletePlacement(placement)"
+                (editAction)="onEditPlacement(placement)"
+
+              ></adfy-placement-grid-column-action>
             </td>
           </tr>
         </tbody>
