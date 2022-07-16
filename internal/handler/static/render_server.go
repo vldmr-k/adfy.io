@@ -35,8 +35,8 @@ func (t *TemplateHandler) RenderSample(w http.ResponseWriter, r *http.Request) {
 
 	vars := map[string]interface{}{
 		"FunctionName": tmpl.JS(strings.ReplaceAll(template.ID.String(), "-", "_")),
-		"Component":    tmpl.JS(template.Component),
-		"SampleData":   tmpl.JS(template.SampleData),
+		"Component":    tmpl.JS(template.Layout),
+		"SampleData":   tmpl.JS(template.SampleAttributes),
 		"Template":     template,
 	}
 

@@ -21,11 +21,18 @@
           </tr>
           <tr class="tui-table__tr" *ngFor="let placement of placementList">
             <td class="tui-table__td">{{placement.name}}</td>
-            <td class="tui-table__td">{{placement.state}}</td>
+            <td class="tui-table__td">
+              <adfy-placement-grid-column-state [placement]="placement"></adfy-placement-grid-column-state>
+            </td>
             <td class="tui-table__td">{{placement.project?.name}}</td>
             <td class="tui-table__td">{{placement.area?.name}}</td>
             <td class="tui-table__td" width="50px">
-              <adfy-placement-grid-action></adfy-placement-grid-action>
+              <adfy-placement-grid-column-action
+                [placement]="placement"
+                (deleteAction)="onDeletePlacement(placement)"
+                (editAction)="onEditPlacement(placement)"
+
+              ></adfy-placement-grid-column-action>
             </td>
           </tr>
         </tbody>

@@ -2,6 +2,7 @@
 import { Empty } from "../google/protobuf/empty";
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { Value } from "../google/protobuf/struct";
 /**
  * @generated from protobuf message adfy.io.rpc.template.ListResponse
  */
@@ -42,25 +43,25 @@ export interface Template {
      */
     name: string;
     /**
-     * @generated from protobuf field: string component = 3;
+     * @generated from protobuf field: string layout = 3;
      */
-    component: string;
+    layout: string;
     /**
-     * @generated from protobuf field: string formSchema = 4;
+     * @generated from protobuf field: uint32 layout_version = 4;
      */
-    formSchema: string;
+    layoutVersion: number;
     /**
-     * @generated from protobuf field: string sampleData = 5;
+     * @generated from protobuf field: google.protobuf.Value schema = 5;
      */
-    sampleData: string;
+    schema?: Value;
     /**
-     * @generated from protobuf field: adfy.io.rpc.template.Template.Types type = 6;
+     * @generated from protobuf field: google.protobuf.Value sampleAttributes = 6;
+     */
+    sampleAttributes?: Value;
+    /**
+     * @generated from protobuf field: adfy.io.rpc.template.Template.Types type = 7;
      */
     type: Template_Types;
-    /**
-     * @generated from protobuf field: int32 version = 7;
-     */
-    version: number;
 }
 /**
  * @generated from protobuf enum adfy.io.rpc.template.Template.Types
@@ -117,11 +118,11 @@ class Template$Type extends MessageType<Template> {
         super("adfy.io.rpc.template.Template", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "component", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "formSchema", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "sampleData", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "type", kind: "enum", T: () => ["adfy.io.rpc.template.Template.Types", Template_Types], options: { "validate.rules": { enum: { definedOnly: true } } } },
-            { no: 7, name: "version", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
+            { no: 3, name: "layout", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "layout_version", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 5, name: "schema", kind: "message", T: () => Value },
+            { no: 6, name: "sampleAttributes", kind: "message", T: () => Value },
+            { no: 7, name: "type", kind: "enum", T: () => ["adfy.io.rpc.template.Template.Types", Template_Types], options: { "validate.rules": { enum: { definedOnly: true } } } }
         ]);
     }
 }

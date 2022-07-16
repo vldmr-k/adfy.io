@@ -34,9 +34,11 @@ func (s *TemplateService) Get(ctx context.Context, req *pb.IdRequest) (resp *pb.
 		return nil, twirp.NotFound.Errorf("Template %s not found", req.Id)
 	}
 
+	tpl, err := s.transformer.Transofrm(template)
+
 	return &pb.GetResponse{
-		Template: s.transformer.Transofrm(template),
-	}, nil
+		Template: tpl,
+	}, err
 }
 
 func (s *TemplateService) List(ctx context.Context, req *gprotobuf.Empty) (resp *pb.ListResponse, err error) {
@@ -50,7 +52,13 @@ func (s *TemplateService) List(ctx context.Context, req *gprotobuf.Empty) (resp 
 	var templates []*pb.Template
 
 	for _, item := range items {
-		templates = append(templates, s.transformer.Transofrm(item))
+		message, err := s.transformer.Transofrm(item)
+
+		if err != nil {
+			return nil, twirp.NewError(twirp.Malformed, err.Error())
+		}
+
+		templates = append(templates, message)
 	}
 
 	if err != nil {

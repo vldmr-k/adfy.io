@@ -2,6 +2,7 @@
 import { Empty } from "../google/protobuf/empty";
 import { ServiceType } from "@protobuf-ts/runtime-rpc";
 import { MessageType } from "@protobuf-ts/runtime";
+import { Value } from "../google/protobuf/struct";
 import { Template } from "../template/service";
 import { Area } from "../area/service";
 import { Project } from "../project/service";
@@ -107,13 +108,38 @@ export interface Placement {
      */
     template?: Template;
     /**
-     * @generated from protobuf field: string data = 7;
-     */
-    data: string;
-    /**
-     * @generated from protobuf field: bool state = 8;
+     * @generated from protobuf field: bool state = 7;
      */
     state: boolean;
+    /**
+     * @generated from protobuf field: adfy.io.rpc.placement.PlacementMetadata metadata = 8;
+     */
+    metadata?: PlacementMetadata;
+}
+/**
+ * @generated from protobuf message adfy.io.rpc.placement.PlacementMetadata
+ */
+export interface PlacementMetadata {
+    /**
+     * @generated from protobuf field: string layout = 1;
+     */
+    layout: string;
+    /**
+     * @generated from protobuf field: uint32 layout_version = 2;
+     */
+    layoutVersion: number;
+    /**
+     * @generated from protobuf field: google.protobuf.Value schema = 3;
+     */
+    schema?: Value;
+    /**
+     * @generated from protobuf field: google.protobuf.Value sampleAttributes = 4;
+     */
+    sampleAttributes?: Value;
+    /**
+     * @generated from protobuf field: google.protobuf.Value attributes = 5;
+     */
+    attributes?: Value;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class CreateRequest$Type extends MessageType<CreateRequest> {
@@ -230,8 +256,8 @@ class Placement$Type extends MessageType<Placement> {
             { no: 4, name: "project", kind: "message", T: () => Project },
             { no: 5, name: "area", kind: "message", T: () => Area },
             { no: 6, name: "template", kind: "message", T: () => Template },
-            { no: 7, name: "data", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { len: "10" } } } },
-            { no: 8, name: "state", kind: "scalar", T: 8 /*ScalarType.BOOL*/, options: { "validate.rules": { bool: { const: true } } } }
+            { no: 7, name: "state", kind: "scalar", T: 8 /*ScalarType.BOOL*/, options: { "validate.rules": { bool: { const: true } } } },
+            { no: 8, name: "metadata", kind: "message", T: () => PlacementMetadata }
         ]);
     }
 }
@@ -239,6 +265,22 @@ class Placement$Type extends MessageType<Placement> {
  * @generated MessageType for protobuf message adfy.io.rpc.placement.Placement
  */
 export const Placement = new Placement$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class PlacementMetadata$Type extends MessageType<PlacementMetadata> {
+    constructor() {
+        super("adfy.io.rpc.placement.PlacementMetadata", [
+            { no: 1, name: "layout", kind: "scalar", T: 9 /*ScalarType.STRING*/, options: { "validate.rules": { string: { minLen: "3", maxLen: "128" } } } },
+            { no: 2, name: "layout_version", kind: "scalar", T: 13 /*ScalarType.UINT32*/ },
+            { no: 3, name: "schema", kind: "message", T: () => Value },
+            { no: 4, name: "sampleAttributes", kind: "message", T: () => Value },
+            { no: 5, name: "attributes", kind: "message", T: () => Value }
+        ]);
+    }
+}
+/**
+ * @generated MessageType for protobuf message adfy.io.rpc.placement.PlacementMetadata
+ */
+export const PlacementMetadata = new PlacementMetadata$Type();
 /**
  * @generated ServiceType for protobuf service adfy.io.rpc.placement.PlacementService
  */

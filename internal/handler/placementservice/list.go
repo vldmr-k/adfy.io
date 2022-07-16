@@ -14,7 +14,13 @@ func (s *PlacementService) List(ctx context.Context, req *pb.ListRequest) (resp 
 
 	var placements []*pb.Placement
 	for _, item := range items {
-		placements = append(placements, s.transformer.Transofrm(&item))
+
+		pmplacement, err := s.transformer.Transofrm(&item)
+		if err != nil {
+			return nil, twirp.InternalErrorWith(err).WithMeta("placement", item.ID.String())
+		}
+
+		placements = append(placements, pmplacement)
 	}
 
 	return &pb.ListResponse{

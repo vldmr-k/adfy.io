@@ -2,33 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlacementRoutingModule } from './placement-routing.module'
 import { TuiFilterModule, TuiInputModule, TuiIslandModule, TuiStepperModule } from '@taiga-ui/kit';
-import { PlacementStepperComponent } from './components/stepper/stepper.component';
 
-import { PlacementAddComponent } from './pages/add/add.component';
-import { PlacementUpdateComponent } from './pages/update/update.component';
-
-import { PlacementStepTemplateComponent } from './components/step/template.component';
-import { PlacementStepAreaComponent } from './components/step/area.component';
-import { PlacementStepFinishComponent } from './components/step/finish.component';
 import { TuiButtonModule, TuiLoaderModule } from '@taiga-ui/core';
 import { template, area, placement } from '@store/reducers';
 import { StoreModule } from '@ngrx/store';
-import { PlacementStepNameComponent } from './components/step/name.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {PlacementListModule} from "@pages/placement/pages/list/list.module";
+import {PlacementAddModule} from "@pages/placement/pages/add/add.module";
+import {PlacementUpdateModule} from "@pages/placement/pages/edit/update.module";
 
 @NgModule({
-  declarations: [
-    PlacementStepperComponent,
-    PlacementStepNameComponent,
-
-    PlacementAddComponent,
-    PlacementUpdateComponent,
-
-    PlacementStepTemplateComponent,
-    PlacementStepAreaComponent,
-    PlacementStepFinishComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -41,6 +25,8 @@ import {PlacementListModule} from "@pages/placement/pages/list/list.module";
     TuiFilterModule,
 
     PlacementListModule,
+    PlacementAddModule,
+    PlacementUpdateModule,
     StoreModule.forFeature(template.templateFeature),
     StoreModule.forFeature(area.areaFeature),
     StoreModule.forFeature(placement.placementFeature),

@@ -13,19 +13,19 @@ import { filter, tap } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'adfy-placement-step-finished',
-  template: `
+    selector: 'adfy-placement-step-finished',
+    template: `
 
-    <tui-loader class="inline-flex tui-space_right-2" [showLoader]="true" [inheritColor]="true" [overlay]="true">
+        <tui-loader class="inline-flex tui-space_right-2" [showLoader]="true" [inheritColor]="true" [overlay]="true">
         </tui-loader>
-    
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
+    `,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlacementStepFinishComponent implements OnInit {
 
     name: string = ""
-    
+
     area$ = this.store.select(area.selectArea)
     template$ = this.store.select(template.selectTemplate)
     project$ = this.store.select(project.selectProject)
@@ -37,7 +37,7 @@ export class PlacementStepFinishComponent implements OnInit {
         @Inject(Store) private readonly store: Store
     ) { }
 
-    ngOnInit(): void {  
+    ngOnInit(): void {
 
         var map = this.route.snapshot.queryParamMap
 
@@ -45,39 +45,40 @@ export class PlacementStepFinishComponent implements OnInit {
         const templateId: string = String(map.get("templateId"));
         const projectId: string = String(map.get("projectId"))
         const name: string = String(map.get("name"));
-        
+
         this.store.dispatch(areaActions.getRequest({ request : { id: areaId } }))
         this.store.dispatch(templateActions.getRequest({request : { id: templateId }}))
         this.store.dispatch(projectActions.getRequest({request : { id: projectId }}))
 
 
         combineLatest([this.area$, this.template$, this.project$])
-        .pipe(filter(([area, template, project]) => area !== null && template !== null && project !== null))
-        .subscribe({
-            next: ([area, template, project]) => {
-                var placement : Placement = {
-                    id: '',
-                    name: name,
-                    area: area,
-                    template: template,
-                    project: project,
-                    data: '[]',
-                    state: false
+            .pipe(filter(([area, template, project]) => area !== null && template !== null && project !== null))
+            .subscribe({
+                next: ([area, template, project]) => {
+                    var placement : Placement = {
+                        id: '',
+                        name: name,
+                        area: area!,
+                        template: template!,
+                        project: project!,
+                        state: false
+                    }
+
+                    var request : CreateRequest = {
+                        placment: placement
+                    }
+
+                    this.store.dispatch(placementActions.createRequest({request: request}))
                 }
+            })
 
-                var request : CreateRequest = {
-                    placment: placement
+        this.placement$
+            .pipe(filter((placement) => placement !== null))
+            .subscribe({
+                next: (placement) => {
+                    this.router.navigateByUrl(ROUTER_PLACEMENT_UPDATE.replace(':placementId', placement!.id));
                 }
+            })
 
-                this.store.dispatch(placementActions.createRequest({request: request}))
-            }
-        })
-
-        this.placement$.subscribe({
-            next: (placement) => {
-                this.router.navigateByUrl(ROUTER_PLACEMENT_UPDATE.replace(':placementId', placement?.id));
-            }
-        })
- 
     }
 }
